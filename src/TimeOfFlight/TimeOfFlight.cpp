@@ -1,6 +1,7 @@
 #include "TimeOfFlight.h"
 
 TimeOfFlight::TimeOfFlight(tof_init_config_s tof_init_config) {
+    sensor = Adafruit_VL53L0X();
     distance = 0;
     range_state = TOF_LONG_RANGE;
     for(int i = 0; i < NUM_PREV_DISTANCE; i++){
@@ -59,14 +60,23 @@ bool TimeOfFlight::set_short_range() {
 }
 
 //public
-bool TimeOfFlight::init(tof_init_config_s init_config) {
-    sensor = Adafruit_VL53L0X();
-    if(!sensor.begin()){
+bool TimeOfFlight::init(tof_init_config_s tof_init_config) {
+    if(!enable())
         return TOF_NOT_OK;
-    }
+
+    if(!sensor.begin())
+        return TOF_NOT_OK;
+
+    set_schedule_period(tof_init_config.schedule_period);
+
+    if(!set_range_state(tof_init_config.range_state))
+        return TOF_NOT_OK;
+
+    return TOF_OK;
 }
 
 bool TimeOfFlight::reset() {
+    shutdown();
     reset_prev_distances();
     if(!init(init_config)){
         if(!init(init_config)){
@@ -124,4 +134,21 @@ bool TimeOfFlight::get_distance(float &value) {
     }
     value = 0;
     return TOF_NOT_OK;
+}
+
+bool TimeOfFlight::shutdown() {
+    digitalWrite(init_config.shutdown_pin, LOW);
+    delayMs(10);
+    return TOF_OK;
+}
+
+bool TimeOfFlight::enable() {
+    pinMode(init_config.shutdown_pin, INPUT);
+    digitalWrite(init_config.shutdown_pin, HIGH);
+}
+
+bool TimeOfFlight::set_address(int new_address) {
+    if(!sensor.setAddress(new_address))
+        return TOF_NOT_OK;
+    return TOF_OK;
 }

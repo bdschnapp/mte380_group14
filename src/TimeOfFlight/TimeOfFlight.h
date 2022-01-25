@@ -15,9 +15,13 @@
 
 #define NUM_PREV_DISTANCE 5
 
+#define NUM_SENSORS 2
+
 struct tof_init_config_s{
     int schedule_period;
-
+    bool range_state;
+    int address;
+    int shutdown_pin;
 };
 
 class TimeOfFlight {
@@ -63,6 +67,10 @@ public:
     bool get_range_state(bool & range);
 
     bool get_distance(float & value);
+
+    bool shutdown();
+    bool enable();
+    bool set_address(int new_address);
 
 };
 
