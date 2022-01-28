@@ -1,12 +1,12 @@
 //
 // Wrapper class for time of flight sensors.
-// Enables using multiple sensors at the same time.
+// Enables using multiple sensors at the same time. Currently supports 2 sensors
 //
 
 #ifndef MTE380_GROUP14_TOF_SENSORS_H
 #define MTE380_GROUP14_TOF_SENSORS_H
 
-#include "TimeOfFlight.h"
+#include "../../dev/TimeOfFlight/TimeOfFlight.hpp"
 
 struct sensor_distance_s{
     float x;
@@ -15,7 +15,9 @@ struct sensor_distance_s{
 
 class TOF_Sensors {
 public:
-    TOF_Sensors(tof_init_config_s tof_x_config, tof_init_config_s tof_y_config);
+    TOF_Sensors();
+    ~TOF_Sensors() = default;
+    
     TimeOfFlight x_sensor;
     TimeOfFlight y_sensor;
     tof_init_config_s x_config;

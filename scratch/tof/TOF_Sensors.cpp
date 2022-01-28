@@ -1,14 +1,17 @@
-#include "TOF_Sensors.h"
+#include "TOF_Sensors.hpp"
 
-TOF_Sensors::TOF_Sensors(tof_init_config_s tof_x_config, tof_init_config_s tof_y_config){
-    x_config = tof_x_config;
-    y_config = tof_y_config;
-    init();
+TOF_Sensors::TOF_Sensors(){
 }
 
-bool TOF_Sensors::init() {
-    x_sensor = TimeOfFlight(x_config);
-    y_sensor = TimeOfFlight(y_config);
+bool TOF_Sensors::init(tof_init_config_s tof_x_config, tof_init_config_s tof_y_config) {
+    x_config = tof_x_config;
+    y_config = tof_y_config;
+    
+    x_sensor = TimeOfFlight();
+    x_sensor.init(x_config);
+    
+    y_sensor = TimeOfFlight();
+    y_sensor.init(y_config);
 
     y_sensor.shutdown();
 
