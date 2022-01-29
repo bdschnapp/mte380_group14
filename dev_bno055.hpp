@@ -5,6 +5,12 @@
 #include "lib_math.hpp"
 #include "Adafruit_BNO055.h"
 
+/* HW CONFIG:
+Vin: Connect to 5v
+GND: Connect to ground
+SDA & SCL:  Any I2C bus on the arduino (ie. for UNO, SCL = A5; SDA = A4 will work)
+*/
+
 /* This is a thin wrapper around the Adafruit_BNO055 class
    Potential Improvements: Consider sensor calibration */
 
@@ -12,7 +18,8 @@ namespace sensor
 {
     class BNO055
     {
-        BN0O55();
+    public:
+        BNO055();
         ~BNO055() = default;
 
         /**
@@ -38,6 +45,7 @@ namespace sensor
          * @param theta vector to store orientation in
          * @return[bool] success of read
          */
+        // younes todo think some more about read failures could read the imu id every 10 ms and if that failed imu is disconnected
         bool get_angular_position(math::Vector3f &theta);
 
         /**
@@ -46,8 +54,6 @@ namespace sensor
          * @return[bool] success of read
          */
         bool get_angular_velocity(math::Vector3f &theta_dot);
-
-        // younes todo figure pin configuartion. able to connect to any i2c bus?
 
     private:
         Adafruit_BNO055 m_bno;
@@ -60,7 +66,7 @@ namespace sensor
         // Device ID as specified in data sheet
         static constexpr auto DEVICE_ID = 0xA0;
         // disregards magnetometer data when measuring relative orientation
-        static constexpr auto OPERATING_MODE = OPERATION_MODE_IMUPLUS;
+        static constexpr auto OPERATING_MODE = Adafruit_BNO055::OPERATION_MODE_IMUPLUS;
     };
 }
 

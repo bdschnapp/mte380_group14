@@ -9,7 +9,7 @@ namespace sensor
         return m_bno.begin(OPERATING_MODE);
     }
 
-    bool BN0O55::get_angular_position(math::Vector3f &theta)
+    bool BNO055::get_angular_position(math::Vector3f &theta)
     {
         theta = m_theta;
         return true;
@@ -21,7 +21,7 @@ namespace sensor
         return true;
     }
 
-    bool reset()
+    bool BNO055::reset()
     {
         m_bno.enterSuspendMode();
         m_bno.enterNormalMode();
@@ -34,14 +34,14 @@ namespace sensor
     {
         // getVector issues an I2C transaction
         const auto orientation = m_bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-        m_theta.x = deg_to_rad(orientation.x());
-        m_theta.y = deg_to_rad(orientation.y());
-        m_theta.z = deg_to_rad(orientation.z());
+        m_theta.x = math::deg_to_rad(orientation.x());
+        m_theta.y = math::deg_to_rad(orientation.y());
+        m_theta.z = math::deg_to_rad(orientation.z());
 
         const auto angular_speed = m_bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-        m_theta_dot.x = deg_to_rad(angular_speed.x());
-        m_theta_dot.y = deg_to_rad(angular_speed.y());
-        m_theta_dot.z = deg_to_rad(angular_speed.z());
+        m_theta_dot.x = math::deg_to_rad(angular_speed.x());
+        m_theta_dot.y = math::deg_to_rad(angular_speed.y());
+        m_theta_dot.z = math::deg_to_rad(angular_speed.z());
     }
 
 }
