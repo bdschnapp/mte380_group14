@@ -60,6 +60,8 @@ namespace sensor
 
         math::Vector3f m_theta, m_theta_dot;
 
+        bool m_last_read_successful;
+
         /* Parameters that should not be reconfigured */
         // Slave address defaults to 0x28 if ADR pin is not held high
         static constexpr auto I2C_ADDRESS = 0x28;

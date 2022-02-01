@@ -24,8 +24,7 @@ namespace test_dev_bno055
             Serial.print(math::rad_to_deg(theta.y));
             Serial.print(", ");
             Serial.print(math::rad_to_deg(theta.z));
-            Serial.print("}");
-            Serial.println();
+            Serial.print("} ");
         }
         else
         {
