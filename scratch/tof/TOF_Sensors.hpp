@@ -6,7 +6,7 @@
 #ifndef MTE380_GROUP14_TOF_SENSORS_H
 #define MTE380_GROUP14_TOF_SENSORS_H
 
-#include "../../dev/TimeOfFlight/TimeOfFlight.hpp"
+#include "TimeOfFlight.hpp"
 
 struct sensor_distance_s{
     float x;
