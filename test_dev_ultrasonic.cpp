@@ -21,7 +21,7 @@ namespace test_dev_ultrasonic {
 
         if (distance_sensor.get_distance(distance)) {
             Serial.print(distance);
-            Serial.println(" cm");
+            Serial.println(" m");
         } else {
             Serial.println("Error");
         }
