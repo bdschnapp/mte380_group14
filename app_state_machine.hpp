@@ -1,74 +1,85 @@
 #ifndef MTE380_GROUP14_STATEMACHINE_HPP
 #define MTE380_GROUP14_STATEMACHINE_HPP
 
-#define PATH_LENGTH 15
+#define PATH_LENGTH 11
+
+#define DISTANCE_TOLERANCE 1
+#define ANGULAR_TOLERANCE 1
 
 #define SM_OK 1
 #define SM_NOT_OK 0
 
-enum state_e{
-    paused,
-    driving,
-    turning,
-    faulted
-};
+namespace sm {
 
-struct sensor_data_s{
-    float ultrasonic_x;
-    float ultrasonic_y;
-};
+    enum state_e {
+        paused,
+        driving,
+        turning,
+        faulted
+    };
 
-class StateMachine {
-private:
-    state_e state;
-    float distance;
-    float heading;
+    struct sensor_data_s {
+        float ultrasonic_front;
+        float ultrasonic_side;
+        bool button;
+        float imu_theta;
+    };
 
-public:
-    bool init();
+    class MissionControl {
+    private:
+        int index;
+        float distances[PATH_LENGTH];
 
-    bool read_e_stop();
+    public:
+        MissionControl();
+        ~MissionControl() = default;
 
-    void run10ms(sensor_data_s sensor_data);
+        void init(float (&input_array)[PATH_LENGTH]);
 
-    // task to do while in the driving state
-    void driving_task();
+        float get_next_distance();
 
-    // function to transition from driving to turning
-    void driving_transition();
+    };
 
-    // task to do while in the turning state
-    void turning_task();
+    class StateMachine {
+    private:
+        state_e state;
+        float distance;
+        float heading;
+        MissionControl path;
 
-    // function to transition from turning to driving
-    void turning_transition();
+    public:
+        bool init(float &distances_in[PATH_LENGTH]);
 
-    // task to do while in the paused state
-    void paused_task();
+        bool read_e_stop();
 
-    // function to transition from paused to driving
-    void paused_transition();
+        void run10ms(sensor_data_s sensor_data);
 
-    // task to do while in the faulted state
-    void faulted_task();
+        // task to do while in the driving state
+        void driving_task();
 
-    // function to transition into the faulted state
-    void transition_to_faulted();
+        // function to transition from driving to turning
+        void driving_transition();
 
-};
+        // task to do while in the turning state
+        void turning_task();
 
-class MissionControl {
-private:
-    int index;
-    float distances[PATH_LENGTH];
+        // function to transition from turning to driving
+        void turning_transition();
 
-public:
-    MissionControl(float (&input_array)[PATH_LENGTH]);
-    ~MissionControl() = default;
+        // task to do while in the paused state
+        void paused_task();
 
-    float get_next_distance();
+        // function to transition from paused to driving
+        void paused_transition();
 
-};
+        // task to do while in the faulted state
+        void faulted_task();
+
+        // function to transition into the faulted state
+        void transition_to_faulted();
+
+    };
+}
 
 
 #endif //MTE380_GROUP14_STATEMACHINE_HPP

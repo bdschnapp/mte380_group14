@@ -1,7 +1,7 @@
 #ifndef MTE380_GROUP14_TEST_DEV_ULTRASONIC_H
 #define MTE380_GROUP14_TEST_DEV_ULTRASONIC_H
 
-#include <Arduion.h>
+#include <Arduino.h>
 #include "dev_ultrasonic.hpp"
 
 namespace test_dev_ultrasonic

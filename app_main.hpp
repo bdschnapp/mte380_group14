@@ -5,8 +5,28 @@
 #ifndef MTE380_GROUP14_APP_MAIN_HPP
 #define MTE380_GROUP14_APP_MAIN_HPP
 
-void app_setup();
+#include <Arduino.h>
 
-void app_loop();
+// dev
+#include "dev_ultrasonic.hpp"
+#include "dev_bno055.hpp"
+
+// app
+#include "app_state_machine.hpp"
+#include "app_logger.hpp"
+
+#define SAR_OK 1
+#define SAR_NOT_OK 0
+
+
+namespace main{
+    void run10ms();
+
+    void read_sensor_data();
+
+    void app_setup();
+
+    void app_loop();
+}
 
 #endif //MTE380_GROUP14_APP_MAIN_HPP
