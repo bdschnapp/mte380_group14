@@ -9,7 +9,7 @@ namespace actuator {
 		m_shield.enableDrivers();
 		//wait 1ms for driver to enable so fault pins are not low
 		delay(1);
-		return get_fault();
+		return !get_fault();
 	}
 
 	bool TB9051FTG::reset() {
@@ -19,19 +19,19 @@ namespace actuator {
 		delay(1);
 		m_shield.enableDrivers();
 		delay(1);
-		return get_fault();
+		return !get_fault();
 	}
 
 	bool TB9051FTG::set_left_motor_speed(double speed) {
 		//pololu driver takes an int value from 400 to -400
 		m_shield.setM1Speed(static_cast<int> (speed * 400) );
-		return get_fault();
+		return !get_fault();
 	}
 
 	bool TB9051FTG::set_right_motor_speed(double speed) {
 		//pololu driver takes an int value from 400 to -400
 		m_shield.setM2Speed(static_cast<int> (speed * 400) );
-		return get_fault();
+		return !get_fault();
 	}
 
 	bool TB9051FTG::disable_motors() {

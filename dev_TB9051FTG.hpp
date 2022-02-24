@@ -46,8 +46,8 @@ namespace actuator
         bool set_left_motor_speed(double speed);
 
         /**
-         * Initialize the speed controllers
-         * @return[bool] success of initilization
+         * Disable the speed controllers
+         * @return[bool] success of disable
          */
         bool disable_motors();
 
