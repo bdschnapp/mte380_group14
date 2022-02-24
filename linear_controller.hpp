@@ -1,0 +1,63 @@
+#ifndef __LINEAR_CONTROLLER_HPP__
+#define __LINEAR_CONTROLLER_HPP__
+
+namespace controllers
+{
+    class linear_controller
+    {
+    private:
+        PID m_pid;
+        float m_error_tolerance;
+        float m_target_distance;
+
+        static constexpr auto MIN_GAS = 0;
+        static constexpr auto MAX_GAS = 100;
+        static constexpr auto INVALID_TARGET_DISTANCE = -1.0f;
+
+    public:
+        /**
+         * linear_controller constructor
+         * @param Kp Proportional gain for PID controller
+         * @param error_tolerance Linear distance tolerance to determine if goal distance reached [meters]
+         */
+        linear_controller(const float Kp, const float error_tolerance);
+        ~linear_controller() = default;
+
+        /**
+         * Stores the target distance internally
+         * @param target_distance The distance from the wall to drive until
+         */
+        void set_target_distance(const float target_distance);
+
+        /**
+         * Returns whether or not the robot has reached the target distance (+- tolerance specified in constructor)
+         * @param front_us_reading Distance measured by the front US sensor [meters]
+         * @return Whether we've reached the target distance or not
+         */
+        bool target_distance_reached(const float front_us_reading) const;
+
+        /**
+         * Computes a gas value given the front ultrasonic reading
+         * @param front_us_reading Distance measured by the front US sensor [meters]
+         * @return gas value in the range [-100,100]
+         */
+        float compute_gas(const float front_us_reading) const;
+
+        /**
+         * Resets the controller by reseting the PID controller and the target distance
+         */
+        void reset();
+
+        /**
+         * Convenience function that finds a Kp given a the distance before we start to slow down
+         * For example, if we want the robot to floor it until it 0.2 meters away from the wall
+         * and then start slowing down linearly, the Kp we need is get_required_kp(0.2)
+         * @param distance_to_slow_down Distance from wall when we stop flooring it and gradually slow down
+         * @return Kp
+         */
+        static float get_required_kp(const float distance_to_slow_down);
+    };
+
+}
+
+#endif

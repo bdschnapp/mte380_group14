@@ -17,4 +17,9 @@ namespace math
         return (abs(f1 - f2) < margin);
     }
 
+    float clamp(const float lower_bound, const float upper_bound, const float value)
+    {
+        return min(max(lower_bound, value), upper_bound);
+    }
+
 }

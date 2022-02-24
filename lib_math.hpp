@@ -32,6 +32,16 @@ namespace math
      * @return returns true if abs(f1 - f2) < margin
      */
     bool float_compare(float f1, float f2, float margin = 1e-4f);
+
+
+    /**
+     * Clamps a given value into the range [lower_bound, upper_bound]
+     * @param lower_bound the lower bound of the range to clamp into
+     * @param upper_bound the upper bound of the range to clamp into
+     * @param value the value to clamp
+     * @return the clamped value as an element of the range [lower_bound, upper_bound] 
+     */
+    float clamp(const float lower_bound, const float upper_bound, const float value);
 }
 
 #endif
