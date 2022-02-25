@@ -15,6 +15,9 @@
 #include "app_state_machine.hpp"
 #include "app_logger.hpp"
 
+// lib
+#include "lib_math.hpp"
+
 #define SAR_OK 1
 #define SAR_NOT_OK 0
 

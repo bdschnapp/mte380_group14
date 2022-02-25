@@ -1,6 +1,8 @@
 #ifndef MTE380_GROUP14_STATEMACHINE_HPP
 #define MTE380_GROUP14_STATEMACHINE_HPP
 
+#include "lib_math.hpp"
+
 #define PATH_LENGTH 11
 
 #define DISTANCE_TOLERANCE 1
@@ -22,7 +24,8 @@ namespace sm {
         float ultrasonic_front;
         float ultrasonic_side;
         bool button;
-        float imu_theta;
+        math::Vector3f imu_theta;
+        math::Vector3f imu_theta_dot;
     };
 
     class MissionControl {

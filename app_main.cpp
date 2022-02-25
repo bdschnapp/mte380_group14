@@ -8,6 +8,8 @@ namespace main
     sensor::Ultrasonic UltrasonicFront;
     sensor::Ultrasonic UltrasonicSide;
 
+    sensor::BNO055 bno055_imu;
+
     sm::sensor_data_s sensor_data;
     sm::sensor_data_s sensor_data_debounced;
 
@@ -34,6 +36,12 @@ namespace main
          if(!UltrasonicSide.get_distance(&sensor_data.ultrasonic_side))
              return SAR_NOT_OK;
 
+         if(!bno055_imu.get_angular_position(&sensor_data.imu_theta))
+             return SAR_NOT_OK;
+
+         if(!bno055_imu.get_angular_velocity(&sensor_data.imu_theta_dot))
+             return SAR_NOT_OK;
+
          logger.print_float(sensor_data.ultrasonic_front, "ultrasonic_front", time_us);
          logger.print_float(sensor_data.ultrasonic_side, "ultrasonic_side", time_us);
 
@@ -43,13 +51,15 @@ namespace main
 
 
     void app_setup(){
-        ultrasonicFrontInitConfig.echoPin = 1;
-        ultrasonicFrontInitConfig.trigPin = 2;
-        ultrasonicSideInitConfig.echoPin = 3;
-        ultrasonicSideInitConfig.trigPin = 4;
+        ultrasonicFrontInitConfig.echoPin = 13;
+        ultrasonicFrontInitConfig.trigPin = 12;
+        ultrasonicSideInitConfig.echoPin = 11;
+        ultrasonicSideInitConfig.trigPin = 10;
 
         UltrasonicFront.init(ultrasonicFrontInitConfig);
         UltrasonicSide.init(ultrasonicSideInitConfig);
+
+        bno055_imu.init()
 
         distances = {0,0,0,0,0,0,0,0,0,0,0,0};
         path.init(&distances);

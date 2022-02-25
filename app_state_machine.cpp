@@ -8,6 +8,7 @@ namespace sm{
     }
 
     void StateMachine::run10ms(sensor_data_s sensor_data) {
+        // transition conditions
         if(state != faulted){
             if (state == paused){
                 if (sensor_data.button){
@@ -16,7 +17,12 @@ namespace sm{
             }
             if (state == driving){
                 if (sensor_data.ultrasonic_front < (distance + DISTANCE_TOLERANCE)){
-                    driving_transition();
+
+                    // account for pit case
+                    if(sensor_data.imu_theta.z == 0){
+                        driving_transition();
+                    }
+
                 }
             }
             if (state == turning){
@@ -26,6 +32,7 @@ namespace sm{
             }
         }
 
+        // state tasks
         switch (state) {
             case faulted:
                 faulted_task();
