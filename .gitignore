@@ -54,3 +54,5 @@ dkms.conf
 
 # vscode files
 .vscode
+CppProperties.json
+.vs/
