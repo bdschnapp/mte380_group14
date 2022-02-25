@@ -3,3 +3,4 @@ Search and rescue robot code developed for the University of Waterloo MTE 380 Wi
 
 # Arduino Library Dependencies
 - Adafruit_BNO055
+- DualTB9051FTGMotorShield
