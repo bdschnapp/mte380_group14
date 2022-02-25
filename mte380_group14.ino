@@ -22,7 +22,7 @@ using namespace test_dev_bno055;
 using namespace test_dev_ultrasonic;
 #elif defined(TEST_DEV_TB9051FTG)
 #include "test_dev_TB9051FTG.hpp"
-using namespace test_dev_TB9051FTG
+using namespace test_dev_TB9051FTG;
 #else
 /* Should never get here. If it does, you might be missing a condition */
 static_assert(false);
