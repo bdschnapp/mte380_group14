@@ -1,20 +1,5 @@
 #include "test_linear_controller.hpp"
 #include "dev_ultrasonic.hpp"
-#include "robot_pinout.hpp"
-
-/*
-Test Setup:
-1. Place the robot on a level surface facing a flat surface (ie. wall) more than 10cm away
-2. Ensure the front ultrasonic sensor is connected and working
-2. Put some type of marking 10 cm away from the wall
-3. Run the this test. The robot should drive straight forward and stop on the tape
-4. Ensure the robot stops where expected
-
-Note:
-This only tests our linear controller not our angular controller. The linear controller
-does not ensure the robot drives perfectly straight, this is the job of the angular controller.
-For this reason, the robot might not drive perfectly straight in this test.
-*/
 
 namespace test_linear_controller
 {
@@ -26,6 +11,7 @@ namespace test_linear_controller
     sensor::Ultrasonic front_us;
     void app_setup()
     {
+        Serial.begin(9600);
         lc.set_target_distance(TARGET_DISTANCE);
         if (front_us.init({FRONT_ULTRASONIC_TRIG_PIN, FRONT_ULTRASONIC_ECHO_PIN}))
         {
@@ -46,12 +32,14 @@ namespace test_linear_controller
             if (!lc.target_distance_reached(front_us.get_distance()))
             {
                 const float gas = lc.compute_gas(front_us_distance);
+                constexpr float steering = 0.0f;
                 // younes todo need Max to finish his drivetrain code
-                // drivetrain.set(gas = gas, steering = 0)
+                // drivetrain.set(gas = gas, steering = steering)
                 delay(10);
             }
             else
             {
+                // younes todo use Max's code to set motors to 0
                 Serial.println("The robot has reached the target distance. Test is done. Robot will now hang. Restart robot to restart test");
                 exit(0);
             }

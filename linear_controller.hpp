@@ -7,7 +7,7 @@ namespace controllers
     {
     private:
         PID m_pid;
-        float m_error_tolerance;
+        const float m_error_tolerance;
         float m_target_distance;
 
         static constexpr auto MIN_GAS = 0;
@@ -21,11 +21,12 @@ namespace controllers
          * @param error_tolerance Linear distance tolerance to determine if goal distance reached [meters]
          */
         linear_controller(const float Kp, const float error_tolerance);
+
         ~linear_controller() = default;
 
         /**
          * Stores the target distance internally
-         * @param target_distance The distance from the wall to drive until
+         * @param target_distance The distance from the wall to drive until [meters]
          */
         void set_target_distance(const float target_distance);
 
@@ -37,9 +38,9 @@ namespace controllers
         bool target_distance_reached(const float front_us_reading) const;
 
         /**
-         * Computes a gas value given the front ultrasonic reading
+         * Computes a gas value given the front ultrasonic reading. +ve gas means forward
          * @param front_us_reading Distance measured by the front US sensor [meters]
-         * @return gas value in the range [-100,100]
+         * @return gas value in the range [0, 100]
          */
         float compute_gas(const float front_us_reading) const;
 
@@ -49,10 +50,10 @@ namespace controllers
         void reset();
 
         /**
-         * Convenience function that finds a Kp given a the distance before we start to slow down
+         * Convenience function that finds a Kp given the distance we want to reach before starting to slow down
          * For example, if we want the robot to floor it until it 0.2 meters away from the wall
          * and then start slowing down linearly, the Kp we need is get_required_kp(0.2)
-         * @param distance_to_slow_down Distance from wall when we stop flooring it and gradually slow down
+         * @param distance_to_slow_down Distance from wall when we stop flooring it and gradually slow down [meters]
          * @return Kp
          */
         static float get_required_kp(const float distance_to_slow_down);

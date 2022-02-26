@@ -1,4 +1,5 @@
 #include "linear_controller.hpp"
+#include "lib_math.hpp"
 
 namespace controllers
 {
@@ -21,7 +22,7 @@ namespace controllers
 
     float linear_controller::compute_gas(const float front_us_reading) const
     {
-        // this will return 0 gas for an invalid m_target_distance
+        // this will return 0 gas for a -ve m_target_distance
         return math::clamp(MIN_GAS, MAX_GAS, m_pid.compute(front_us_reading - m_target_distance));
     }
 

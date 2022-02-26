@@ -45,6 +45,7 @@ namespace sensor
          * @param theta vector to store orientation in
          * @return[bool] success of read
          */
+        // younes todo ccw should be +ve
         bool get_angular_position(math::Vector3f &theta);
 
         /**
@@ -55,6 +56,15 @@ namespace sensor
         bool get_angular_velocity(math::Vector3f &theta_dot);
 
     private:
+        /**
+         * Unwraps an angle (in degrees) from [0, 360] to a [-inf, inf]
+         * Makes it such that the angle doesn't wrap around
+         * Example: 2 full ccw rotation will 720, not 0
+         * @param angle degrees in the range [0, 360]
+         * @return unwrapped value
+         */
+        float unwrap_angle(const float angle) const;
+
         Adafruit_BNO055 m_bno;
 
         math::Vector3f m_theta, m_theta_dot;

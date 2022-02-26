@@ -6,6 +6,7 @@
 // #define TEST_DEV_BNO055
 // #define TEST_DEV_ULTRASONIC
 // #define TEST_LINEAR_CONTROLLER
+// #define TEST_ANGULAR_CONTROLLER
 
 /* Bring in the appropriate application header file */
 #ifdef NONE
@@ -23,7 +24,10 @@ using namespace test_dev_bno055;
 using namespace test_dev_ultrasonic;
 #elif defined(TEST_LINEAR_CONTROLLER)
 #include "test_linear_controller.hpp"
-using namespace test_dev_linear_controller;
+using namespace test_linear_controller;
+#elif defined(TEST_ANGULAR_CONTROLLER)
+#include "test_angular_controller.hpp"
+using namespace test_angular_controller
 #else
 /* Should never get here. If it does, you might be missing a condition */
 static_assert(false);

@@ -30,13 +30,34 @@ namespace sensor
         return true;
     }
 
+    float BNO055::unwrap_angle(const float angle) const
+    {
+        static float theta_previous = 0.0f;
+        static float theta_unwrapped = 0.0f;
+
+        float theta_diff = angle - theta_previous;
+        if (theta_diff < -180)
+        {
+            theta_diff += 360;
+        }
+        else if (theta_diff >= 180)
+        {
+            theta_diff -= 360;
+        }
+
+        theta_unwrapped += theta_diff;
+        theta_previous = angle;
+
+        return theta_unwrapped;
+    }
+
     void BNO055::run_10ms()
     {
         // getVector issues an I2C transaction
         const auto orientation = m_bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-        m_theta.x = math::deg_to_rad(orientation.x());
-        m_theta.y = math::deg_to_rad(orientation.y());
-        m_theta.z = math::deg_to_rad(orientation.z());
+        m_theta.x = math::deg_to_rad(unwrap_angle(orientation.x()));
+        m_theta.y = math::deg_to_rad(unwrap_angle(orientation.y()));
+        m_theta.z = math::deg_to_rad(unwrap_angle(orientation.z()));
 
         const auto angular_speed = m_bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
         m_theta_dot.x = math::deg_to_rad(angular_speed.x());
