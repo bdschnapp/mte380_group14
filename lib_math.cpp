@@ -17,4 +17,9 @@ namespace math
         return (abs(f1 - f2) < margin);
     }
 
+    float ewma(const float alpha, const float prev, const float cur)
+    {
+        return alpha * cur + (1-alpha) * prev;
+    }
+
 }
