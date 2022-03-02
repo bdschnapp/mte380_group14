@@ -5,9 +5,11 @@
 #ifndef MTE380_GROUP14_APP_LOGGER_H
 #define MTE380_GROUP14_APP_LOGGER_H
 
-#include <simpleRPC.h>
-#include <bitset>
-#include <string>
+#include "vector.tcc"
+#include "tuple.tcc"
+
+#define LOGGER_OK 1
+#define LOGGER_NOT_OK 0
 
 #define NUM_SENSORS 10
 // number of 10ms task periods before the computer reads the data
@@ -20,20 +22,26 @@
 namespace debug{
     class Logger {
     private:
-        std::vector<float> data(VECTOR_SIZE);
-        Vector<string> heading(VECTOR_SIZE);
-        Vector<int> time(VECTOR_SIZE);
+        //Vector<float> data(VECTOR_SIZE);
+        //Vector<std::string> heading(VECTOR_SIZE);
+        //Vector<int> time(VECTOR_SIZE);
 
+        //Tuple<float, Tuple<std::string, int>>
+
+        Vector<Tuple<float, Tuple<std::string, int>>> data;
+        int index;
         int ping_count;
+        IPAddress ip;
+        WifiServer server;
 
     public:
-        void ping(int data); // never call this function. client side only
+        void ping(int data_in); // never call this function. client side only
 
-        void get_data(); // never call this function. client side only
+        Vector<Tuple<float, Tuple<std::string, int>>> get_data(); // never call this function. client side only
 
 
-        void init(std::string key, std::string secret);
-        void print_float(float data, std::string stream, int time);
+        void init();
+        bool print_float(float data, std::string stream, int time);
     };
 }
 

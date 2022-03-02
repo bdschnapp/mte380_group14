@@ -6,6 +6,8 @@
 #define MTE380_GROUP14_APP_MAIN_HPP
 
 #include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <simpleRPC.h>
 
 // dev
 #include "dev_ultrasonic.hpp"

@@ -23,6 +23,8 @@ namespace main
 
     wifi_network = "";
     wifi_password = "";
+    IPAddress ip = (192, 168, 1, 1);
+    WifiServer server(80);
 
     void run10ms(){
         UltrasonicSide.run10ms();
@@ -51,6 +53,15 @@ namespace main
 
 
     void app_setup(){
+        WiFi.begin(wifi_network, wifi_password);
+
+        while (WiFi.status() != WL_CONNECTED)
+        {
+            delay(500);
+        }
+        if (ip == Wifi.localIP())
+            server.begin();
+
         ultrasonicFrontInitConfig.echoPin = 13;
         ultrasonicFrontInitConfig.trigPin = 12;
         ultrasonicSideInitConfig.echoPin = 11;
@@ -63,7 +74,7 @@ namespace main
 
         distances = {0,0,0,0,0,0,0,0,0,0,0,0};
         path.init(&distances);
-        logger.init(wifi_network, wifi_password);
+        logger.init();
         stateMachine.init();
     }
 
@@ -76,6 +87,19 @@ namespace main
         }
 
         stateMachine.run10ms(sensor_data_debounced);
+
+        WifiClient client = server.accept();
+        if(client){
+            while (client.connected()) {
+                interface(
+                        client,
+                        logger.ping, F("ping: Echo a value. @data: Value. @return: Value of data."),
+                        logger.get_data, F("get_data: returns a vector of all the stored sensor data. "));
+            }
+            // Wait for data transmission to complete.
+            client.flush();
+            client.stop();
+        }
 
         delayMicroseconds(10000 - (micros() - time_us));
     }
