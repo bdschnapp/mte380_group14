@@ -45,7 +45,6 @@ namespace sensor
          * @param theta vector to store orientation in
          * @return[bool] success of read
          */
-        // younes todo ccw should be +ve
         bool get_angular_position(math::Vector3f &theta);
 
         /**

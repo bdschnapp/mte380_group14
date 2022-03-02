@@ -13,6 +13,7 @@ namespace test_linear_controller
     {
         Serial.begin(9600);
         lc.set_target_distance(TARGET_DISTANCE);
+        lc.set_debounce(0);
         if (front_us.init({FRONT_ULTRASONIC_TRIG_PIN, FRONT_ULTRASONIC_ECHO_PIN}))
         {
             Serial.println("Succesfully initialized front ultrasonic sensor");

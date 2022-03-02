@@ -14,7 +14,6 @@ namespace controllers
 
     bool pivot_controller::target_yaw_reached(const float gyro_yaw) const
     {
-        // younes todo might need debounce
         return math::float_compare(gyro_yaw, m_target_heading, m_error_tolerance);
     }
 

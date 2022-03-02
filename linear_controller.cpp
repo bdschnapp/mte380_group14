@@ -5,7 +5,8 @@ namespace controllers
 {
     linear_controller::linear_controller(const float Kp, const float error_tolerance) : m_pid(Kp, 0),
                                                                                         m_error_tolerance(error_tolerance),
-                                                                                        m_target_distance(INVALID_TARGET_DISTANCE)
+                                                                                        m_target_distance(INVALID_TARGET_DISTANCE),
+                                                                                        m_debounce(0);
     {
     }
 
@@ -14,10 +15,23 @@ namespace controllers
         m_target_distance = target_distance;
     }
 
+    void linear_controller::set_debounce(const uint8_t debounce)
+    {
+        m_debounce = debounce;
+    }
+
     bool linear_controller::target_distance_reached(const float front_us_reading) const
     {
-        // younes todo might need to add some debouncing
-        return math::float_compare(front_us_reading, m_target_distance, m_error_tolerance);
+        static uin32_t positives = 0;
+        if (math::float_compare(front_us_reading, m_target_distance, m_error_tolerance) || front_us_reading < m_target_distance)
+        {
+            ++positives;
+        }
+        else
+        {
+            positives = 0;
+        }
+        return positives >= m_debounce;
     }
 
     float linear_controller::compute_gas(const float front_us_reading) const

@@ -46,7 +46,6 @@ namespace test_lib_math
         success &= math::float_compare(math::clamp(lower_bound, upper_bound, 110.0f), upper_bound);
         success &= math::float_compare(math::clamp(lower_bound, upper_bound, -110.0f), lower_bound);
         return success;
-        // younes todo run this test
     }
 
     void app_setup()

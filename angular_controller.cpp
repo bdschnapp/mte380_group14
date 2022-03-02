@@ -13,8 +13,7 @@ namespace controllers
 
     float angular_controller::compute_steering(const float gyro_yaw) const
     {
-        // younes todo might need deadzone
-        // younes todo might need lateral ultrasonic fallback
+        /* TODO: might need deadzone */
         return math::clamp(MIN_STEERING, MAX_STEERING, m_pid.compute(m_target_heading - gyro_yaw));
     }
 

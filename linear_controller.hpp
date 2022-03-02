@@ -9,6 +9,7 @@ namespace controllers
         PID m_pid;
         const float m_error_tolerance;
         float m_target_distance;
+        uint8_t m_debounce;
 
         static constexpr auto MIN_GAS = 0;
         static constexpr auto MAX_GAS = 100;
@@ -29,6 +30,12 @@ namespace controllers
          * @param target_distance The distance from the wall to drive until [meters]
          */
         void set_target_distance(const float target_distance);
+
+        /**
+         * Set the minimum number of positives before target is considered reached
+         * @param debounce Number of positives before target is considered reached
+         */
+        void set_debounce(const uint8_t debounce);
 
         /**
          * Returns whether or not the robot has reached the target distance (+- tolerance specified in constructor)
