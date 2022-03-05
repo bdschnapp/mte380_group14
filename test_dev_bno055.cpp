@@ -47,16 +47,6 @@ namespace test_dev_bno055
             Serial.println("ERROR: Failed to read angular velocity");
         }
 
-        static uint16_t reset_counter = 0;
-
-        if (reset_counter >= 40)
-        {
-            Serial.println("INFO: Resetting IMU");
-            bno055_imu.reset();
-            reset_counter = 0;
-        }
-        ++reset_counter;
-
         delay(200);
     }
 }

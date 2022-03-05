@@ -11,6 +11,30 @@ namespace math
     };
 
     /**
+     * Add two vectors
+     * @param a vector 1
+     * @param b vector 2
+     * @return the equivalence of a + b
+     */
+    math::Vector3f operator+(const math::Vector3f &a, const math::Vector3f &b);
+
+    /**
+     * Subtract a vector from another vector
+     * @param a vector 1
+     * @param b vector 2
+     * @return the equivalence of a - b
+     */
+    math::Vector3f operator-(const math::Vector3f &a, const math::Vector3f &b);
+
+    /**
+     * Converts vectors from imu frame to base link frame
+     * This assumes the imu is rotated 90 deg ccw about its z-axis relative to the base link frame
+     * @param v some vector in the imu frame 
+     * @return equivalent vector in the base link frame
+     */
+    math::Vector3f transform_imu_data_to_base_link_frame(const math::Vector3f &theta);
+
+    /**
      * Convert degrees to radians
      * @param deg degrees
      * @return radians
@@ -37,7 +61,7 @@ namespace math
      * An exponentially weighted moving average filter.
      * See wiki for definition: https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
      * @param alpha decay factor of the ewma filter
-     * @param prev the previous value of the filtered signal 
+     * @param prev the previous value of the filtered signal
      * @param cur the current value of the raw signal
      * @return returns the filtered value
      */
