@@ -32,7 +32,7 @@ namespace math
      * @param v some vector in the imu frame 
      * @return equivalent vector in the base link frame
      */
-    math::Vector3f transform_imu_data_to_base_link_frame(const math::Vector3f &theta);
+    math::Vector3f transform_imu_data_to_base_frame(const math::Vector3f &theta);
 
     /**
      * Convert degrees to radians

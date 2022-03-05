@@ -13,9 +13,9 @@ namespace math
         return a + neg_b;
     }
 
-    math::Vector3f transform_imu_data_to_base_link_frame(const math::Vector3f &theta)
+    math::Vector3f transform_imu_data_to_base_frame(const math::Vector3f &theta)
     {
-        return {-theta.y, theta.x, theta.z};
+        return {theta.y, theta.x, theta.z};
     }
 
     float deg_to_rad(float deg)
