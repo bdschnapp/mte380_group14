@@ -37,6 +37,17 @@ namespace test_lib_math
         return true;
     }
 
+    bool test_clamp()
+    {
+        constexpr float lower_bound = -100.0f;
+        constexpr float upper_bound = 100.0f;
+
+        bool success = math::float_compare(math::clamp(lower_bound, upper_bound, 56.0f), 56.0f);
+        success &= math::float_compare(math::clamp(lower_bound, upper_bound, 110.0f), upper_bound);
+        success &= math::float_compare(math::clamp(lower_bound, upper_bound, -110.0f), lower_bound);
+        return success;
+    }
+
     void app_setup()
     {
         Serial.begin(9600);
@@ -60,6 +71,15 @@ namespace test_lib_math
         else
         {
             Serial.println("ERROR: math::rad_to_deg unit test FAILED");
+        }
+
+        if (test_clamp())
+        {
+            Serial.println("INFO: math::clamp unit test PASSED");
+        }
+        else
+        {
+            Serial.println("ERROR: math::clamp unit test FAILED");
         }
 
         delay(5000);

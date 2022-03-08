@@ -37,11 +37,20 @@ namespace math
      * An exponentially weighted moving average filter.
      * See wiki for definition: https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
      * @param alpha decay factor of the ewma filter
-     * @param prev the previous value of the filtered signal 
+     * @param prev the previous value of the filtered signal
      * @param cur the current value of the raw signal
      * @return returns the filtered value
      */
     float ewma(const float alpha, const float prev, const float cur);
+
+    /**
+     * Clamps a given value into the range [lower_bound, upper_bound]
+     * @param lower_bound the lower bound of the range to clamp into
+     * @param upper_bound the upper bound of the range to clamp into
+     * @param value the value to clamp
+     * @return the clamped value as an element of the range [lower_bound, upper_bound]
+     */
+    float clamp(const float lower_bound, const float upper_bound, const float value);
 }
 
 #endif

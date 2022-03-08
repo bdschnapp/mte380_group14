@@ -19,7 +19,12 @@ namespace math
 
     float ewma(const float alpha, const float prev, const float cur)
     {
-        return alpha * cur + (1-alpha) * prev;
+        return alpha * cur + (1 - alpha) * prev;
+    }
+
+    float clamp(const float lower_bound, const float upper_bound, const float value)
+    {
+        return min(max(lower_bound, value), upper_bound);
     }
 
 }
