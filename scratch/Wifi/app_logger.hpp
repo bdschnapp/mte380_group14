@@ -31,8 +31,7 @@ namespace debug{
         Vector<Tuple<float, Tuple<std::string, int>>> data;
         int index;
         int ping_count;
-        IPAddress ip;
-        WifiServer server;
+        bool clear_data;
 
     public:
         void ping(int data_in); // never call this function. client side only
@@ -41,6 +40,7 @@ namespace debug{
 
 
         void init();
+        void run10ms();
         bool print_float(float data, std::string stream, int time);
     };
 }

@@ -1,11 +1,11 @@
 # pip install arduino-simple-rpc
-# pip install pyserial
-# pip install numpy
+# pip install matplotlib
 
 from simple_rpc import SocketInterface as Interface
 from serial.urlhandler import protocol_socket
+import matplotlib.pyplot as pyplot
 import time
-import numpy as np
+
 
 ip_addr = "192.168.1.1:80"
 
@@ -21,4 +21,4 @@ while interface.ping(1):
     time.sleep(1)
     data.append(interface.get_data())
 
-# do some pretty stuff to analyze/graph the data
+pyplot.plot(data)

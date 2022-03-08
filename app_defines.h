@@ -1,0 +1,18 @@
+#ifndef MTE380_GROUP14_APP_DEFINES_H
+#define MTE380_GROUP14_APP_DEFINES_H
+
+#define PATH_LENGTH 11
+int distances[PATH_LENGTH] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+#define DISTANCE_TOLERANCE 1
+#define ANGULAR_TOLERANCE 1
+
+#define BUTTON_PIN
+
+#define USF_ECHO_PIN 13
+#define USF_TRIG_PIN 12
+
+#define USS_ECHO_PIN 11
+#define USS_TRIG_PIN 10
+
+#endif //MTE380_GROUP14_APP_DEFINES_H

@@ -2,11 +2,7 @@
 #define MTE380_GROUP14_STATEMACHINE_HPP
 
 #include "lib_math.hpp"
-
-#define PATH_LENGTH 11
-
-#define DISTANCE_TOLERANCE 1
-#define ANGULAR_TOLERANCE 1
+#include "app_defines.h"
 
 #define SM_OK 1
 #define SM_NOT_OK 0
@@ -31,7 +27,7 @@ namespace sm {
     class MissionControl {
     private:
         int index;
-        float distances[PATH_LENGTH];
+        float distances_internal[PATH_LENGTH];
 
     public:
         MissionControl();

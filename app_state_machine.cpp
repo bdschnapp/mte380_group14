@@ -16,19 +16,29 @@ namespace sm{
                 }
             }
             if (state == driving){
-                if (sensor_data.ultrasonic_front < (distance + DISTANCE_TOLERANCE)){
+                if (math::float_compare(sensor_data.ultrasonic_front, distance, DISTANCE_TOLERANCE)){
 
-                    // account for pit case
-                    if(sensor_data.imu_theta.z == 0){
+                    // TODO: account for pit case, if we are not on flat ground we dont turn
+
+                    // TODO: confirm we want z theta value here
+
+                    // flat ground case, this should happen most often
+                    if(math::float_compare(sensor_data.imu_theta.z, 0, ANGULAR_TOLERANCE)){
+
+                        // transition to turning
                         driving_transition();
                     }
-
                 }
+                // state is driving, continues to drive
             }
             if (state == turning){
-                if (sensor_data.imu_theta < (heading + ANGULAR_TOLERANCE)){
+                // TODO: confirm we want x theta value
+                if (math::float_compare(sensor_data.imu_theta.x, heading, ANGULAR_TOLERANCE)){
+
+                    // transition to driving
                     turning_transition();
                 }
+                // state is turning, continue to turn
             }
         }
 
@@ -52,7 +62,7 @@ namespace sm{
 
     void StateMachine::faulted_task() {
         while(1){
-            delay(1);
+            delay(1000);
         }
     }
 
@@ -85,13 +95,13 @@ namespace sm{
 
     void MissionControl::init(float (&input_array)[PATH_LENGTH]) {
         for(int i = 0; i < PATH_LENGTH; i++){
-            distances[i] = input_array[i];
+            distances_internal[i] = input_array[i];
             index = 0;
         }
     }
 
     float MissionControl::get_next_distance() {
         index++;
-        return distances[index - 1];
+        return distances_internal[index - 1];
     }
 }

@@ -5,6 +5,13 @@ namespace debug{
         data.resize(VECTOR_SIZE);
     }
 
+    void Logger::run10ms() {
+        if(clear_data){
+            data.clear();
+            data.resize(VECTOR_SIZE);
+        }
+    }
+
     bool Logger::print_float(float data_in, int stream, int time) {
         Tuple<float, Tuple<std::string, int>> t;
         t.head = data_in;
@@ -21,6 +28,7 @@ namespace debug{
 
     Vector<Tuple<float, Tuple<std::string, int>>> Logger::get_data() {
         index = 0;
+        clear_data = 1;
         return data;
     }
 

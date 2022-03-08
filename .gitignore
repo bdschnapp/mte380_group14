@@ -54,3 +54,7 @@ dkms.conf
 
 # vscode files
 .vscode
+
+# logger client
+logger_client/venv/*
+logger_client/.idea/*
