@@ -1,5 +1,16 @@
 #include "lib_math.hpp"
 
+#ifndef LOCAL_BUILD
+#include "Arduino.h"
+#else
+/* Replace arduino functions with std cpp functions */
+#include <algorithm>
+using std::min;
+using std::max;
+using std::abs;
+constexpr auto PI = 3.14159265f;
+#endif
+
 namespace math
 {
     float deg_to_rad(float deg)

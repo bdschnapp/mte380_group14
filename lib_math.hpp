@@ -1,8 +1,6 @@
 #ifndef __LIB_MATH_HPP__
 #define __LIB_MATH_HPP__
 
-#include "Arduino.h"
-
 namespace math
 {
     struct Vector3f
