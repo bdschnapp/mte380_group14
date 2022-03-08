@@ -48,6 +48,20 @@ namespace test_lib_math
         return success;
     }
 
+    bool test_vector_addition()
+    {
+        const math::Vector3f v1 = {1, 5, 10}, v2 = {4, 18.3, 8};
+        const auto result = v1 + v2;
+        return math::float_compare(result.x, 5) && math::float_compare(result.y, 23.3) && math::float_compare(result.z, 18);
+    }
+
+    bool test_vector_subtraction()
+    {
+        const math::Vector3f v1 = {1, 5, 10}, v2 = {4, 18.3, 8};
+        const auto result = v1 - v2;
+        return math::float_compare(result.x, -3) && math::float_compare(result.y, -13.3) && math::float_compare(result.z, 2);
+    }
+
     void app_setup()
     {
         Serial.begin(9600);
@@ -80,6 +94,23 @@ namespace test_lib_math
         else
         {
             Serial.println("ERROR: math::clamp unit test FAILED");
+        }
+        if (test_vector_addition())
+        {
+            Serial.println("INFO: vector addition unit test PASSED");
+        }
+        else
+        {
+            Serial.println("ERROR: vector addition unit test FAILED");
+        }
+
+        if (test_vector_subtraction())
+        {
+            Serial.println("INFO: vector subtraction unit test PASSED");
+        }
+        else
+        {
+            Serial.println("ERROR: vector subtraction unit test FAILED");
         }
 
         delay(5000);

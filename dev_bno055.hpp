@@ -29,12 +29,6 @@ namespace sensor
         bool init();
 
         /**
-         * Power cycle IMU and reset internal variables
-         * @return[bool] success of reset
-         */
-        bool reset();
-
-        /**
          * Read from IMU. Issues I2C transactions
          * The IMU can produce a new reading every 10 ms
          */
@@ -55,9 +49,20 @@ namespace sensor
         bool get_angular_velocity(math::Vector3f &theta_dot);
 
     private:
+        /**
+         * Unwraps angles (in degrees) from [0, 360] to a [-inf, inf]
+         * Makes it such that the angle doesn't wrap around
+         * Example: 2 full ccw rotation will be 720, not 0
+         * @param theta degrees in the range [0, 360]
+         * @return unwrapped theta
+         */
+        math::Vector3f unwrap_theta(const math::Vector3f &theta);
+
         Adafruit_BNO055 m_bno;
 
         math::Vector3f m_theta, m_theta_dot;
+
+        math::Vector3f m_theta_previous, m_theta_unwrapped;
 
         bool m_last_read_successful;
 
