@@ -40,7 +40,7 @@ namespace actuator {
 	}
 
 	bool TB9051FTG::get_fault() {
-		return m_shield.getM1Fault() || m_shield.getM2Fault();
+		return !m_shield.getM1Fault() || !m_shield.getM2Fault();
 	}
 
 } // namespace actuator

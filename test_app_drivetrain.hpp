@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "app_drivetrain.hpp"
 
-namespace test_dev_drivetrain
+namespace test_app_drivetrain
 {
     void app_setup();
 

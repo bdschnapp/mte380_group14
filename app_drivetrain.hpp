@@ -6,14 +6,14 @@ namespace subsystem {
 	class drivetrain {
 		 
 	public:
-		drivetrain(TB9051FTG motors);
-		~drivetrain();
+		drivetrain();
+		~drivetrain() = default;
 
 		/**
 		 * Initialize the drivetrain
 		 * @return[bool] success of initilization
 		 */
-		bool init();
+		bool init(actuator::TB9051FTG motors);
 
 		/**
 		 * reset the drivetrain
@@ -34,9 +34,14 @@ namespace subsystem {
 		 * calculated by set_speed.
 		 */
 		void run10ms();
+		
+		/**
+		 * Helper function for unit tests, lets tests access internal speed variables
+		 */
+		void get_motor_speeds(double& left_speed, double& right_speed);
 
 	private:
-		TB9051FTG m_motors;
+		actuator::TB9051FTG m_motors;
 
 		double m_left_motor_speed;
 
