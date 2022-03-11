@@ -1,0 +1,32 @@
+#ifndef MTE380_GROUP14_APP_LOGGER_H
+#define MTE380_GROUP14_APP_LOGGER_H
+
+#include <Arduino.h>
+
+namespace debug{
+    enum debug_t{
+        float_t,
+        int_t,
+        string_t
+    };
+
+    class Logger {
+    public:
+        void print_ultrasonic_front(float data);
+        void print_ultrasonic_side(float data);
+
+        void print_tof_t_x(float data);
+        void print_tof_t_y(float data);
+        void print_tof_t_z(float data);
+
+        void print_tof_td_x(float data);
+        void print_tof_td_y(float data);
+        void print_tof_td_z(float data);
+
+        void println(void * data, debug_t data_type)
+    };
+}
+
+
+
+#endif //MTE380_GROUP14_APP_LOGGER_H
