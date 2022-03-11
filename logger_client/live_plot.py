@@ -128,3 +128,5 @@ if __name__ == '__main__':
 
     for i in csv_array:
         csv.write(i)
+
+    csv.close()

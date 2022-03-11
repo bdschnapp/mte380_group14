@@ -5,7 +5,7 @@ namespace debug{
         Serial1.println("ultrasonic_front");
         Serial1.println(data);
     }
-    void Logger::print_ultrasonic_front(float data){
+    void Logger::print_ultrasonic_side(float data){
         Serial1.println("ultrasonic_side");
         Serial1.println(data);
     }
