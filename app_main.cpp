@@ -15,10 +15,12 @@ namespace main
     sm::sensor_data_s sensor_data;
     sm::sensor_data_s sensor_data_debounced;
 
-    sm::MissionControl path;
+    //sm::MissionControl path;
     sm::StateMachine stateMachine;
 
-    SoftwareSerial BT(2, 3); // RX | TX
+    robot::drivetrain;
+
+    math::angular_controller;
 
     int time_us;
 
@@ -46,12 +48,20 @@ namespace main
              return SAR_NOT_OK;
 
          // TODO: Sensor debounce
+
+         Serial1.println("ultrasonic_front");
+         Serial1.println(sensor_data.ultrasonic_front);
+         Serial1.println("ultrasonic_side");
+         Serial1.println(sensor_data.ultrasonic_side);
+         Serial1.println("imu_theta");
+         Serial1.println(sensor_data.imu_theta.z);
+         Serial1.println("imu_theta_dot");
+         Serial1.println(sensor_data.imu_theta_dot.z);
     }
 
 
     void app_setup(){
-        Serial.begin(9600);
-        BT.begin(9600);
+        Serial1.begin(9600);
 
         ultrasonicFrontInitConfig.echoPin = USF_ECHO_PIN;
         ultrasonicFrontInitConfig.trigPin = USF_TRIG_PIN;
@@ -65,8 +75,8 @@ namespace main
 
         e_stop.init(BUTTON_PIN);
 
-        path.init(&distances);
-        stateMachine.init();
+        //path.init(&distances);
+        stateMachine.init(&distances);
     }
 
     void app_loop(){
