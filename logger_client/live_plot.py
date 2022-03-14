@@ -17,14 +17,14 @@ global sensors
 global fig
 global sub_plt
 
-sensor_list = ["ultrasonic_front",
-               "ultrasonic_side",
-               "tof_t_x",
-               "tof_t_y",
-               "tof_t_z",
-               "tof_td_x",
-               "tof_td_y",
-               "tof_td_z"
+sensor_list = ["usf",
+               "uss",
+               "tx",
+               "ty",
+               "tz",
+               "tdx",
+               "tdy",
+               "tdz"
                ]
 sensors = {}
 
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     fig, sub_plt = plt.subplots(len(sensor_list, 1))
 
     read = threading.Thread(target=bluetooth_read, args=(bt, 9600,))
-    plot = threading.Thread()
+    plot = threading.Thread(target=live_plot)
 
     read.start()
     plot.start()

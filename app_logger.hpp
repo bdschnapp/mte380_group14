@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+#define DEFAULT_BAUD 9600
+
 namespace debug{
     enum debug_t{
         float_t,
@@ -12,6 +14,8 @@ namespace debug{
 
     class Logger {
     public:
+        void init(int baud);
+
         void print_ultrasonic_front(float data);
         void print_ultrasonic_side(float data);
 
@@ -23,7 +27,8 @@ namespace debug{
         void print_tof_td_y(float data);
         void print_tof_td_z(float data);
 
-        void println(void * data, debug_t data_type)
+        template<typename T>
+        void println(T data);
     };
 }
 

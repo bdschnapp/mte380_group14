@@ -43,23 +43,23 @@ arrays = [uss_array, usf_array,
           imu_td_x_array, imu_td_y_array, imu_td_z_array]
 print("analyzing data")
 for i in range(len(data_array)):
-    if data_array[i] == "ultrasonic_front\r":
+    if data_array[i] == "usf\r":
         usf_array.append(data_array[i+1])
-    if data_array[i] == "ultrasonic_side\r":
+    if data_array[i] == "uss\r":
         uss_array.append(data_array[i+1])
 
-    if data_array[i] == "imu_t_x\r":
+    if data_array[i] == "tx\r":
         imu_t_x_array.append(data_array[i+1])
-    if data_array[i] == "imu_t_y\r":
+    if data_array[i] == "ty\r":
         imu_t_y_array.append(data_array[i+1])
-    if data_array[i] == "imu_t_z\r":
+    if data_array[i] == "tz\r":
         imu_t_z_array.append(data_array[i+1])
 
-    if data_array[i] == "imu_td_x\r":
+    if data_array[i] == "tdx\r":
         imu_td_x_array.append(data_array[i + 1])
-    if data_array[i] == "imu_td_y\r":
+    if data_array[i] == "tdy\r":
         imu_td_y_array.append(data_array[i + 1])
-    if data_array[i] == "imu_td_z\r":
+    if data_array[i] == "tdz\r":
         imu_td_z_array.append(data_array[i + 1])
 print("printing to csv")
 csv_array = []
