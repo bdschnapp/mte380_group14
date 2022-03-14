@@ -47,6 +47,7 @@ def bluetooth_read(socket, baud):
         for _ in range(raw_data.count("\n")):
             index = raw_data.find("\n")
             Q.put(raw_data[:index], block=True)
+            raw_data = raw_data[(index+1):]
 
 
 def live_plot():
@@ -62,7 +63,7 @@ def live_plot():
                 if sensor_list[j] == header:
                     sub_plt[j].scatter(time_now, data)
 
-        # this might break things depending on the speed which Q is filled
+        # this might break things depending on the speed which Q is filled/emptied
         if Q.empty():
             plt.pause(1/100)
 
@@ -70,8 +71,8 @@ def live_plot():
 if __name__ == '__main__':
     bt = bluetooth_init()
     Q = queue.Queue(50)
-    for i in sensor_list:
-        sensors[i] = []
+
+    sensors = {key: [] for key in sensor_list}
 
     fig, sub_plt = plt.subplots(len(sensor_list, 1))
 
