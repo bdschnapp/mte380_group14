@@ -1,4 +1,4 @@
-#include "app_drivetrain.hpp"
+#include "drivetrain.hpp"
 
 namespace subsystem {
 
@@ -22,12 +22,6 @@ namespace subsystem {
 
 		m_left_motor_speed = -l_steering * gas;
 		m_right_motor_speed = r_steering * gas;
-	}
-
-	void drivetrain::run10ms() {
-		m_motors.set_left_motor_speed(m_left_motor_speed);
-		delay(1);
-		m_motors.set_right_motor_speed(m_right_motor_speed);
 	}
 
 	void drivetrain::get_motor_speeds(double& left_speed, double& right_speed) {

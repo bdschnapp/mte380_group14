@@ -46,6 +46,14 @@ namespace actuator
         bool set_left_motor_speed(double speed);
 
         /**
+         * Set the speed of the motors
+         * @param l_speed double from -1 to 1 for percent motor power
+         * @param r_speed double from -1 to 1 for percent motor power
+         * @return[bool] success of setting speed
+         */
+        bool set_motor_speeds(double l_speed, double r_speed);
+
+        /**
          * Disable the speed controllers
          * @return[bool] success of disable
          */

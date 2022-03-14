@@ -16,6 +16,8 @@ namespace test_dev_TB9051FTG
 
     void app_loop()
     {
+        // Delay included in case motors are physically running, 
+        // allows user time to position robot after connecting battery
         delay(10000);
         Serial.print("starting in 3 seconds\n");
         delay(3000);
@@ -54,7 +56,6 @@ namespace test_dev_TB9051FTG
         if (!shield.reset()) {
             Serial.print("ERROR: fault while resetting speed controllers\n");
         }
-        delay(2000);
         Serial.print("INFO: completed test cycle\n");
 
     }

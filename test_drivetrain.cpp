@@ -1,6 +1,6 @@
-#include "test_app_drivetrain.hpp"
+#include "test_drivetrain.hpp"
 
-namespace test_app_drivetrain {
+namespace test_drivetrain {
 
 	actuator::TB9051FTG motors;
 	subsystem::drivetrain m_drivetrain;
@@ -13,6 +13,7 @@ namespace test_app_drivetrain {
 		Serial.begin(9600);
 		m_drivetrain.init(motors);
 		i = 0;
+		//initialization delay to let user position robot after connecting power
 		delay(10000);
 
 	}
@@ -28,18 +29,26 @@ namespace test_app_drivetrain {
 
 		if (i < 50) {
 			m_drivetrain.set_speed(0.5, 0);
+			motors.set_motor_speeds(left, right);
 		}
 		else if (i < 100) {
 			m_drivetrain.set_speed(0.5, 0.5);
+			motors.set_motor_speeds(left, right);
 		}
 		else if (i < 150) {
 			m_drivetrain.set_speed(0.5, -0.5);
+			motors.set_motor_speeds(left, right);
 		}
 		else if (i < 200) {
-			m_drivetrain.set_speed(-0.5, 0);
+			m_drivetrain.set_speed(-0.5, 0);			
+			motors.set_motor_speeds(left, right);
 		}
-		else if (i > 300) {
-			i = 0;
+		else if (i < 300) {
+			m_drivetrain.set_speed(0, 0);
+			motors.set_motor_speeds(left, right);
+		}
+		else if (i > 500) {
+			i = 0
 		}
 		i++;
 		delay(10);

@@ -1,4 +1,7 @@
-#include "arduino.h"
+#ifndef __DRIVETRAIN_HPP__
+#define __DRIVETRAIN_HPP__
+
+#include "Arduino.h"
 #include "dev_TB9051FTG.hpp"
 
 namespace subsystem {
@@ -28,12 +31,6 @@ namespace subsystem {
 		 *				   1.0 for right
 		 */
 		void set_speed(double gas, double steering);
-
-		/**
-		 * set motor controller outputs based on left and right speeds
-		 * calculated by set_speed.
-		 */
-		void run10ms();
 		
 		/**
 		 * Helper function for unit tests, lets tests access internal speed variables
@@ -50,3 +47,5 @@ namespace subsystem {
 	}; // class drivetrain
 
 } // namespace subsystem
+
+# endif
