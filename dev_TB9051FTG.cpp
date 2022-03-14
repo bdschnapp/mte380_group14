@@ -34,13 +34,20 @@ namespace actuator {
 		return !get_fault();
 	}
 
+	bool TB9051FTG::set_motor_speeds(double l_speed, double r_speed) {
+		//pololu driver takes an int value from 400 to -400
+		m_shield.setSpeeds(static_cast<int> (l_speed * 400), 
+						   static_cast<int> (r_speed * 400));
+		return !get_fault();
+	}
+
 	bool TB9051FTG::disable_motors() {
 		m_shield.disableDrivers();
 		return get_fault();
 	}
 
 	bool TB9051FTG::get_fault() {
-		return m_shield.getM1Fault() || m_shield.getM2Fault();
+		return !m_shield.getM1Fault() || !m_shield.getM2Fault();
 	}
 
 } // namespace actuator
