@@ -1,14 +1,36 @@
 #ifndef __LIB_MATH_HPP__
 #define __LIB_MATH_HPP__
 
-#include "Arduino.h"
-
 namespace math
 {
     struct Vector3f
     {
         float x, y, z;
     };
+
+    /**
+     * Add two vectors
+     * @param a vector 1
+     * @param b vector 2
+     * @return the equivalence of a + b
+     */
+    math::Vector3f operator+(const math::Vector3f &a, const math::Vector3f &b);
+
+    /**
+     * Subtract a vector from another vector
+     * @param a vector 1
+     * @param b vector 2
+     * @return the equivalence of a - b
+     */
+    math::Vector3f operator-(const math::Vector3f &a, const math::Vector3f &b);
+
+    /**
+     * Converts vectors from imu frame to base link frame
+     * This assumes the imu is rotated 90 deg ccw about its z-axis relative to the base link frame
+     * @param v some vector in the imu frame 
+     * @return equivalent vector in the base link frame
+     */
+    math::Vector3f transform_imu_data_to_base_frame(const math::Vector3f &theta);
 
     /**
      * Convert degrees to radians
@@ -33,13 +55,22 @@ namespace math
      */
     bool float_compare(float f1, float f2, float margin = 1e-4f);
 
+    /**
+     * An exponentially weighted moving average filter.
+     * See wiki for definition: https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
+     * @param alpha decay factor of the ewma filter
+     * @param prev the previous value of the filtered signal
+     * @param cur the current value of the raw signal
+     * @return returns the filtered value
+     */
+    float ewma(const float alpha, const float prev, const float cur);
 
     /**
      * Clamps a given value into the range [lower_bound, upper_bound]
      * @param lower_bound the lower bound of the range to clamp into
      * @param upper_bound the upper bound of the range to clamp into
      * @param value the value to clamp
-     * @return the clamped value as an element of the range [lower_bound, upper_bound] 
+     * @return the clamped value as an element of the range [lower_bound, upper_bound]
      */
     float clamp(const float lower_bound, const float upper_bound, const float value);
 }

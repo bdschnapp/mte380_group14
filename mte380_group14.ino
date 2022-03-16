@@ -1,12 +1,14 @@
 #include "Arduino.h"
 
 /* Uncomment the macro for the application you are looking to test */
-#define NONE
+ #define NONE
 // #define TEST_LIB_MATH
 // #define TEST_DEV_BNO055
 // #define TEST_DEV_ULTRASONIC
 // #define TEST_LINEAR_CONTROLLER
 // #define TEST_ANGULAR_CONTROLLER
+// #define TEST_DEV_TB9051FTG
+// #define TEST_DRIVETRAIN
 
 /* Bring in the appropriate application header file */
 #ifdef NONE
@@ -28,6 +30,12 @@ using namespace test_linear_controller;
 #elif defined(TEST_ANGULAR_CONTROLLER)
 #include "test_angular_controller.hpp"
 using namespace test_angular_controller
+#elif defined(TEST_DEV_TB9051FTG)
+#include "test_dev_TB9051FTG.hpp"
+using namespace test_dev_TB9051FTG;
+#elif defined(TEST_DRIVETRAIN)
+#include "test_drivetrain.hpp"
+using namespace test_drivetrain;
 #else
 /* Should never get here. If it does, you might be missing a condition */
 static_assert(false);
