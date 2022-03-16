@@ -37,6 +37,17 @@ namespace test_lib_math
         return true;
     }
 
+    bool test_clamp()
+    {
+        constexpr float lower_bound = -100.0f;
+        constexpr float upper_bound = 100.0f;
+
+        bool success = math::float_compare(math::clamp(lower_bound, upper_bound, 56.0f), 56.0f);
+        success &= math::float_compare(math::clamp(lower_bound, upper_bound, 110.0f), upper_bound);
+        success &= math::float_compare(math::clamp(lower_bound, upper_bound, -110.0f), lower_bound);
+        return success;
+    }
+
     bool test_vector_addition()
     {
         const math::Vector3f v1 = {1, 5, 10}, v2 = {4, 18.3, 8};
@@ -76,6 +87,14 @@ namespace test_lib_math
             Serial.println("ERROR: math::rad_to_deg unit test FAILED");
         }
 
+        if (test_clamp())
+        {
+            Serial.println("INFO: math::clamp unit test PASSED");
+        }
+        else
+        {
+            Serial.println("ERROR: math::clamp unit test FAILED");
+        }
         if (test_vector_addition())
         {
             Serial.println("INFO: vector addition unit test PASSED");

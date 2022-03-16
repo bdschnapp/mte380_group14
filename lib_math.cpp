@@ -1,5 +1,16 @@
 #include "lib_math.hpp"
 
+#ifndef LOCAL_BUILD
+#include "Arduino.h"
+#else
+/* Replace arduino functions with std cpp functions */
+#include <algorithm>
+using std::abs;
+using std::max;
+using std::min;
+constexpr auto PI = 3.14159265f;
+#endif
+
 namespace math
 {
     math::Vector3f operator+(const math::Vector3f &a, const math::Vector3f &b)
@@ -38,4 +49,8 @@ namespace math
         return alpha * cur + (1 - alpha) * prev;
     }
 
+    float clamp(const float lower_bound, const float upper_bound, const float value)
+    {
+        return min(max(lower_bound, value), upper_bound);
+    }
 }
