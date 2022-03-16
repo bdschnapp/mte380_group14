@@ -19,7 +19,6 @@ namespace test_drivetrain {
 	}
 
 	void app_loop() {
-		m_drivetrain.run10ms();
 		m_drivetrain.get_motor_speeds(left, right);
 		Serial.print("left: ");
 		Serial.print(left);
@@ -48,7 +47,7 @@ namespace test_drivetrain {
 			motors.set_motor_speeds(left, right);
 		}
 		else if (i > 500) {
-			i = 0
+			i = 0;
 		}
 		i++;
 		delay(10);

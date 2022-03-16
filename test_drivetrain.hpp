@@ -2,7 +2,7 @@
 #define MTE380_GROUP14_TEST_DRIVETRAIN_H
 
 #include <Arduino.h>
-#include "app_drivetrain.hpp"
+#include "drivetrain.hpp"
 
 namespace test_drivetrain
 {
