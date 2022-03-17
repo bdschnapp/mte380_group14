@@ -42,9 +42,6 @@ namespace debug{
         Serial1.println("tdz");
         Serial1.println(data);
     }
-
-    // throw() required for templates to correctly compile with Arduino IDE
-    void Logger::println(T data) throw(){
-        Serial1.println(data);
-    }
+}
+// I have no idea why this extra brace is needed but it wont compile without it
 }

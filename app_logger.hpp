@@ -28,7 +28,9 @@ namespace debug{
         void print_tof_td_z(float data);
 
         template<typename T>
-        void println(T data);
+        void println(T data) throw(){
+            Seril1.println(data);
+        }
     };
 }
 
