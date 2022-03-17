@@ -31,10 +31,6 @@ namespace controllers
 
     float pivot_controller::get_required_kp(const float yaw_to_slow_down)
     {
-        if (math::float_compare(yaw_to_slow_down, 0.0f) || yaw_to_slow_down < 0)
-        {
-            return math::FLT_MAX;
-        }
         return MAX_PIVOT_POWER / yaw_to_slow_down;
     }
 

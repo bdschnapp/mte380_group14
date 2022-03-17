@@ -8,9 +8,6 @@ namespace math
         float x, y, z;
     };
 
-    /* Not actually max float value but big enough. Don't want overflow */
-    constexpr float FLT_MAX = 1.0e10; // younes todo remove this. just return an arbitrarily big number. overflow is dangerous
-
     /**
      * Add two vectors
      * @param a vector 1
@@ -30,7 +27,7 @@ namespace math
     /**
      * Converts vectors from imu frame to base link frame
      * This assumes the imu is rotated 90 deg ccw about its z-axis relative to the base link frame
-     * @param v some vector in the imu frame 
+     * @param v some vector in the imu frame
      * @return equivalent vector in the base link frame
      */
     math::Vector3f transform_imu_data_to_base_frame(const math::Vector3f &theta);

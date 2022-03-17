@@ -49,10 +49,6 @@ namespace controllers
 
     float linear_controller::get_required_kp(const float distance_to_slow_down)
     {
-        if (math::float_compare(distance_to_slow_down, 0.0f) || distance_to_slow_down < 0)
-        {
-            return math::FLT_MAX;
-        }
         return MAX_GAS / distance_to_slow_down;
     }
 

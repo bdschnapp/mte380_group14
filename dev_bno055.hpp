@@ -64,6 +64,11 @@ namespace sensor
 
         math::Vector3f m_theta_previous, m_theta_unwrapped;
 
+        /* NOTE: The offset is required since the IMU compensate for pitch and roll
+           relative to flat ground. We want orientation relative to starting orientation,
+           not relative to flat ground. */
+        math::Vector3f m_offset;
+
         bool m_last_read_successful;
 
         /* Parameters that should not be reconfigured */
@@ -73,6 +78,7 @@ namespace sensor
         static constexpr auto DEVICE_ID = 0xA0;
         // disregards magnetometer data when measuring relative orientation
         static constexpr auto OPERATING_MODE = Adafruit_BNO055::OPERATION_MODE_IMUPLUS;
+        static constexpr uint8_t IMU_BOOTUP_MS = 100U;
     };
 }
 
