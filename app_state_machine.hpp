@@ -42,16 +42,17 @@ namespace sm {
     class StateMachine {
     private:
         state_e state;
-        float distance;
-        float heading;
         MissionControl path;
 
     public:
+        float distance;
+        float heading;
+
         bool init(float &distances_in[PATH_LENGTH]);
 
         bool read_e_stop();
 
-        void run10ms(sensor_data_s sensor_data);
+        state_e run10ms(sensor_data_s sensor_data);
 
         // task to do while in the driving state
         void driving_task();

@@ -12,7 +12,7 @@
 // app
 #include "app_defines.h"
 #include "app_state_machine.hpp"
-#include "scratch/Wifi/app_logger.hpp"
+#include "app_logger.hpp"
 
 // dev
 #include "dev_ultrasonic.hpp"
@@ -22,18 +22,31 @@
 // lib
 #include "lib_math.hpp"
 
-#define SAR_OK 1
-#define SAR_NOT_OK 0
-
 
 namespace main{
+    enum fault_e{
+        SAR_OK,
+        SAR_NOT_OK,
+        SAR_CRITICAL,
+        US_NOT_OK,
+        IMU_NOT_OK,
+        DRIVETRAIN_NOT_OK,
+
+    };
+
     void run10ms();
 
-    bool read_sensor_data();
+    fault_e read_sensor_data();
 
     void app_setup();
 
     void app_loop();
+
+    void driving_task(float heading, float distance);
+
+    void turning_task(float heading, float distance);
+
+    void transition_to_faulted();
 }
 
 #endif //MTE380_GROUP14_APP_MAIN_HPP

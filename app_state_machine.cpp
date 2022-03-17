@@ -7,7 +7,7 @@ namespace sm{
         return SM_OK;
     }
 
-    void StateMachine::run10ms(sensor_data_s sensor_data) {
+    state_e StateMachine::run10ms(sensor_data_s sensor_data) {
         // transition conditions
         if(state != faulted){
             if (state == paused){
@@ -41,23 +41,11 @@ namespace sm{
                 // state is turning, continue to turn
             }
         }
-
-        // state tasks
-        switch (state) {
-            case faulted:
-                faulted_task();
-            case paused:
-                paused_task();
-            case driving:
-                driving_task();
-            case turning:
-                turning_task();
-        }
+        return state;
     }
 
     void StateMachine::transition_to_faulted() {
         state = faulted;
-        // TODO: shutdown all motors and any sensors that have shutdown functions
     }
 
     void StateMachine::faulted_task() {
