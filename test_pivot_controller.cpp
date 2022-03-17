@@ -5,16 +5,16 @@
 namespace test_pivot_controller
 {
     sensor::BNO055 imu;
-    constexpr float Kp = controllers::pivot_controller::get_required_kp(math::deg_to_rad(5));
+    const float Kp = controllers::pivot_controller::get_required_kp(math::deg_to_rad(5));
     controllers::pivot_controller pc(Kp, math::deg_to_rad(1));
 
-    constexpr float target_headings[2] = {math::deg_to_rad(-90), 0.0f};
+    const float target_headings[2] = {math::deg_to_rad(-90), 0.0f};
     uint8_t current_target_heading_index = 0;
 
     void app_setup()
     {
         Serial.begin(9600);
-        if (!bno055_imu.init())
+        if (!imu.init())
         {
             Serial.println("Failed to initialize IMU sensor. ABORTING TEST");
             exit(0);

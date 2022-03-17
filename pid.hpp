@@ -4,10 +4,10 @@
 namespace controllers
 {
     /*
-     * A PI Controller with anti-windup and saturation awareness
+     * A PID Controller with anti-windup and saturation awareness. (It's technically only a PI controller not a PID)
      * See beauregard's blog for decription: http://brettbeauregard.com/blog/2011/04/improving-the-beginner%e2%80%99s-pid-reset-windup/
      */
-    class PI
+    class PID
     {
     private:
         const float m_Kp, m_Ki;
@@ -23,19 +23,19 @@ namespace controllers
          * @param lower_saturation the lower limit of what the PID controller will output
          * @param upper_saturation the upper limit of what the PID controller will output
          */
-        PI(const float Kp, const float Ki, const float lower_saturation, const float upper_saturation);
-        ~PI() = default;
+        PID(const float Kp, const float Ki, const float lower_saturation, const float upper_saturation);
+        ~PID() = default;
 
         /**
-         * Compute the output of the PI controller
+         * Compute the output of the PID controller
          * @param error The difference between your process variable and your feedback
-         * @param delta_time Time difference between consecutive compute calls
-         * @return output of PI controller
+         * @param delta_time Time difference between consecutive compute calls [s]
+         * @return output of PID controller
          */
         float compute(const float error, const float delta_time);
 
         /**
-         * Reset the PI controller. This makes it as if the controller has just been started.
+         * Reset the PID controller. This makes it as if the controller has just been started.
          * Internally, it just resets the error integral
          */
         void reset();

@@ -8,6 +8,9 @@ namespace math
         float x, y, z;
     };
 
+    /* Not actually max float value but big enough. Don't want overflow */
+    constexpr float FLT_MAX = 1.0e10; // younes todo remove this. just return an arbitrarily big number. overflow is dangerous
+
     /**
      * Add two vectors
      * @param a vector 1

@@ -1,5 +1,6 @@
 #ifndef __PIVOT_CONTROLLER_HPP__
 #define __PIVOT_CONTROLLER_HPP__
+#include "pid.hpp"
 
 namespace controllers
 {
@@ -41,7 +42,7 @@ namespace controllers
          * @param gyro_yaw Yaw reading from IMU. +ve is ccw. No wrap around of angles[radians]
          * @return pivot power in range [-100, 100]. +ve pivot power means pivot ccw
          */
-        float compute_pivot_power(const float gyro_yaw) const;
+        float compute_pivot_power(const float gyro_yaw);
 
         /**
          * Resets the controller by reseting the PID controller and the target yaw

@@ -1,6 +1,8 @@
 #ifndef __ANGULAR_CONTROLLER_HPP__
 #define __ANGULAR_CONTROLLER_HPP__
 
+#include "pid.hpp"
+
 namespace controllers
 {
     class angular_controller
@@ -33,9 +35,10 @@ namespace controllers
         /**
          * Computes a steering value given the gyroscope yaw reading
          * @param gyro_yaw gyroscope yaw reading. +ve is ccw. no wrap around of angles [radians]
+         * @param delta_time Time difference between consecutive compute calls [s]
          * @return steering value in the range [-100, 100]. +ve steering is veering to the left
          */
-        float compute_steering(float gyro_yaw) const;
+        float compute_steering(const float gyro_yaw, const float delta_time);
 
         /**
          * Resets the controller by reseting the PID controller and the target heading

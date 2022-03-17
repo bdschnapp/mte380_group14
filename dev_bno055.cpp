@@ -46,27 +46,6 @@ namespace sensor
         return m_theta_unwrapped;
     }
 
-    float BNO055::unwrap_angle(const float angle) const
-    {
-        static float theta_previous = 0.0f;
-        static float theta_unwrapped = 0.0f;
-
-        float theta_diff = angle - theta_previous;
-        if (theta_diff < -180)
-        {
-            theta_diff += 360;
-        }
-        else if (theta_diff >= 180)
-        {
-            theta_diff -= 360;
-        }
-
-        theta_unwrapped += theta_diff;
-        theta_previous = angle;
-
-        return theta_unwrapped;
-    }
-
     void BNO055::run_10ms()
     {
         // getVector issues an I2C transaction

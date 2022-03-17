@@ -3,7 +3,7 @@
 #include "Arduino.h"
 
 /* Front Ultrasonic Pins */
-#define FRONT_ULTRASONIC_TRIG_PIN PB_6
-#define FRONT_ULTRASONIC_ECHO_PIN PB_7
+#define FRONT_ULTRASONIC_TRIG_PIN 2
+#define FRONT_ULTRASONIC_ECHO_PIN 3
 
 #endif

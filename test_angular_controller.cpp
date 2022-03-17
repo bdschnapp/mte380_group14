@@ -12,7 +12,7 @@ namespace test_angular_controller
     void app_setup()
     {
         Serial.begin(9600);
-        if (!bno055_imu.init())
+        if (!imu.init())
         {
             Serial.println("Failed to initialize IMU sensor. ABORTING TEST");
             exit(0);
@@ -26,14 +26,15 @@ namespace test_angular_controller
         imu.run_10ms();
 
         math::Vector3f theta;
+        constexpr float delta_time = 0.01;
         if (imu.get_angular_position(theta))
         {
             const float yaw = theta.x;
-            const float steering = ac.compute_steering(yaw);
+            const float steering = ac.compute_steering(yaw, delta_time);
             constexpr float gas = 100.0f;
             // younes todo need max's code drivetrain.set(gas = gas, steering = steering);
 
-            delay(10);
+            delay((int)(delta_time * 1000));
         }
         else
         {

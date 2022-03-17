@@ -3,10 +3,10 @@
 
 namespace controllers
 {
-    linear_controller::linear_controller(const float Kp, const float error_tolerance) : m_pid(Kp, 0),
+    linear_controller::linear_controller(const float Kp, const float error_tolerance) : m_pid(Kp, 0, MIN_GAS, MAX_GAS),
                                                                                         m_error_tolerance(error_tolerance),
                                                                                         m_target_distance(INVALID_TARGET_DISTANCE),
-                                                                                        m_debounce(0);
+                                                                                        m_debounce(0)
     {
     }
 
@@ -22,7 +22,7 @@ namespace controllers
 
     bool linear_controller::target_distance_reached(const float front_us_reading) const
     {
-        static uin32_t positives = 0;
+        static uint32_t positives = 0;
         if (math::float_compare(front_us_reading, m_target_distance, m_error_tolerance) || front_us_reading < m_target_distance)
         {
             ++positives;
@@ -34,10 +34,11 @@ namespace controllers
         return positives >= m_debounce;
     }
 
-    float linear_controller::compute_gas(const float front_us_reading) const
+    float linear_controller::compute_gas(const float front_us_reading)
     {
         // this will return 0 gas for a -ve m_target_distance
-        return math::clamp(MIN_GAS, MAX_GAS, m_pid.compute(front_us_reading - m_target_distance));
+        // also since this is P controller, time step is not used in compute call
+        return math::clamp(MIN_GAS, MAX_GAS, m_pid.compute(front_us_reading - m_target_distance, 0.0f));
     }
 
     void linear_controller::reset()
@@ -50,7 +51,7 @@ namespace controllers
     {
         if (math::float_compare(distance_to_slow_down, 0.0f) || distance_to_slow_down < 0)
         {
-            return FLT_MAX;
+            return math::FLT_MAX;
         }
         return MAX_GAS / distance_to_slow_down;
     }

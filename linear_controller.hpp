@@ -1,6 +1,9 @@
 #ifndef __LINEAR_CONTROLLER_HPP__
 #define __LINEAR_CONTROLLER_HPP__
 
+#include "pid.hpp"
+#include <Arduino.h>
+
 namespace controllers
 {
     class linear_controller
@@ -49,7 +52,7 @@ namespace controllers
          * @param front_us_reading Distance measured by the front US sensor [meters]
          * @return gas value in the range [0, 100]
          */
-        float compute_gas(const float front_us_reading) const;
+        float compute_gas(const float front_us_reading);
 
         /**
          * Resets the controller by reseting the PID controller and the target distance

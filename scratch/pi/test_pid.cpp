@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "../../pi.hpp"
+#include "../../pid.hpp"
 #include <fstream>
 
 /* Xr is a unit step input that starts at t = 1 */
@@ -25,10 +25,10 @@ int main()
 
     populate_xr(xr);
 
-    /* These are terrible gains but they're good for showing that the PI controller with anti-windup works */
+    /* These are terrible gains but they're good for showing that the PID controller with anti-windup works */
     constexpr float Kp = 3, Ki = 30, min_sat = 0, max_sat = 2;
 
-    controllers::PI controller(Kp, Ki, min_sat, max_sat);
+    controllers::PID controller(Kp, Ki, min_sat, max_sat);
 
     for (uint16_t i = 1; i < SAMPLES; i++)
     {
