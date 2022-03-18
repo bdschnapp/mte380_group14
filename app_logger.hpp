@@ -3,33 +3,65 @@
 
 #include <Arduino.h>
 
-#define DEFAULT_BAUD 9600
-
 namespace debug{
-    enum debug_t{
-        float_t,
-        int_t,
-        string_t
-    };
-
     class Logger {
     public:
-        void init(int baud);
 
+        Logger();
+        ~Logger() = default;
+
+        /**
+         * Plots the data in the ultrasonic front plot in the python client
+         * @param data, data to be plotted
+         */
         void print_ultrasonic_front(float data);
+
+        /**
+         * Plots the data in the ultrasonic side plot in the python client
+         * @param data, data to be plotted
+         */
         void print_ultrasonic_side(float data);
 
+        /**
+         * Plots the data in the tof_t_x plot in the python client
+         * @param data, data to be plotted
+         */
         void print_tof_t_x(float data);
+        /**
+         * Plots the data in the tof_t_y plot in the python client
+         * @param data, data to be plotted
+         */
         void print_tof_t_y(float data);
+        /**
+         * Plots the data in the tof_t_z plot in the python client
+         * @param data, data to be plotted
+         */
         void print_tof_t_z(float data);
 
+        /**
+         * Plots the data in the tof_td_x plot in the python client
+         * @param data, data to be plotted
+         */
         void print_tof_td_x(float data);
+        /**
+         * Plots the data in the tof_td_y plot in the python client
+         * @param data, data to be plotted
+         */
         void print_tof_td_y(float data);
+        /**
+         * Plots the data in the tof_td_z plot in the python client
+         * @param data, data to be plotted
+         */
         void print_tof_td_z(float data);
 
+        /**
+         * default print statement, will print to python client terminal
+         * @param data, data to be printed
+         * type: byte, (u)char, string, (u)int, float, (u)long, (u)short, word
+         */
         template<typename T>
         void println(T data) throw(){
-            Seril1.println(data);
+            Serial1.println(data);
         }
     };
 }

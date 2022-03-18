@@ -62,6 +62,9 @@ def live_plot():
             for j in range(len(sensor_list)):
                 if sensor_list[j] == header:
                     sub_plt[j].scatter(time_now, data)
+        else:
+            # print any data without a header
+            print(header)
 
         # this might break things depending on the speed which Q is filled/emptied
         if Q.empty():

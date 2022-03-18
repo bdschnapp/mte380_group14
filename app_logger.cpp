@@ -1,9 +1,8 @@
 #include "app_logger.hpp"
 
 namespace debug{
-
-    void Logger::init(int baud){
-        Serial1.begin(baud);
+    Logger::Logger() {
+        Serial1.begin(9600);
     }
 
     void Logger::print_ultrasonic_front(float data){
@@ -42,6 +41,4 @@ namespace debug{
         Serial1.println("tdz");
         Serial1.println(data);
     }
-}
-// I have no idea why this extra brace is needed but it wont compile without it
 }
