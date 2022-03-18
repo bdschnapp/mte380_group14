@@ -1,32 +1,32 @@
 #include "drivetrain.hpp"
+#include "lib_math.hpp"
 
-namespace subsystem {
+namespace drivetrain
+{
+	motor_speeds translational_motion_convert(float gas, float steering)
+	{
+		gas = math::clamp(0.0f, 100.0f, gas);
+		steering = math::clamp(-100.0f, 100.0f, steering);
 
-	drivetrain::drivetrain() : m_left_motor_speed(0), m_right_motor_speed(0) {};
+		float left_motor_speed = 0.0f, right_motor_speed = 0.0f;
 
-	bool drivetrain::init(actuator::TB9051FTG motors) {
-		m_motors = motors;
-		m_left_motor_speed = 0;
-		m_right_motor_speed = 0;
-		return m_motors.reset();
+		if (steering >= 0)
+		{
+			left_motor_speed = gas * (100.0f - steering) / 100.0f;
+			right_motor_speed = gas;
+		}
+		else
+		{
+			left_motor_speed = gas;
+			right_motor_speed = gas * (100.0f + steering) / 100.0f;
+		}
+
+		return {left_motor_speed, right_motor_speed};
 	}
 
-	bool drivetrain::reset() {
-		m_motors.reset();
-		return drivetrain::init(m_motors);
+	motor_speeds point_turn_convert(const float turning_power)
+	{
+		return {-turning_power, turning_power};
 	}
 
-	void drivetrain::set_speed(double gas, double steering) {
-		double l_steering = steering < 0 ? 1.0 + steering : 1.0;
-		double r_steering = steering > 0 ? 1.0 - steering : 1.0;
-
-		m_left_motor_speed = -l_steering * gas;
-		m_right_motor_speed = r_steering * gas;
-	}
-
-	void drivetrain::get_motor_speeds(double& left_speed, double& right_speed) {
-		left_speed = m_left_motor_speed;
-		right_speed = m_right_motor_speed;
-	}
-
-} // namespace subsystem
+}
