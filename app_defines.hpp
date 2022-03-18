@@ -3,9 +3,9 @@
 
 
 #define PATH_LENGTH 11
-extern int distances[PATH_LENGTH];
+static constexpr int distances[PATH_LENGTH];
 
-// unit [cm]
+// unit [m]
 // TODO: add path data
 distances = {0,
              0,
@@ -21,7 +21,7 @@ distances = {0,
              0};
 
 // TODO: create actual tolerances
-// unit [cm]
+// unit [m]
 #define DISTANCE_TOLERANCE 1
 #define ANGULAR_TOLERANCE 1
 
