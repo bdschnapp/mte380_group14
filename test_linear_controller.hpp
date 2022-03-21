@@ -13,8 +13,8 @@ Test Setup:
 6. Ensure the robot stops where expected
 
 Note:
-This only tests our linear controller not our angular controller. The linear controller
-does not ensure the robot drives perfectly straight, this is the job of the angular controller.
+This only tests our linear controller not our lateral controller. The linear controller
+does not ensure the robot drives perfectly straight, this is the job of the lateral controller.
 For this reason, the robot might not drive perfectly straight in this test.
 */
 

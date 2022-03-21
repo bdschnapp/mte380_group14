@@ -16,7 +16,7 @@ namespace controllers
 
     public:
         /**
-         * angular_controller constructor
+         * pivot_controller constructor
          * @param Kp Proportional gain for PID controller
          * @param error_tolerance Yaw tolerance to determine if goal distance reached [radians]
          */

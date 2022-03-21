@@ -33,22 +33,22 @@ namespace actuator
 
         /**
          * Set the speed of the right motor
-         * @param speed double from -1 to 1 for percent motor power
+         * @param speed double from -100 to 100 for percent motor power
          * @return[bool] success of setting speed
          */
         bool set_right_motor_speed(double speed);
 
         /**
          * Set the speed of the left motor
-         * @param speed double from -1 to 1 for percent motor power
+         * @param speed double from -100 to 100 for percent motor power
          * @return[bool] success of setting speed
          */
         bool set_left_motor_speed(double speed);
 
         /**
          * Set the speed of the motors
-         * @param l_speed double from -1 to 1 for percent motor power
-         * @param r_speed double from -1 to 1 for percent motor power
+         * @param l_speed double from -100 to 100 for percent motor power
+         * @param r_speed double from -100 to 100 for percent motor power
          * @return[bool] success of setting speed
          */
         bool set_motor_speeds(double l_speed, double r_speed);

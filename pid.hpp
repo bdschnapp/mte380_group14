@@ -5,7 +5,7 @@ namespace controllers
 {
     /*
      * A PID Controller with anti-windup and saturation awareness. (It's technically only a PI controller not a PID)
-     * See beauregard's blog for decription: http://brettbeauregard.com/blog/2011/04/improving-the-beginner%e2%80%99s-pid-reset-windup/
+     * See beauregard's blog for decription of anti-windup: http://brettbeauregard.com/blog/2011/04/improving-the-beginner%e2%80%99s-pid-reset-windup/
      */
     class PID
     {
