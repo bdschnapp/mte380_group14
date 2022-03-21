@@ -1,4 +1,5 @@
 #include "test_dev_ultrasonic.hpp"
+#include "app_defines.hpp"
 
 namespace test_dev_ultrasonic {
 
@@ -10,8 +11,8 @@ namespace test_dev_ultrasonic {
 
     void app_setup() {
         Serial.begin(9600);
-        initConfig.echoPin = 2;
-        initConfig.trigPin = 3;
+        initConfig.echoPin = FRONT_ULTRASONIC_ECHO_PIN;
+        initConfig.trigPin = FRONT_ULTRASONIC_TRIG_PIN;
 
         distance_sensor.init(initConfig);
     }

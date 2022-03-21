@@ -1,6 +1,6 @@
 #include "test_lateral_controller.hpp"
 #include "dev_bno055.hpp"
-#include "robot_pinout.hpp"
+#include "app_defines.hpp"
 #include "dev_ultrasonic.hpp"
 #include "lateral_controller.hpp"
 #include "dev_TB9051FTG.hpp"
@@ -10,6 +10,7 @@ namespace test_lateral_controller
 {
     sensor::BNO055 imu;
     actuator::TB9051FTG motor_driver;
+    sensor::Ultrasonic lat_us;
 
     constexpr float Kp_gyro = 1.0f, Ki_gyro = 1.0f, Kp_lat_us = 1.0f, Ki_lat_us = 1.0f;
     controllers::lateral_controller lat_controller(Kp_gyro, Ki_gyro, Kp_lat_us, Ki_lat_us);
@@ -18,8 +19,6 @@ namespace test_lateral_controller
 
     /* This is a parameter you can change to experiment with different reliance ratios */
     constexpr float GYRO_RELIANCE = 0.5f;
-
-    sensor::Ultrasonic lat_us;
 
     void app_setup()
     {
@@ -42,7 +41,7 @@ namespace test_lateral_controller
             Serial.println("Failed to initialize motor driver. ABORTING TEST");
             exit(0);
         }
-        if (lat_us.init({LAT_ULTRASONIC_TRIG_PIN, LAT_ULTRASONIC_ECHO_PIN}))
+        if (lat_us.init({SIDE_ULTRASONIC_TRIG_PIN, SIDE_ULTRASONIC_ECHO_PIN}))
         {
             Serial.println("Succesfully initialized front ultrasonic sensor");
         }

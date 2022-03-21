@@ -1,15 +1,14 @@
 #include "test_linear_controller.hpp"
 #include "dev_ultrasonic.hpp"
-#include "robot_pinout.hpp"
+#include "app_defines.hpp"
 #include "drivetrain.hpp"
 #include "dev_TB9051FTG.hpp"
 
 namespace test_linear_controller
 {
-    constexpr auto TARGET_DISTANCE = 0.1f;
+    constexpr auto TARGET_DISTANCE = 0.15f;
     const float Kp = controllers::linear_controller::get_required_kp(0.0f);
-    constexpr float linear_error_tolerance = 0.005;
-    controllers::linear_controller lc(Kp, linear_error_tolerance);
+    controllers::linear_controller lc(Kp, DISTANCE_TOLERANCE);
     actuator::TB9051FTG motor_driver;
 
     sensor::Ultrasonic front_us;
@@ -45,7 +44,7 @@ namespace test_linear_controller
         float front_us_distance = -1.0f;
         if (front_us.get_distance(front_us_distance))
         {
-            if (!lc.target_distance_reached(front_us.get_distance(front_us_distance)))
+            if (!lc.target_distance_reached(front_us_distance))
             {
                 const float gas = lc.compute_gas(front_us_distance);
                 constexpr float steering = 0.0f;
