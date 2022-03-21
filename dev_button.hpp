@@ -32,7 +32,7 @@ namespace sensor{
          * returns true if status is ok
          * returns false when a second press is detected. This should transition the robot to critical fault
          */
-        bool get_button_press(bool &button_pressed);
+        bool get_button_press(int &button_pressed);
     };
 }
 

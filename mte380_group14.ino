@@ -1,11 +1,11 @@
 #include "Arduino.h"
 
 /* Uncomment the macro for the application you are looking to test */
-#define NONE
+//#define NONE
 // #define TEST_LIB_MATH
 // #define TEST_DEV_BNO055
 // #define TEST_DEV_ULTRASONIC
-// #define TEST_DEV_BUTTON
+#define TEST_DEV_BUTTON
 
 /* Bring in the appropriate application header file */
 #ifdef NONE

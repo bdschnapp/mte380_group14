@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #include "dev_button.hpp"
 
-#define BUTTON_TEST_PIN 10
+#define BUTTON_TEST_PIN 50
 
 namespace test_dev_button
 {
@@ -15,4 +15,4 @@ namespace test_dev_button
 }
 
 
-#endif //MTE380_GROUP14_TEST_DEV_BUTTON_H
+#endif //MTE380_GROUP14_TEST_DEV_BUTTON_HPP

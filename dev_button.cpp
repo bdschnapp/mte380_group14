@@ -1,11 +1,13 @@
 #include "dev_button.hpp"
 
 namespace sensor{
-    void Button::init(int pin_in) {
-        pin = pin_in;
-        pinMode(pin, INPUT);
+    Button::Button() {
         value = 0;
         prev_value = 0;
+    }
+    void Button::init(int pin_in) {
+        pin = pin_in;
+        pinMode(pin, INPUT_PULLUP);
         return BUTTON_OK;
     }
 
@@ -20,7 +22,7 @@ namespace sensor{
         }
     }
 
-    bool Button::get_button_press(bool &button_pressed) {
+    bool Button::get_button_press(int &button_pressed) {
         button_pressed = 0;
 
         // detect the falling edge of a button press that lasted for more than 40ms

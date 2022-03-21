@@ -3,8 +3,7 @@
 namespace test_dev_button {
 
     sensor::Button button;
-
-    bool button_pressed;
+    int bp;
 
     void app_setup() {
         Serial.begin(9600);
@@ -13,17 +12,18 @@ namespace test_dev_button {
     }
 
     void app_loop() {
+        bp = 0;
         button.run10ms();
 
-        if (!button.get_button_press(&button_pressed)){
+        if (!button.get_button_press(bp)){
             while(1){
                 Serial.println("Faulted");
                 delay(1000);
             }
         }
 
-        if(button_pressed){
-            Serial.println("Button Pressed")
+        if(bp){
+            Serial.println("Button Pressed");
         }
 
         delay(10);
