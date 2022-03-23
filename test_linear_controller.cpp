@@ -6,8 +6,8 @@
 
 namespace test_linear_controller
 {
-    constexpr auto TARGET_DISTANCE = 0.15f;
-    const float Kp = controllers::linear_controller::get_required_kp(0.0f);
+    constexpr auto TARGET_DISTANCE = 0.21f;
+    const float Kp = 350;
     controllers::linear_controller lc(Kp, DISTANCE_TOLERANCE);
     actuator::TB9051FTG motor_driver;
 
@@ -36,6 +36,7 @@ namespace test_linear_controller
             Serial.println("Failed to initialize motor driver. ABORTING TEST");
             exit(0);
         }
+        delay(3000);
     }
 
     void app_loop()
@@ -57,11 +58,15 @@ namespace test_linear_controller
             }
             else
             {
-                Serial.println("The robot has reached the target distance. Test is done. Robot will now hang. Restart robot to restart test");
+                Serial.print("The robot has reached the target distance. Test is done. The final front ultrasonic reasing is: "); 
+                Serial.println(front_us_distance);
+                Serial.println("Robot will now hang. Restart robot to restart test");
                 if (!motor_driver.disable_motors())
                 {
                     Serial.println("Failed to disable motors");
                 }
+                /* Allow time for the prints to be sent */
+                delay(100);
                 exit(0);
             }
         }

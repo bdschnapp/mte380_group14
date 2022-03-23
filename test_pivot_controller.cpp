@@ -3,12 +3,13 @@
 #include "dev_bno055.hpp"
 #include "drivetrain.hpp"
 #include "dev_TB9051FTG.hpp"
+#include "app_defines.hpp"
 
 namespace test_pivot_controller
 {
     sensor::BNO055 imu;
-    const float Kp = controllers::pivot_controller::get_required_kp(math::deg_to_rad(5));
-    controllers::pivot_controller pc(Kp, math::deg_to_rad(1));
+    const float Kp = 100;
+    controllers::pivot_controller pc(Kp, ANGULAR_TOLERANCE);
     actuator::TB9051FTG motor_driver;
 
     const float target_headings[2] = {math::deg_to_rad(-90), 0.0f};
@@ -24,6 +25,8 @@ namespace test_pivot_controller
         else
         {
             Serial.println("Failed to initialize IMU sensor. ABORTING TEST");
+            // Allow prints to propagate
+            delay(100);
             exit(0);
         }
         if (motor_driver.init())
@@ -33,8 +36,11 @@ namespace test_pivot_controller
         else
         {
             Serial.println("Failed to initialize motor driver. ABORTING TEST");
+            // Allow prints to propagate
+            delay(100);
             exit(0);
         }
+        delay(3000);
     }
 
     void app_loop()
@@ -45,7 +51,8 @@ namespace test_pivot_controller
         math::Vector3f theta;
         if (imu.get_angular_position(theta))
         {
-            const float yaw = theta.x;
+            theta = math::transform_imu_data_to_base_frame(theta);
+            const float yaw = theta.z;
             if (!pc.target_yaw_reached(yaw))
             {
                 const float pivot_power = pc.compute_pivot_power(yaw);
@@ -57,6 +64,10 @@ namespace test_pivot_controller
             }
             else
             {
+                Serial.print("Target yaw reached. The current robot yaw is: ");
+                Serial.println(yaw);
+                Serial.println("Robot will wait for 1 second and then proceed to the next target yaw");
+                delay(1000);
                 ++current_target_heading_index;
                 if (current_target_heading_index == 2)
                 {
@@ -65,6 +76,8 @@ namespace test_pivot_controller
                     {
                         Serial.println("Failed to disable motors");
                     }
+                    // Allow prints to propagate
+                    delay(100);
                     exit(0);
                 }
             }

@@ -9,7 +9,17 @@ namespace test_dev_bno055
     void app_setup()
     {
         Serial.begin(9600);
-        bno055_imu.init();
+        if (bno055_imu.init())
+        {
+            Serial.println("Successfully initialized imu");
+        }
+        else
+        {
+            Serial.println("Failed to initialize IMU sensor. ABORTING TEST");
+            // Allow prints to propagate
+            delay(100);
+            exit(0);
+        }
     }
 
     void app_loop()

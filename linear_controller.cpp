@@ -31,7 +31,7 @@ namespace controllers
         {
             positives = 0;
         }
-        return positives >= m_debounce;
+        return positives > m_debounce;
     }
 
     float linear_controller::compute_gas(const float front_us_reading)

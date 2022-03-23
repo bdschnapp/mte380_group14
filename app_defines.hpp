@@ -15,8 +15,8 @@ constexpr float distances[PATH_LENGTH] = {0,
                                           0};
 
 // TODO: create actual tolerances
-#define DISTANCE_TOLERANCE 0.02 // [m]
-#define ANGULAR_TOLERANCE 0     // [rad]
+#define DISTANCE_TOLERANCE 0.02f       // [m]
+#define ANGULAR_TOLERANCE 0.05236f     // [rad] equivalent to 3 deg
 
 // TODO: add button pin
 #define BUTTON_PIN
@@ -26,7 +26,7 @@ constexpr float distances[PATH_LENGTH] = {0,
 #define SIDE_ULTRASONIC_ECHO_PIN 45
 
 /* Front Ultrasonic Pins */
-#define FRONT_ULTRASONIC_TRIG_PIN 42
-#define FRONT_ULTRASONIC_ECHO_PIN 43
+#define FRONT_ULTRASONIC_TRIG_PIN 43
+#define FRONT_ULTRASONIC_ECHO_PIN 42
 
 #endif // MTE380_GROUP14_APP_DEFINES_HPP

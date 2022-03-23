@@ -30,10 +30,10 @@ using namespace test_dev_ultrasonic;
 using namespace test_linear_controller;
 #elif defined(TEST_LATERAL_CONTROLLER)
 #include "test_lateral_controller.hpp"
-using namespace test_lateral_controller
+using namespace test_lateral_controller;
 #elif defined(TEST_PIVOT_CONTROLLER)
 #include "test_pivot_controller.hpp"
-using namespace test_pivot_controller
+using namespace test_pivot_controller;
 #elif defined(TEST_DEV_TB9051FTG)
 #include "test_dev_TB9051FTG.hpp"
 using namespace test_dev_TB9051FTG;
