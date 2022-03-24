@@ -22,8 +22,8 @@ constexpr float distances[PATH_LENGTH] = {0,
 #define BUTTON_PIN
 
 /* Side Ultrasonic Pins */
-#define SIDE_ULTRASONIC_TRIG_PIN 44
-#define SIDE_ULTRASONIC_ECHO_PIN 45
+#define SIDE_ULTRASONIC_TRIG_PIN 45
+#define SIDE_ULTRASONIC_ECHO_PIN 44
 
 /* Front Ultrasonic Pins */
 #define FRONT_ULTRASONIC_TRIG_PIN 43
