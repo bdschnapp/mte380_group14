@@ -1,55 +1,75 @@
 #include "test_drivetrain.hpp"
+#include "drivetrain.hpp"
+#include <Arduino.h>
+#include "lib_math.hpp"
 
-namespace test_drivetrain {
+namespace test_drivetrain
+{
+    bool test_translation_motion_convert()
+    {
+        constexpr auto TEST_CASES = 7U;
+        constexpr float gas_values[TEST_CASES] = {0, 100, 50, 100, 100, 100, 100};
+        constexpr float steering_values[TEST_CASES] = {0, 0, 0, 50, -50, 100, -100};
+        constexpr float expected_left_motor_speed[TEST_CASES] = {0, 100, 50, 50, 100, 0, 100};
+        constexpr float expected_right_motor_speed[TEST_CASES] = {0, 100, 50, 100, 50, 100, 0};
 
-	actuator::TB9051FTG motors;
-	subsystem::drivetrain m_drivetrain;
-	int i;
-	double left;
-	double right;
+        for (uint8_t i = 0; i < TEST_CASES; ++i)
+        {
+            const auto motor_speeds = drivetrain::translational_motion_convert(gas_values[i], steering_values[i]);
+            if (!math::float_compare(motor_speeds.left_motor_speed, expected_left_motor_speed[i]) ||
+                !math::float_compare(motor_speeds.right_motor_speed, expected_right_motor_speed[i]))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	void app_setup() {
-		motors.init();
-		Serial.begin(9600);
-		m_drivetrain.init(motors);
-		i = 0;
-		//initialization delay to let user position robot after connecting power
-		delay(10000);
+    bool test_point_turn_convert()
+    {
+        constexpr auto TEST_CASES = 5U;
+        constexpr float steering_power_values[TEST_CASES] = {0, 100, -100, 50, -50};
+        constexpr float expected_left_motor_speed[TEST_CASES] = {0, -100, 100, -50, 50};
+        constexpr float expected_right_motor_speed[TEST_CASES] = {0, 100, -100, 50, -50};
 
-	}
+        for (uint8_t i = 0; i < TEST_CASES; ++i)
+        {
+            const auto motor_speeds = drivetrain::point_turn_convert(steering_power_values[i]);
+            if (!math::float_compare(motor_speeds.left_motor_speed, expected_left_motor_speed[i]) ||
+                !math::float_compare(motor_speeds.right_motor_speed, expected_right_motor_speed[i]))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	void app_loop() {
-		m_drivetrain.get_motor_speeds(left, right);
-		Serial.print("left: ");
-		Serial.print(left);
-		Serial.print("Right: ");
-		Serial.print(right);
-		Serial.print("\n");
+    void app_setup()
+    {
+        Serial.begin(9600);
+    }
 
-		if (i < 50) {
-			m_drivetrain.set_speed(0.5, 0);
-			motors.set_motor_speeds(left, right);
-		}
-		else if (i < 100) {
-			m_drivetrain.set_speed(0.5, 0.5);
-			motors.set_motor_speeds(left, right);
-		}
-		else if (i < 150) {
-			m_drivetrain.set_speed(0.5, -0.5);
-			motors.set_motor_speeds(left, right);
-		}
-		else if (i < 200) {
-			m_drivetrain.set_speed(-0.5, 0);			
-			motors.set_motor_speeds(left, right);
-		}
-		else if (i < 300) {
-			m_drivetrain.set_speed(0, 0);
-			motors.set_motor_speeds(left, right);
-		}
-		else if (i > 500) {
-			i = 0;
-		}
-		i++;
-		delay(10);
-	}
+    void app_loop()
+    {
+        if (test_translation_motion_convert())
+        {
+            Serial.println("INFO: test_translation_motion_convert PASSED");
+        }
+        else
+        {
+            Serial.println("ERROR: test_translation_motion_convert FAILED");
+        }
+
+        if (test_point_turn_convert())
+        {
+            Serial.println("INFO: test_point_turn_convert PASSED");
+        }
+        else
+        {
+            Serial.println("ERROR: test_point_turn_convert FAILED");
+        }
+
+        delay(5000);
+    }
+
 }

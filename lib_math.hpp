@@ -27,7 +27,7 @@ namespace math
     /**
      * Converts vectors from imu frame to base link frame
      * This assumes the imu is rotated 90 deg ccw about its z-axis relative to the base link frame
-     * @param v some vector in the imu frame 
+     * @param v some vector in the imu frame
      * @return equivalent vector in the base link frame
      */
     math::Vector3f transform_imu_data_to_base_frame(const math::Vector3f &theta);

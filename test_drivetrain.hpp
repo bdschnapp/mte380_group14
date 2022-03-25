@@ -1,20 +1,37 @@
-#ifndef MTE380_GROUP14_TEST_DRIVETRAIN_H
-#define MTE380_GROUP14_TEST_DRIVETRAIN_H
+#ifndef __TEST_DRIVETRAIN_HPP__
+#define __TEST_DRIVETRAIN_HPP__
 
-#include <Arduino.h>
-#include "drivetrain.hpp"
+/*
+About:
+This test involves no IO. It's just math.
+The test checks the output of the drivetrain functions for a couple inputs.
+The following table shows the expected values
+
+translational_motion_convert test cases:
+Gas | Steering | left_motor_speed | right_motor_speed
+0   |   0      |        0         |         0
+100 |   0      |        100       |         100
+50  |   0      |        50        |         50
+100 |   50     |        50        |         100
+100 |   -50    |        100       |         50
+100 |   100    |        0         |         100
+100 |   -100   |        100       |         0
+
+point_turn_convert test cases:
+Steering Power  | left_motor_speed  | right_motor_speed
+0               |       0           |       0
+100             |       -100        |       100
+-100            |       100         |       -100
+50              |       -50         |       50
+-50             |       50          |       -50
+
+*/
 
 namespace test_drivetrain
 {
-    /*
-        This test case involves driving the robot, without sensor feedback
-        to demonstrate the drivetrain class. Ensure motors are connected
-        and robot is placed on the ground. Will drive forwards, turn left, 
-        turn right and drive backwards before pausing then repeating.
-    */
     void app_setup();
 
     void app_loop();
 }
 
-#endif //MTE380_GROUP14_TEST_DRIVETRAIN_H
+#endif

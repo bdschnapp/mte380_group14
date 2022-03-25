@@ -95,6 +95,7 @@ namespace test_lib_math
         {
             Serial.println("ERROR: math::clamp unit test FAILED");
         }
+
         if (test_vector_addition())
         {
             Serial.println("INFO: vector addition unit test PASSED");
