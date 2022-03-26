@@ -7,8 +7,9 @@
 namespace test_linear_controller
 {
     constexpr auto TARGET_DISTANCE = 0.21f;
-    const float Kp = 350;
-    controllers::linear_controller lc(Kp, DISTANCE_TOLERANCE);
+    const float Kp = 100;
+    const float Ki = 3;
+    controllers::linear_controller lc(Kp, Ki, DISTANCE_TOLERANCE);
     actuator::TB9051FTG motor_driver;
 
     sensor::Ultrasonic front_us;

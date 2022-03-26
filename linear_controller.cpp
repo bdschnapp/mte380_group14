@@ -3,10 +3,11 @@
 
 namespace controllers
 {
-    linear_controller::linear_controller(const float Kp, const float error_tolerance) : m_pid(Kp, 0, MIN_GAS, MAX_GAS),
-                                                                                        m_error_tolerance(error_tolerance),
-                                                                                        m_target_distance(INVALID_TARGET_DISTANCE),
-                                                                                        m_debounce(0)
+    linear_controller::linear_controller(const float Kp, const float Ki, const float error_tolerance) : 
+                                         m_pid(Kp, Ki, MIN_GAS, MAX_GAS),
+                                         m_error_tolerance(error_tolerance),
+                                         m_target_distance(INVALID_TARGET_DISTANCE),
+                                         m_debounce(0)
     {
     }
 

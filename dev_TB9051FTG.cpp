@@ -1,4 +1,5 @@
 #include "dev_TB9051FTG.hpp"
+#include "lib_math.hpp"
 
 namespace actuator {
 
@@ -25,21 +26,21 @@ namespace actuator {
 	bool TB9051FTG::set_left_motor_speed(double speed) {
 		//pololu driver takes an int value from 400 to -400
 		//the left motor is reversed
-		m_shield.setM1Speed(static_cast<int> (-speed * 4) );
+		m_shield.setM1Speed(remap_speed(-speed) );
 		return !get_fault();
 	}
 
 	bool TB9051FTG::set_right_motor_speed(double speed) {
 		//pololu driver takes an int value from 400 to -400
-		m_shield.setM2Speed(static_cast<int> (speed * 4) );
+		m_shield.setM2Speed(remap_speed(speed) );
 		return !get_fault();
 	}
 
 	bool TB9051FTG::set_motor_speeds(double l_speed, double r_speed) {
 		//pololu driver takes an int value from 400 to -400
 		//the left motor is reversed
-		m_shield.setSpeeds(static_cast<int> (-l_speed * 4), 
-						   static_cast<int> (r_speed * 4));
+		m_shield.setSpeeds(remap_speed(-l_speed), 
+						   remap_speed(r_speed));
 		return !get_fault();
 	}
 
@@ -50,6 +51,15 @@ namespace actuator {
 
 	bool TB9051FTG::get_fault() {
 		return m_shield.getM1Fault() || m_shield.getM2Fault();
+	}
+
+	int TB9051FTG::remap_speed(double speed){
+		bool is_negative = (speed < 0);
+		int remap = static_cast<int> (math::remap(0, 100, abs(speed), 48, 400));
+		if(is_negative){
+			remap = remap * -1;
+		}
+		return remap;
 	}
 
 } // namespace actuator
