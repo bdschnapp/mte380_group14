@@ -24,7 +24,7 @@ namespace controllers
          * @param Kp Proportional gain for PID controller
          * @param error_tolerance Linear distance tolerance to determine if goal distance reached [meters]
          */
-        linear_controller(const float Kp, const float error_tolerance);
+        linear_controller(const float Kp, const float Ki, const float error_tolerance);
 
         ~linear_controller() = default;
 

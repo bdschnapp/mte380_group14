@@ -68,6 +68,13 @@ namespace actuator
          */
         bool get_fault();
 
+        /**
+         * Helper function to convert input speed to a usable value for motor
+         * @param speed a value from -100 to 100 of the input speed
+         * @return an integer from -400 to 400, ignoring the motor's deadzone
+         */
+        int remap_speed(double speed);
+
     };
 }
 

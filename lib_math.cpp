@@ -53,4 +53,17 @@ namespace math
     {
         return min(max(lower_bound, value), upper_bound);
     }
+
+    float lerp(const float start, const float end, const float alpha){
+        return start * (1.0 - alpha) + end * alpha;
+    }
+
+    float unlerp(const float start, const float end, const float value){
+        return (value - start) / (end - start);
+    }
+
+    float remap(const float old_start, const float old_end, const float old_value,
+                const float new_start, const float new_end){
+        return lerp(new_start, new_end, unlerp(old_start, old_end, old_value));
+    }
 }
