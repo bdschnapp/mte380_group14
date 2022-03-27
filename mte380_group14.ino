@@ -10,6 +10,7 @@
 // #define TEST_PIVOT_CONTROLLER
 // #define TEST_DEV_TB9051FTG
 // #define TEST_DRIVETRAIN
+// #define TEST_TOP_SPEED
 
 /* Bring in the appropriate application header file */
 #ifdef NONE
@@ -40,6 +41,9 @@ using namespace test_dev_TB9051FTG;
 #elif defined(TEST_DRIVETRAIN)
 #include "test_drivetrain.hpp"
 using namespace test_drivetrain;
+#elif defined(TEST_TOP_SPEED)
+#include "test_top_speed.hpp"
+using namespace test_top_speed;
 #else
 /* Should never get here. If it does, you might be missing a condition */
 static_assert(false);
