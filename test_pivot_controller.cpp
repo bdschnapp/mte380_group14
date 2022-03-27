@@ -12,8 +12,8 @@ namespace test_pivot_controller
     controllers::pivot_controller pc(Kp, ANGULAR_TOLERANCE);
     actuator::TB9051FTG motor_driver;
 
-    const float target_headings[2] = {math::deg_to_rad(-90), 0.0f};
-    uint8_t current_target_heading_index = 0;
+    const float target_yaw = math::deg_to_rad(-90);
+    constexpr uint8_t debounce = 5;
 
     void app_setup()
     {
@@ -40,13 +40,15 @@ namespace test_pivot_controller
             delay(100);
             exit(0);
         }
+        pc.set_debounce(debounce);
+        pc.set_target_yaw(target_yaw);
+
         delay(3000);
     }
 
     void app_loop()
     {
         imu.run_10ms();
-        pc.set_target_yaw(target_headings[current_target_heading_index]);
 
         math::Vector3f theta;
         if (imu.get_angular_position(theta))
@@ -65,21 +67,15 @@ namespace test_pivot_controller
             else
             {
                 Serial.print("Target yaw reached. The current robot yaw is: ");
-                Serial.println(yaw);
-                Serial.println("Robot will wait for 1 second and then proceed to the next target yaw");
-                delay(1000);
-                ++current_target_heading_index;
-                if (current_target_heading_index == 2)
+                Serial.println(math::rad_to_deg(yaw));
+                Serial.println("Pivot test done. Robot will hang forever. Restart robot to restart test");
+                if (!motor_driver.disable_motors())
                 {
-                    Serial.println("Pivot test done. Robot will hang forever. Restart robot to restart test");
-                    if (!motor_driver.disable_motors())
-                    {
-                        Serial.println("Failed to disable motors");
-                    }
-                    // Allow prints to propagate
-                    delay(100);
-                    exit(0);
+                    Serial.println("Failed to disable motors");
                 }
+                // Allow prints to propagate
+                delay(100);
+                exit(0);
             }
         }
         else

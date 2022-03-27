@@ -13,6 +13,7 @@ namespace controllers
         const float m_error_tolerance;
         float m_target_distance;
         uint8_t m_debounce;
+        mutable uint8_t m_positives;
 
         static constexpr auto MIN_GAS = 0;
         static constexpr auto MAX_GAS = 100;
