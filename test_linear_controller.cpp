@@ -7,7 +7,7 @@
 namespace test_linear_controller
 {
     constexpr auto TARGET_DISTANCE = 0.21f;
-    const float Kp = 100;
+    const float Kp = 150;
     const float Ki = 3;
     controllers::linear_controller lc(Kp, Ki, DISTANCE_TOLERANCE);
     actuator::TB9051FTG motor_driver;
