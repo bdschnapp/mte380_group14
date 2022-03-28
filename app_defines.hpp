@@ -19,7 +19,7 @@ constexpr float distances[PATH_LENGTH] = {0,
 #define ANGULAR_TOLERANCE 0.05236f     // [rad] equivalent to 3 deg
 
 // TODO: add button pin
-#define BUTTON_PIN
+#define BUTTON_PIN 50
 
 /* Side Ultrasonic Pins */
 #define SIDE_ULTRASONIC_TRIG_PIN 45

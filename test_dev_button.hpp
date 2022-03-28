@@ -4,8 +4,8 @@
 
 #include <Arduino.h>
 #include "dev_button.hpp"
+#include "app_defines.hpp"
 
-#define BUTTON_TEST_PIN 50
 
 namespace test_dev_button
 {

@@ -8,7 +8,7 @@ namespace test_dev_button {
     void app_setup() {
         Serial.begin(9600);
 
-        button.init(BUTTON_TEST_PIN);
+        button.init(BUTTON_PIN);
     }
 
     void app_loop() {
