@@ -5,10 +5,22 @@
 
 namespace debug{
     class Logger {
+    private:
+        bool muted;
     public:
 
         Logger();
         ~Logger() = default;
+
+        /**
+         * Sets private variable muted to 1 which suppresses serial print calls
+         */
+        void mute();
+
+        /**
+         * Sets private variable muted to 0 which un-suppresses serial print calls
+         */
+        void unmute();
 
         /**
          * Plots the data in the ultrasonic front plot in the python client
