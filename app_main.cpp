@@ -21,35 +21,35 @@ namespace main
 
     controllers::lateral_controller lat_controller(Kp_gyro, Ki_gyro, Kp_lat_us, Ki_lat_us);
     controllers::linear_controller lin_controller(linear_Kp, linear_Ki, DISTANCE_TOLERANCE);
-    controllers::pivot_controller piv_controller(Kp, ANGULAR_TOLERANCE);
+    controllers::pivot_controller piv_controller(pivot_Kp, ANGULAR_TOLERANCE);
 
     debug::Logger logger;
 
     long time_us;
     float delta_time;
 
-    void main::run10ms(){
+    void run10ms(){
         e_stop.run10ms();
         UltrasonicSide.run10ms();
         UltrasonicFront.run10ms();
         bno055_imu.run_10ms();
     }
 
-    fault_e main::read_sensor_data(){
-        if(!e_stop.get_button_press(&sensor_data.button))
+    fault_e read_sensor_data(){
+        if(!e_stop.get_button_press(sensor_data.button))
             return SAR_CRITICAL;
 
         fault_e fault = SAR_OK;
-         if(!UltrasonicFront.get_distance(&sensor_data.ultrasonic_front))
+         if(!UltrasonicFront.get_distance(sensor_data.ultrasonic_front))
              fault = US_NOT_OK;
 
-         if(!UltrasonicSide.get_distance(&sensor_data.ultrasonic_side))
+         if(!UltrasonicSide.get_distance(sensor_data.ultrasonic_side))
              fault = US_NOT_OK;
 
-         if(!bno055_imu.get_angular_position(&sensor_data.imu_theta))
+         if(!bno055_imu.get_angular_position(sensor_data.imu_theta))
              fault = IMU_NOT_OK;
 
-         if(!bno055_imu.get_angular_velocity(&sensor_data.imu_theta_dot))
+         if(!bno055_imu.get_angular_velocity(sensor_data.imu_theta_dot))
              fault = IMU_NOT_OK;
 
          // TODO: Sensor debounce/filtering
@@ -69,7 +69,7 @@ namespace main
          return fault;
     }
 
-    void main::driving_task(float heading, float distance) {
+    fault_e driving_task(float heading, float distance) {
         /* linear controller computes gas */
         lin_controller.set_target_distance(distance);
         const float gas = lin_controller.compute_gas(sensor_data_debounced.ultrasonic_front);
@@ -90,7 +90,7 @@ namespace main
         }
     }
 
-    fault_e main::turning_task(float heading) {
+    fault_e turning_task(float heading) {
         piv_controller.set_target_yaw(heading);
 
         sensor_data.imu_theta = math::transform_imu_data_to_base_frame(sensor_data.imu_theta);
@@ -106,7 +106,7 @@ namespace main
         return SAR_OK;
     }
 
-    void main::transition_to_faulted(){
+    void transition_to_faulted(){
         stateMachine.transition_to_faulted();
         motor.set_motor_speeds(0, 0);
         motor.disable_motors();
@@ -124,11 +124,11 @@ namespace main
         UltrasonicFront.init(ultrasonicFrontInitConfig);
         UltrasonicSide.init(ultrasonicSideInitConfig);
 
-        bno055_imu.init()
+        bno055_imu.init();
 
         e_stop.init(BUTTON_PIN);
 
-        stateMachine.init(&distances);
+        stateMachine.init();
 
         motor.init();
     }

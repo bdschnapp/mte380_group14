@@ -2,8 +2,6 @@
 #define MTE380_GROUP14_APP_MAIN_HPP
 
 #include <Arduino.h>
-#include <SoftwareSerial.h>
-#include <string>
 
 // app
 #include "app_defines.hpp"

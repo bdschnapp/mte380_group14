@@ -1,6 +1,7 @@
 #ifndef MTE380_GROUP14_STATEMACHINE_HPP
 #define MTE380_GROUP14_STATEMACHINE_HPP
 
+#include <Arduino.h>
 #include "lib_math.hpp"
 #include "app_defines.hpp"
 
@@ -33,7 +34,7 @@ namespace sm {
         MissionControl();
         ~MissionControl() = default;
 
-        void init(float (&input_array)[PATH_LENGTH]);
+        void init();
 
         float get_next_distance();
 
@@ -45,10 +46,13 @@ namespace sm {
         MissionControl path;
 
     public:
+        StateMachine();
+        ~StateMachine() = default;
+    
         float distance;
         float heading;
 
-        bool init(float &distances_in[PATH_LENGTH]);
+        bool init();
 
         // main function to calculate the state
         state_e run10ms(sensor_data_s sensor_data);

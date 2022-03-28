@@ -1,8 +1,8 @@
 #include "app_state_machine.hpp"
 namespace sm{
-    bool StateMachine::init(float &distances_in[PATH_LENGTH]) {
+    bool StateMachine::init() {
         state = paused;
-        path.init(&distances_in);
+        path.init();
 
         return SM_OK;
     }
@@ -73,9 +73,12 @@ namespace sm{
         distance = path.get_next_distance();
     }
 
-    void MissionControl::init(float (&input_array)[PATH_LENGTH]) {
+    StateMachine::StateMachine(){}
+    MissionControl::MissionControl(){}
+
+    void MissionControl::init() {
         for(int i = 0; i < PATH_LENGTH; i++){
-            distances_internal[i] = input_array[i];
+            distances_internal[i] = distances[i];
         }
         index = 0;
     }
