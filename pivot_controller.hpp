@@ -1,6 +1,7 @@
 #ifndef __PIVOT_CONTROLLER_HPP__
 #define __PIVOT_CONTROLLER_HPP__
 #include "pid.hpp"
+#include <Arduino.h>
 
 namespace controllers
 {
@@ -10,6 +11,8 @@ namespace controllers
         PID m_pid;
         const float m_error_tolerance;
         float m_target_heading;
+        uint8_t m_debounce;
+        mutable uint8_t m_positives;
 
         static constexpr auto MIN_PIVOT_POWER = -100;
         static constexpr auto MAX_PIVOT_POWER = 100;
@@ -29,6 +32,12 @@ namespace controllers
          * @param target_yaw The target yaw we want to achieve at the end of the pivot maneuver [radians]
          */
         void set_target_yaw(const float target_yaw);
+
+        /**
+         * Set the minimum number of positives before target is considered reached
+         * @param debounce Number of positives before target is considered reached
+         */
+        void set_debounce(const uint8_t debounce);
 
         /**
          * Returns whether or not the robot has reached the target yaw (+- tolerance specified in constructor)

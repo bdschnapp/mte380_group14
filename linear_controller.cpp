@@ -3,11 +3,11 @@
 
 namespace controllers
 {
-    linear_controller::linear_controller(const float Kp, const float Ki, const float error_tolerance) : 
-                                         m_pid(Kp, Ki, MIN_GAS, MAX_GAS),
-                                         m_error_tolerance(error_tolerance),
-                                         m_target_distance(INVALID_TARGET_DISTANCE),
-                                         m_debounce(0)
+    linear_controller::linear_controller(const float Kp, const float Ki, const float error_tolerance) : m_pid(Kp, Ki, MIN_GAS, MAX_GAS),
+                                                                                                        m_error_tolerance(error_tolerance),
+                                                                                                        m_target_distance(INVALID_TARGET_DISTANCE),
+                                                                                                        m_debounce(0),
+                                                                                                        m_positives(0)
     {
     }
 
@@ -23,16 +23,15 @@ namespace controllers
 
     bool linear_controller::target_distance_reached(const float front_us_reading) const
     {
-        static uint32_t positives = 0;
         if (math::float_compare(front_us_reading, m_target_distance, m_error_tolerance) || front_us_reading < m_target_distance)
         {
-            ++positives;
+            ++m_positives;
         }
         else
         {
-            positives = 0;
+            m_positives = 0;
         }
-        return positives > m_debounce;
+        return m_positives > m_debounce;
     }
 
     float linear_controller::compute_gas(const float front_us_reading)
@@ -46,6 +45,7 @@ namespace controllers
     {
         m_pid.reset();
         m_target_distance = INVALID_TARGET_DISTANCE;
+        m_positives = 0;
     }
 
     float linear_controller::get_required_kp(const float distance_to_slow_down)
