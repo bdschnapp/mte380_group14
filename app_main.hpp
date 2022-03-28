@@ -1,7 +1,3 @@
-//
-// Created by User on 2/22/2022.
-//
-
 #ifndef MTE380_GROUP14_APP_MAIN_HPP
 #define MTE380_GROUP14_APP_MAIN_HPP
 
@@ -10,7 +6,7 @@
 #include <string>
 
 // app
-#include "app_defines.h"
+#include "app_defines.hpp"
 #include "app_state_machine.hpp"
 #include "app_logger.hpp"
 
@@ -18,10 +14,16 @@
 #include "dev_ultrasonic.hpp"
 #include "dev_bno055.hpp"
 #include "dev_button.hpp"
+#include "dev_TB9051FTG.hpp"
 
 // lib
 #include "lib_math.hpp"
 
+// controllers
+#include "lateral_controller.hpp"
+#include "linear_controller.hpp"
+#include "pivot_controller.hpp"
+#include "drivetrain.hpp"
 
 namespace main{
     enum fault_e{
@@ -31,6 +33,7 @@ namespace main{
         US_NOT_OK,
         IMU_NOT_OK,
         DRIVETRAIN_NOT_OK,
+        MOTOR_CRITICAL
 
     };
 
@@ -42,9 +45,9 @@ namespace main{
 
     void app_loop();
 
-    void driving_task(float heading, float distance);
+    fault_e driving_task(float heading, float distance);
 
-    void turning_task(float heading, float distance);
+    fault_e turning_task(float heading);
 
     void transition_to_faulted();
 }

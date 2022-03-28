@@ -2,7 +2,7 @@
 #define MTE380_GROUP14_STATEMACHINE_HPP
 
 #include "lib_math.hpp"
-#include "app_defines.h"
+#include "app_defines.hpp"
 
 #define SM_OK 1
 #define SM_NOT_OK 0
@@ -19,7 +19,7 @@ namespace sm {
     struct sensor_data_s {
         float ultrasonic_front;
         float ultrasonic_side;
-        bool button;
+        int button;
         math::Vector3f imu_theta;
         math::Vector3f imu_theta_dot;
     };
@@ -50,18 +50,11 @@ namespace sm {
 
         bool init(float &distances_in[PATH_LENGTH]);
 
-        bool read_e_stop();
-
+        // main function to calculate the state
         state_e run10ms(sensor_data_s sensor_data);
-
-        // task to do while in the driving state
-        void driving_task();
 
         // function to transition from driving to turning
         void driving_transition();
-
-        // task to do while in the turning state
-        void turning_task();
 
         // function to transition from turning to driving
         void turning_transition();

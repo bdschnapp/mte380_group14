@@ -63,17 +63,9 @@ namespace sm{
         distance = path.get_next_distance();
     }
 
-    void StateMachine::driving_task() {
-        // TODO: implement driving task
-    }
-
     void StateMachine::driving_transition() {
         state = turning;
-        heading += 90;
-    }
-
-    void StateMachine::turning_task() {
-        // TODO: implement turning task
+        heading -= 90;
     }
 
     void StateMachine::turning_transition() {
@@ -84,8 +76,8 @@ namespace sm{
     void MissionControl::init(float (&input_array)[PATH_LENGTH]) {
         for(int i = 0; i < PATH_LENGTH; i++){
             distances_internal[i] = input_array[i];
-            index = 0;
         }
+        index = 0;
     }
 
     float MissionControl::get_next_distance() {
