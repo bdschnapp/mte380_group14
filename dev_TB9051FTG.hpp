@@ -33,17 +33,25 @@ namespace actuator
 
         /**
          * Set the speed of the right motor
-         * @param speed double from -1 to 1 for percent motor power
+         * @param speed double from -100 to 100 for percent motor power
          * @return[bool] success of setting speed
          */
         bool set_right_motor_speed(double speed);
 
         /**
          * Set the speed of the left motor
-         * @param speed double from -1 to 1 for percent motor power
+         * @param speed double from -100 to 100 for percent motor power
          * @return[bool] success of setting speed
          */
         bool set_left_motor_speed(double speed);
+
+        /**
+         * Set the speed of the motors
+         * @param l_speed double from -100 to 100 for percent motor power
+         * @param r_speed double from -100 to 100 for percent motor power
+         * @return[bool] success of setting speed
+         */
+        bool set_motor_speeds(double l_speed, double r_speed);
 
         /**
          * Disable the speed controllers
@@ -59,6 +67,13 @@ namespace actuator
          * @return[bool] presence of a fault
          */
         bool get_fault();
+
+        /**
+         * Helper function to convert input speed to a usable value for motor
+         * @param speed a value from -100 to 100 of the input speed
+         * @return an integer from -400 to 400, ignoring the motor's deadzone
+         */
+        int remap_speed(double speed);
 
     };
 }
