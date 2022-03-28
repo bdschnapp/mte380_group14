@@ -54,6 +54,8 @@ dkms.conf
 
 # vscode files
 .vscode
+CppProperties.json
+.vs/
 
 # logger client
 logger_client/venv/*

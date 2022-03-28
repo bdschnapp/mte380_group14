@@ -9,7 +9,17 @@ namespace test_dev_bno055
     void app_setup()
     {
         Serial.begin(9600);
-        bno055_imu.init();
+        if (bno055_imu.init())
+        {
+            Serial.println("Successfully initialized imu");
+        }
+        else
+        {
+            Serial.println("Failed to initialize IMU sensor. ABORTING TEST");
+            // Allow prints to propagate
+            delay(100);
+            exit(0);
+        }
     }
 
     void app_loop()
@@ -18,6 +28,7 @@ namespace test_dev_bno055
         math::Vector3f theta, theta_dot;
         if (bno055_imu.get_angular_position(theta))
         {
+            theta = math::transform_imu_data_to_base_frame(theta);
             Serial.print("INFO: angular position = {");
             Serial.print(math::rad_to_deg(theta.x));
             Serial.print(", ");
@@ -33,6 +44,7 @@ namespace test_dev_bno055
 
         if (bno055_imu.get_angular_velocity(theta_dot))
         {
+            theta_dot = math::transform_imu_data_to_base_frame(theta_dot);
             Serial.print("INFO: angular velocity = {");
             Serial.print(math::rad_to_deg(theta_dot.x));
             Serial.print(", ");
@@ -46,16 +58,6 @@ namespace test_dev_bno055
         {
             Serial.println("ERROR: Failed to read angular velocity");
         }
-
-        static uint16_t reset_counter = 0;
-
-        if (reset_counter >= 40)
-        {
-            Serial.println("INFO: Resetting IMU");
-            bno055_imu.reset();
-            reset_counter = 0;
-        }
-        ++reset_counter;
 
         delay(200);
     }
