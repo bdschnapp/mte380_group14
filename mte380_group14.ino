@@ -5,6 +5,8 @@
 // #define TEST_LIB_MATH
 // #define TEST_DEV_BNO055
 // #define TEST_DEV_ULTRASONIC
+// #define TEST_APP_LOGGER
+
 
 /* Bring in the appropriate application header file */
 #ifdef NONE
@@ -23,6 +25,9 @@ using namespace test_dev_ultrasonic;
 #elif defined(TEST_DEV_TB9051FTG)
 #include "test_dev_TB9051FTG.hpp"
 using namespace test_dev_TB9051FTG;
+#elif defined(TEST_APP_LOGGER)
+#include "test_app_logger.hpp"
+using namespace test_app_logger;
 #else
 /* Should never get here. If it does, you might be missing a condition */
 static_assert(false);
