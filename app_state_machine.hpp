@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "lib_math.hpp"
 #include "app_defines.hpp"
+#include "app_main.hpp"
 
 #define SM_OK 1
 #define SM_NOT_OK 0
@@ -44,13 +45,18 @@ namespace sm {
     private:
         state_e state;
         MissionControl path;
+        float distance;
+        float heading;
 
     public:
         StateMachine();
         ~StateMachine() = default;
-    
-        float distance;
-        float heading;
+
+        // getter for distance
+        float get_distance();
+
+        // getter for heading
+        float get_heading();
 
         bool init();
 

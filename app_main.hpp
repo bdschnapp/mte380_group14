@@ -24,30 +24,17 @@
 #include "drivetrain.hpp"
 
 namespace main{
-    enum fault_e{
-        SAR_OK,
-        SAR_NOT_OK,
-        SAR_CRITICAL,
-        US_NOT_OK,
-        IMU_NOT_OK,
-        DRIVETRAIN_NOT_OK,
-        MOTOR_CRITICAL
-
-    };
-
-    void run10ms();
-
-    fault_e read_sensor_data();
 
     void app_setup();
 
     void app_loop();
 
-    fault_e driving_task(float heading, float distance);
+    void reset_controllers();
 
-    fault_e turning_task(float heading);
+    bool piv_complete();
 
-    void transition_to_faulted();
+    bool lin_complete();
+
 }
 
 #endif //MTE380_GROUP14_APP_MAIN_HPP

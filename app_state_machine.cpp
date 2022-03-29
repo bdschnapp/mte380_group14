@@ -15,12 +15,10 @@ namespace sm{
                     paused_transition();
                 }
             }
-            if (state == driving){
-                if (math::float_compare(sensor_data.ultrasonic_front, distance, DISTANCE_TOLERANCE)){
+            else if (state == driving){
+                if (main::lin_complete()){
 
                     // TODO: account for pit case, if we are not on flat ground we dont turn
-
-                    // TODO: confirm we want z theta value here
 
                     // flat ground case, this should happen most often
                     if(math::float_compare(sensor_data.imu_theta.z, 0, ANGULAR_TOLERANCE)){
@@ -31,9 +29,8 @@ namespace sm{
                 }
                 // state is driving, continues to drive
             }
-            if (state == turning){
-                // TODO: confirm we want x theta value
-                if (math::float_compare(sensor_data.imu_theta.x, heading, ANGULAR_TOLERANCE)){
+            else if (state == turning){
+                if (main::piv_complete())){
 
                     // transition to driving
                     turning_transition();
@@ -61,16 +58,27 @@ namespace sm{
     void StateMachine::paused_transition() {
         state = driving;
         distance = path.get_next_distance();
+        main::reset_controllers();
     }
 
     void StateMachine::driving_transition() {
         state = turning;
-        heading -= 90;
+        heading -= math::deg_to_rad(90);
+        main::reset_controllers();
     }
 
     void StateMachine::turning_transition() {
         state = driving;
         distance = path.get_next_distance();
+        main::reset_controllers();
+    }
+
+    float StateMachine::get_distance() {
+        return distance;
+    }
+
+    float StateMachine::get_heading() {
+        return heading;
     }
 
     StateMachine::StateMachine(){}

@@ -2,6 +2,17 @@
 
 namespace main
 {
+    enum fault_e{
+        SAR_OK,
+        SAR_NOT_OK,
+        SAR_CRITICAL,
+        US_NOT_OK,
+        IMU_NOT_OK,
+        DRIVETRAIN_NOT_OK,
+        MOTOR_CRITICAL
+
+    };
+
     sensor::ultrasonic_init_config_s ultrasonicFrontInitConfig;
     sensor::ultrasonic_init_config_s ultrasonicSideInitConfig;
 
@@ -32,7 +43,11 @@ namespace main
         e_stop.run10ms();
         UltrasonicSide.run10ms();
         UltrasonicFront.run10ms();
+
         bno055_imu.run_10ms();
+        delay(1000);
+
+        lin_controller.set_debounce(0);
     }
 
     fault_e read_sensor_data(){
@@ -49,8 +64,7 @@ namespace main
          if(!bno055_imu.get_angular_position(sensor_data.imu_theta))
              fault = IMU_NOT_OK;
 
-         if(!bno055_imu.get_angular_velocity(sensor_data.imu_theta_dot))
-             fault = IMU_NOT_OK;
+         sensor_data.imu_theta = math::transform_imu_data_to_base_frame(sensor_data.imu_theta);
 
          // TODO: Sensor debounce/filtering
          sensor_data_debounced = sensor_data;
@@ -58,13 +72,9 @@ namespace main
          logger.print_ultrasonic_front(sensor_data.ultrasonic_front);
          logger.print_ultrasonic_side(sensor_data.ultrasonic_side);
 
-         logger.print_tof_t_x(sensor_data.imu_theta.x);
-         logger.print_tof_t_y(sensor_data.imu_theta.y);
-         logger.print_tof_t_z(sensor_data.imu_theta.z);
-
-         logger.print_tof_td_x(sensor_data.imu_theta_dot.x);
-         logger.print_tof_td_y(sensor_data.imu_theta_dot.y);
-         logger.print_tof_td_z(sensor_data.imu_theta_dot.z);
+         logger.print_tof_t_x(math::rad_to_deg(sensor_data.imu_theta.x));
+         logger.print_tof_t_x(math::rad_to_deg(sensor_data.imu_theta.y));
+         logger.print_tof_t_x(math::rad_to_deg(sensor_data.imu_theta.z));
 
          return fault;
     }
@@ -75,8 +85,7 @@ namespace main
         const float gas = lin_controller.compute_gas(sensor_data_debounced.ultrasonic_front);
 
         /* lateral controller computes steering */
-        sensor_data.imu_theta = math::transform_imu_data_to_base_frame(sensor_data.imu_theta);
-        const float yaw = sensor_data.imu_theta.x;
+        const float yaw = sensor_data.imu_theta.z;
         const float gyro_error = heading - yaw;
         /* Incorporate robot yaw to calculate lateral distance */
         const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(yaw);
@@ -88,12 +97,12 @@ namespace main
             logger.println("Motor Driver Failed");
             return MOTOR_CRITICAL;
         }
+        return SAR_OK;
     }
 
     fault_e turning_task(float heading) {
         piv_controller.set_target_yaw(heading);
 
-        sensor_data.imu_theta = math::transform_imu_data_to_base_frame(sensor_data.imu_theta);
         const float yaw = sensor_data.imu_theta.z;
 
         const float pivot_power = piv_controller.compute_pivot_power(yaw);
@@ -134,7 +143,7 @@ namespace main
     }
 
     void app_loop(){
-        delta_time = (micros() - time_us)/100000;
+        delta_time = (micros() - time_us)/1000000;
         time_us = micros();
         run10ms();
 
@@ -157,5 +166,21 @@ namespace main
             case sm::faulted:
                 stateMachine.faulted_task();
         }
+
+        delayMicroseconds(10000 - (micros() - time_us));
     }
+
+    void reset_controllers(){
+        piv_controller.reset();
+        lin_controller.reset();
+    }
+
+    bool piv_complete(){
+        return piv_controller.target_yaw_reached(sensor_data_debounced.imu_theta.z);
+    }
+
+    bool lin_complete(){
+        return lin_controller.target_distance_reached(sensor_data_debounced.ultrasonic_front);
+    }
+
 }

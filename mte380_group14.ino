@@ -1,12 +1,12 @@
 #include "Arduino.h"
 
 /* Uncomment the macro for the application you are looking to test */
-//#define NONE
+#define NONE
 // #define APP_MAIN
 // #define TEST_LIB_MATH
 // #define TEST_DEV_BNO055
 // #define TEST_DEV_ULTRASONIC
-#define TEST_DEV_BUTTON
+// #define TEST_DEV_BUTTON
 // #define TEST_LINEAR_CONTROLLER
 // #define TEST_LATERAL_CONTROLLER
 // #define TEST_PIVOT_CONTROLLER
@@ -56,8 +56,6 @@ using namespace test_dev_button;
 static_assert(false);
 #endif
 
-long time_us;
-
 void setup()
 {
     app_setup();
@@ -65,9 +63,5 @@ void setup()
 
 void loop()
 {
-    time_us = micros();
-    
     app_loop();
-    
-    delayMicroseconds(10000 - (micros() - time_us));
 }
