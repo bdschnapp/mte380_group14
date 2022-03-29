@@ -2,7 +2,7 @@
 #define MTE380_GROUP14_APP_DEFINES_HPP
 
 #define PATH_LENGTH 11
-constexpr float distances[PATH_LENGTH] = {0.21,
+constexpr float distances[PATH_LENGTH] = {0.11};,
                                           0,
                                           0,
                                           0,

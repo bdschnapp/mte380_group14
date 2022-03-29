@@ -51,6 +51,7 @@ namespace sm {
     
         float distance;
         float heading;
+        int drive_transition_debounce;
 
         bool init();
 
