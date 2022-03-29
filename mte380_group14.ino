@@ -2,7 +2,7 @@
 
 /* Uncomment the macro for the application you are looking to test */
 //#define NONE
-// #define APP_MAIN
+ #define APP_MAIN
 // #define TEST_LIB_MATH
 // #define TEST_DEV_BNO055
 // #define TEST_DEV_ULTRASONIC
@@ -12,7 +12,7 @@
 // #define TEST_PIVOT_CONTROLLER
 // #define TEST_DEV_TB9051FTG
 // #define TEST_DRIVETRAIN
- #define TEST_APP_LOGGER
+// #define TEST_APP_LOGGER
 
 /* Bring in the appropriate application header file */
 #ifdef NONE
@@ -21,7 +21,7 @@ void app_setup() {}
 void app_loop() {}
 
 #elif defined(APP_MAIN)
-#include "app_main.hpp";
+#include "app_main.hpp"
 using namespace main;
 
 #elif defined(TEST_LIB_MATH)

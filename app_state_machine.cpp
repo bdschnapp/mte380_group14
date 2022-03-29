@@ -33,7 +33,7 @@ namespace sm{
             }
             if (state == turning){
                 // TODO: confirm we want x theta value
-                if (math::float_compare(sensor_data.imu_theta.x, heading, ANGULAR_TOLERANCE)){
+                if (math::float_compare(sensor_data.imu_theta.z, heading, ANGULAR_TOLERANCE)){
 
                     // transition to driving
                     turning_transition();
@@ -65,7 +65,7 @@ namespace sm{
 
     void StateMachine::driving_transition() {
         state = turning;
-        heading -= 90;
+        heading -= math::deg_to_rad(90);
     }
 
     void StateMachine::turning_transition() {
@@ -85,6 +85,9 @@ namespace sm{
 
     float MissionControl::get_next_distance() {
         index++;
-        return distances_internal[index - 1];
+        if(index > PATH_LENGTH){
+            return -1;
+        }
+        return distances_internal[index-1];
     }
 }

@@ -70,13 +70,17 @@ namespace main
     }
 
     fault_e driving_task(float heading, float distance) {
+        /*-1 target returned at end of path, will stop robot*/
+        if(distance == -1){
+            transition_to_faulted();
+        }
         /* linear controller computes gas */
         lin_controller.set_target_distance(distance);
         const float gas = lin_controller.compute_gas(sensor_data_debounced.ultrasonic_front);
 
         /* lateral controller computes steering */
         sensor_data.imu_theta = math::transform_imu_data_to_base_frame(sensor_data.imu_theta);
-        const float yaw = sensor_data.imu_theta.x;
+        const float yaw = sensor_data.imu_theta.z;
         const float gyro_error = heading - yaw;
         /* Incorporate robot yaw to calculate lateral distance */
         const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(yaw);
@@ -88,6 +92,7 @@ namespace main
             logger.println("Motor Driver Failed");
             return MOTOR_CRITICAL;
         }
+        return SAR_OK;
     }
 
     fault_e turning_task(float heading) {
@@ -114,7 +119,7 @@ namespace main
 
 
     void app_setup(){
-        Serial1.begin(9600);
+        Serial.begin(9600);
 
         ultrasonicFrontInitConfig.echoPin = FRONT_ULTRASONIC_ECHO_PIN;
         ultrasonicFrontInitConfig.trigPin = FRONT_ULTRASONIC_TRIG_PIN;
@@ -134,10 +139,9 @@ namespace main
     }
 
     void app_loop(){
-        delta_time = (micros() - time_us)/100000;
+        delta_time = (micros() - time_us)/1000000;
         time_us = micros();
         run10ms();
-
         if(read_sensor_data() == SAR_CRITICAL){
             logger.println("Sensor Data Fault");
             transition_to_faulted();
@@ -148,14 +152,18 @@ namespace main
         switch (stateMachine.run10ms(sensor_data_debounced)) {
             case sm::paused:
                 stateMachine.paused_task();
+                break;
             case sm::driving:
                 driving_task(stateMachine.heading, stateMachine.distance);
+                break;
             case sm::turning:
                 if(turning_task(stateMachine.heading) == MOTOR_CRITICAL){
                     transition_to_faulted();
                 }
+                break;
             case sm::faulted:
                 stateMachine.faulted_task();
+                break;
         }
     }
 }

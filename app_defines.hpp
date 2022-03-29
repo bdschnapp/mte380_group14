@@ -2,7 +2,7 @@
 #define MTE380_GROUP14_APP_DEFINES_HPP
 
 #define PATH_LENGTH 11
-constexpr float distances[PATH_LENGTH] = {0,
+constexpr float distances[PATH_LENGTH] = {0.21,
                                           0,
                                           0,
                                           0,
@@ -40,7 +40,7 @@ const float linear_Kp = 150;
 const float linear_Ki = 3;
 
 /* pivot controller */
-const float pivot_Kp = 100;
+const float pivot_Kp = 30;
 
 
 #endif // MTE380_GROUP14_APP_DEFINES_HPP
