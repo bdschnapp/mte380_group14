@@ -3,7 +3,6 @@ namespace sm{
     bool StateMachine::init() {
         state = paused;
         path.init();
-        drive_transition_debounce = 0;
 
         return SM_OK;
     }
@@ -27,10 +26,6 @@ namespace sm{
                     if(math::float_compare(sensor_data.imu_theta.y, 0, ANGULAR_TOLERANCE)){
 
                         // transition to turning
-                        drive_transition_debounce++;
-                    }
-                    if(drive_transition_debounce > 2){
-                        drive_transition_debounce = 0;
                         driving_transition();
                     }
                 }

@@ -92,6 +92,9 @@ namespace main
             logger.println("Motor Driver Failed");
             return MOTOR_CRITICAL;
         }
+        if(lin_controller.target_distance_reached && math::float_compare(sensor_data.imu_theta.y, 0, ANGULAR_TOLERANCE)){
+            stateMachine.driving_transition();
+        }
         return SAR_OK;
     }
 
@@ -125,6 +128,7 @@ namespace main
         ultrasonicFrontInitConfig.trigPin = FRONT_ULTRASONIC_TRIG_PIN;
         ultrasonicSideInitConfig.echoPin = SIDE_ULTRASONIC_ECHO_PIN;
         ultrasonicSideInitConfig.trigPin = SIDE_ULTRASONIC_TRIG_PIN;
+        lin_controller.set_debounce(3);
 
         UltrasonicFront.init(ultrasonicFrontInitConfig);
         UltrasonicSide.init(ultrasonicSideInitConfig);
