@@ -56,3 +56,7 @@ dkms.conf
 .vscode
 CppProperties.json
 .vs/
+
+# logger client
+logger_client/venv/*
+logger_client/.idea/*
