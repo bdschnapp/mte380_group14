@@ -18,7 +18,7 @@ namespace test_lateral_controller
     constexpr float goal_lat_distance = 0.20f, goal_yaw = 0.0f;
 
     /* This is a parameter you can change to experiment with different reliance ratios */
-    constexpr float GYRO_RELIANCE = 0.5f;
+    constexpr float GYRO_RELIANCE = 0.75f;
 
     void app_setup()
     {
@@ -66,7 +66,7 @@ namespace test_lateral_controller
         if (imu.get_angular_position(theta) && lat_us.get_distance(lat_us_reading))
         {
             theta = math::transform_imu_data_to_base_frame(theta);
-            const float yaw = theta.x;
+            const float yaw = theta.z;
             const float gyro_error = goal_yaw - yaw;
             /* Incorporate robot yaw to calculate lateral distance */
             const float lat_distance = lat_us_reading * cos(yaw);
