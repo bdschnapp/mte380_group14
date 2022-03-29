@@ -21,8 +21,7 @@ namespace test_app_logger{
         logger.print_tof_td_x(data);
         logger.print_tof_td_y(data);
         logger.print_tof_td_z(data);
-        delay(1000);
-
+        delay(10);
     }
 
 } //namespace test_app_logger
