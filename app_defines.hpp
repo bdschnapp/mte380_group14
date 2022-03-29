@@ -33,7 +33,7 @@ constexpr float distances[PATH_LENGTH] = {0,
 constexpr float Kp_lat_us = 300.0f, Ki_lat_us = 0.0f, Kp_gyro = 350.0f, Ki_gyro = 0.0f;
 
 /* This is a parameter you can change to experiment with different reliance ratios */
-constexpr float GYRO_RELIANCE = 0.5f;
+constexpr float GYRO_RELIANCE = 0.75f;
 
 /* linear controller */
 const float linear_Kp = 150;
