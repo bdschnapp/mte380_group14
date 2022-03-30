@@ -14,8 +14,8 @@ namespace controllers
         uint8_t m_debounce;
         mutable uint8_t m_positives;
 
-        static constexpr auto MIN_PIVOT_POWER = -100;
-        static constexpr auto MAX_PIVOT_POWER = 100;
+        static constexpr auto MIN_PIVOT_POWER = -75;
+        static constexpr auto MAX_PIVOT_POWER = 75;
 
     public:
         /**

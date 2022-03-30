@@ -16,7 +16,7 @@ namespace controllers
         mutable uint8_t m_positives;
 
         static constexpr auto MIN_GAS = 0;
-        static constexpr auto MAX_GAS = 100;
+        static constexpr auto MAX_GAS = 75;
         static constexpr auto INVALID_TARGET_DISTANCE = -1.0f;
 
     public:

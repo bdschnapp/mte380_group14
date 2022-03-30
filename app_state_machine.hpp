@@ -15,6 +15,7 @@ namespace sm {
         paused,
         driving,
         turning,
+        controller_override,
         faulted
     };
 

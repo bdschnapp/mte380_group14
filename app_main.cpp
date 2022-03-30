@@ -161,6 +161,10 @@ namespace main
         // currently ignores any non-critical faults
 
         switch (stateMachine.run10ms(sensor_data_debounced)) {
+            case sm::controller_override:
+                motor.set_motor_speeds(PIT_SPEED,PIT_SPEED);
+                delay(PIT_DELAY_MS);
+                break;
             case sm::paused:
                 stateMachine.paused_task();
                 break;

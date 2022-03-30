@@ -3,9 +3,9 @@
 
 #define PATH_LENGTH 11
 
-#define FIRST_LONGITUDINAL_GOAL_DISTANCE 0.07f
-#define SECOND_LONGITUDINAL_GOAL_DISTANCE 0.35f
-#define THIRD_LONGITUDINAL_GOAL_DISTANCE 0.65f
+#define FIRST_LONGITUDINAL_GOAL_DISTANCE 0.10f
+#define SECOND_LONGITUDINAL_GOAL_DISTANCE 0.38f
+#define THIRD_LONGITUDINAL_GOAL_DISTANCE 0.68f
 constexpr float distances[PATH_LENGTH] = {FIRST_LONGITUDINAL_GOAL_DISTANCE,
                                           FIRST_LONGITUDINAL_GOAL_DISTANCE,
                                           FIRST_LONGITUDINAL_GOAL_DISTANCE,
@@ -18,9 +18,9 @@ constexpr float distances[PATH_LENGTH] = {FIRST_LONGITUDINAL_GOAL_DISTANCE,
                                           THIRD_LONGITUDINAL_GOAL_DISTANCE,
                                           THIRD_LONGITUDINAL_GOAL_DISTANCE};
 
-#define FIRST_LATERAL_GOAL_DISTANCE 0.10f
-#define SECOND_LATERAL_GOAL_DISTANCE 0.39f
-#define THIRD_LATERAL_GOAL_DISTANCE 0.69f
+#define FIRST_LATERAL_GOAL_DISTANCE 0.12f
+#define SECOND_LATERAL_GOAL_DISTANCE 0.41f
+#define THIRD_LATERAL_GOAL_DISTANCE 0.71f
 
 constexpr float lateral_distances[PATH_LENGTH] = {FIRST_LATERAL_GOAL_DISTANCE,
                                                   FIRST_LATERAL_GOAL_DISTANCE,
@@ -63,5 +63,9 @@ const float linear_Ki = 0; // CAUTION: Linear controller currently cant handle i
 /* pivot controller */
 const float pivot_Kp = 60;
 #define PIVOT_DEBOUNCE 5
+
+#define PIT_DELAY_MS 800
+#define PIT_SPEED 50
+#define PIT_PITCH_TOLERANCE 0.226893f
 
 #endif // MTE380_GROUP14_APP_DEFINES_HPP
