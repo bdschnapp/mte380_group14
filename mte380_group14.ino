@@ -2,10 +2,10 @@
 
 /* Uncomment the macro for the application you are looking to test */
 // #define NONE
-#define APP_MAIN
+// #define APP_MAIN
 // #define TEST_LIB_MATH
 // #define TEST_DEV_BNO055
-// #define TEST_DEV_ULTRASONIC
+#define TEST_DEV_ULTRASONIC
 // #define TEST_DEV_BUTTON
 // #define TEST_LINEAR_CONTROLLER
 // #define TEST_LATERAL_CONTROLLER

@@ -121,7 +121,7 @@ namespace main
 
     void app_setup(){
         Serial.begin(9600);
-        Serial1.begin(9600);
+        Serial.println("Beginning app_setup");
         stateMachine.init();
 
         ultrasonicFrontInitConfig.echoPin = FRONT_ULTRASONIC_ECHO_PIN;

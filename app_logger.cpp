@@ -1,9 +1,11 @@
 #include "app_logger.hpp"
 
 namespace debug{
-    Logger::Logger() {
+
+    void Logger::init()
+    {
         muted = 0;
-        Serial1.begin(9600);
+        SERIAL_INTERFACE.begin(9600);
     }
 
     void Logger::mute() {
@@ -16,54 +18,54 @@ namespace debug{
 
     void Logger::print_ultrasonic_front(float data){
         if (!muted){
-            Serial1.println("usf");
-            Serial1.println(data);
+            SERIAL_INTERFACE.println("usf");
+            SERIAL_INTERFACE.println(data);
         }
     }
     void Logger::print_ultrasonic_side(float data){
         if (!muted) {
-            Serial1.println("uss");
-            Serial1.println(data);
+            SERIAL_INTERFACE.println("uss");
+            SERIAL_INTERFACE.println(data);
         }
     }
 
 
     void Logger::print_tof_t_x(float data){
         if (!muted) {
-            Serial1.println("tx");
-            Serial1.println(data);
+            SERIAL_INTERFACE.println("tx");
+            SERIAL_INTERFACE.println(data);
         }
     }
     void Logger::print_tof_t_y(float data){
         if (!muted) {
-            Serial1.println("ty");
-            Serial1.println(data);
+            SERIAL_INTERFACE.println("ty");
+            SERIAL_INTERFACE.println(data);
         }
     }
     void Logger::print_tof_t_z(float data){
         if (!muted) {
-            Serial1.println("tz");
-            Serial1.println(data);
+            SERIAL_INTERFACE.println("tz");
+            SERIAL_INTERFACE.println(data);
         }
     }
 
 
     void Logger::print_tof_td_x(float data){
         if (!muted) {
-            Serial1.println("tdx");
-            Serial1.println(data);
+            SERIAL_INTERFACE.println("tdx");
+            SERIAL_INTERFACE.println(data);
         }
     }
     void Logger::print_tof_td_y(float data){
         if (!muted) {
-            Serial1.println("tdy");
-            Serial1.println(data);
+            SERIAL_INTERFACE.println("tdy");
+            SERIAL_INTERFACE.println(data);
         }
     }
     void Logger::print_tof_td_z(float data){
         if (!muted) {
-            Serial1.println("tdz");
-            Serial1.println(data);
+            SERIAL_INTERFACE.println("tdz");
+            SERIAL_INTERFACE.println(data);
         }
     }
 }

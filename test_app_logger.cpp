@@ -8,6 +8,7 @@ namespace test_app_logger{
     float data = 10.0;
 
     void app_setup(){
+        logger.init();
         logger.println("starting logger");
     }
 
