@@ -29,4 +29,6 @@ constexpr float distances[PATH_LENGTH] = {0,
 #define FRONT_ULTRASONIC_TRIG_PIN 43
 #define FRONT_ULTRASONIC_ECHO_PIN 42
 
+#define WIRED_LOGGER 0
+
 #endif // MTE380_GROUP14_APP_DEFINES_HPP

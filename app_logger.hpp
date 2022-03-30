@@ -2,11 +2,14 @@
 #define MTE380_GROUP14_APP_LOGGER_H
 
 #include <Arduino.h>
+#include <SoftwareSerial.h>
+#include "app_defines.hpp"
 
 namespace debug{
     class Logger {
     private:
         bool muted;
+        Stream* stream;
     public:
 
         Logger();
