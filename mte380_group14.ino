@@ -5,7 +5,7 @@
 // #define APP_MAIN
 // #define TEST_LIB_MATH
 // #define TEST_DEV_BNO055
-#define TEST_DEV_ULTRASONIC
+ #define TEST_DEV_ULTRASONIC
 // #define TEST_DEV_BUTTON
 // #define TEST_LINEAR_CONTROLLER
 // #define TEST_LATERAL_CONTROLLER

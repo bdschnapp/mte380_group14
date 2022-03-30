@@ -56,12 +56,12 @@ constexpr float Kp_lat_us = 300.0f, Ki_lat_us = 0.0f, Kp_gyro = 350.0f, Ki_gyro 
 constexpr float GYRO_RELIANCE = 0.75f;
 
 /* linear controller */
-const float linear_Kp = 150;
+const float linear_Kp = 100;
 const float linear_Ki = 0; // CAUTION: Linear controller currently cant handle integral control
 #define LINEAR_DEBOUNCE 3
 
 /* pivot controller */
-const float pivot_Kp = 30;
+const float pivot_Kp = 60;
 #define PIVOT_DEBOUNCE 5
 
 #endif // MTE380_GROUP14_APP_DEFINES_HPP

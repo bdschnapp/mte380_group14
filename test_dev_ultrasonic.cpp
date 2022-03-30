@@ -3,26 +3,40 @@
 
 namespace test_dev_ultrasonic {
 
-    sensor::ultrasonic_init_config_s initConfig;
+    sensor::ultrasonic_init_config_s initConfigFront;
+    sensor::ultrasonic_init_config_s initConfigSide;
 
-    sensor::Ultrasonic distance_sensor;
+    sensor::Ultrasonic front_sensor;
+    sensor::Ultrasonic side_sensor;
 
     float distance;
 
     void app_setup() {
         Serial.begin(9600);
-        initConfig.echoPin = FRONT_ULTRASONIC_ECHO_PIN;
-        initConfig.trigPin = FRONT_ULTRASONIC_TRIG_PIN;
+        initConfigFront.echoPin = FRONT_ULTRASONIC_ECHO_PIN;
+        initConfigFront.trigPin = FRONT_ULTRASONIC_TRIG_PIN;
+        initConfigSide.echoPin = SIDE_ULTRASONIC_ECHO_PIN;
+        initConfigSide.trigPin = SIDE_ULTRASONIC_TRIG_PIN;
 
-        distance_sensor.init(initConfig);
+        front_sensor.init(initConfigFront);
+        side_sensor.init(initConfigSide);
     }
 
     void app_loop() {
-        distance_sensor.run10ms();
+        front_sensor.run10ms();
+        side_sensor.run10ms();
 
-        if (distance_sensor.get_distance(distance)) {
+        if (front_sensor.get_distance(distance)) {
+            Serial.print("front: ");
             Serial.print(distance);
-            Serial.println(" m");
+            Serial.print(" m  ");
+        } else {
+            Serial.println("Error");
+        }
+        if (side_sensor.get_distance(distance)) {
+            Serial.print("side: ");
+            Serial.print(distance);
+            Serial.println(" m  ");
         } else {
             Serial.println("Error");
         }
