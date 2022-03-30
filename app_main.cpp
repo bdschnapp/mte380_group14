@@ -120,6 +120,7 @@ namespace main
 
 
     void app_setup(){
+        Serial.begin(9600);
         Serial1.begin(9600);
         stateMachine.init();
 
@@ -162,19 +163,23 @@ namespace main
         switch (stateMachine.run10ms(sensor_data_debounced)) {
             case sm::paused:
                 stateMachine.paused_task();
+                break;
 
             case sm::driving:
                 driving_task(stateMachine.get_heading(),
                              stateMachine.get_distance(),
                              stateMachine.get_lateral_distance());
+                break;
 
             case sm::turning:
                 if(turning_task(stateMachine.get_heading()) == MOTOR_CRITICAL){
                     transition_to_faulted();
                 }
+                break;
 
             case sm::faulted:
                 stateMachine.faulted_task();
+                break;
         }
 
         delayMicroseconds(10000 - (micros() - time_us));
