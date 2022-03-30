@@ -89,6 +89,12 @@ namespace main
         /* lateral controller computes steering */
         const float yaw = filtered_sensor_data.imu_theta.z;
         const float gyro_error = heading - yaw;
+
+        /* slow down if gyro error is too bad */
+        if(math::float_compare(gyro_error, 0, LATERAL_SLOWDOWN_TOLERANCE)){
+            gas = gas/4;
+        }
+
         /* Incorporate robot yaw to calculate lateral distance */
         const float lat_distance = filtered_sensor_data.ultrasonic_side * cos(yaw);
         const float lat_distance_error = lat_distance - goal_lat_distance;

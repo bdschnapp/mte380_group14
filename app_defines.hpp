@@ -47,17 +47,20 @@ constexpr float lateral_distances[PATH_LENGTH] = {0,
 /* lateral controller */
 constexpr float Kp_lat_us = 300.0f, Ki_lat_us = 0.0f, Kp_gyro = 350.0f, Ki_gyro = 0.0f;
 
+/* tolerance that if exceeded will slow down the linear controller by 75% to course correct faster */
+#define LATERAL_SLOWDOWN_TOLERANCE 0.2f // [rad] ~10 degrees
+
 /* This is a parameter you can change to experiment with different reliance ratios */
 constexpr float GYRO_RELIANCE = 0.75f;
 
 /* linear controller */
 const float linear_Kp = 150;
 const float linear_Ki = 3;
-#define LINEAR_DEBOUNCE 0
-#define PIT_PITCH_TOLERANCE 5
+#define LINEAR_DEBOUNCE 0 // app cycles
+#define PIT_PITCH_TOLERANCE 0.2f // [rad] ~10 degrees
 
 /* pivot controller */
 const float pivot_Kp = 100;
-#define PIVOT_DEBOUNCE 5
+#define PIVOT_DEBOUNCE 5 // app cycles
 
 #endif // MTE380_GROUP14_APP_DEFINES_HPP
