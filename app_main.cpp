@@ -31,7 +31,7 @@ namespace main
     sm::StateMachine stateMachine;
 
     controllers::lateral_controller lat_controller(Kp_gyro, Ki_gyro, Kp_lat_us, Ki_lat_us);
-    controllers::linear_controller lin_controller(linear_Kp, linear_Ki, DISTANCE_TOLERANCE);
+    controllers::linear_controller lin_controller(linear_Kp, linear_Ki, LINEAR_RAMP_UP_ITERATIONS, DISTANCE_TOLERANCE);
     controllers::pivot_controller piv_controller(pivot_Kp, pivot_Ki, ANGULAR_TOLERANCE);
 
     debug::Logger logger;

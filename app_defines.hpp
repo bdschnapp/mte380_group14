@@ -69,4 +69,6 @@ const float pivot_Ki = 10;
 #define PIT_SPEED 50
 #define PIT_PITCH_TOLERANCE 0.226893f
 
+#define LINEAR_RAMP_UP_ITERATIONS 60
+
 #endif // MTE380_GROUP14_APP_DEFINES_HPP
