@@ -3,6 +3,7 @@ namespace sm{
     bool StateMachine::init() {
         state = paused;
         path.init();
+        lateral_path.init();
 
         return SM_OK;
     }
@@ -18,14 +19,9 @@ namespace sm{
             else if (state == driving){
                 if (main::lin_complete()){
 
-                    // TODO: account for pit case, if we are not on flat ground we dont turn
+                    // transition to turning
+                    driving_transition();
 
-                    // flat ground case, this should happen most often
-                    if(math::float_compare(sensor_data.imu_theta.z, 0, ANGULAR_TOLERANCE)){
-
-                        // transition to turning
-                        driving_transition();
-                    }
                 }
                 // state is driving, continues to drive
             }
@@ -58,6 +54,7 @@ namespace sm{
     void StateMachine::paused_transition() {
         state = driving;
         distance = path.get_next_distance();
+        lateral_distance = lateral_path.get_next_distance();
         main::reset_controllers();
     }
 
@@ -70,6 +67,7 @@ namespace sm{
     void StateMachine::turning_transition() {
         state = driving;
         distance = path.get_next_distance();
+        lateral_distance = lateral_path.get_next_distance();
         main::reset_controllers();
     }
 
@@ -81,12 +79,23 @@ namespace sm{
         return heading;
     }
 
+    float StateMachine::get_lateral_distance(){
+        return lateral_distance;
+    }
+
     StateMachine::StateMachine(){}
     MissionControl::MissionControl(){}
 
-    void MissionControl::init() {
-        for(int i = 0; i < PATH_LENGTH; i++){
-            distances_internal[i] = distances[i];
+    void MissionControl::init(bool lateral) {
+        if(lateral) {
+            for (int i = 0; i < PATH_LENGTH; i++) {
+                distances_internal[i] = lateral_distances[i];
+            }
+        }
+        else{
+            for (int i = 0; i < PATH_LENGTH; i++) {
+                distances_internal[i] = distances[i];
+            }
         }
         index = 0;
     }

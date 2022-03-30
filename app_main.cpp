@@ -76,7 +76,7 @@ namespace main
          return fault;
     }
 
-    fault_e driving_task(float heading, float distance) {
+    fault_e driving_task(float heading, float distance, float goal_lat_distance) {
         /* linear controller computes gas */
         lin_controller.set_target_distance(distance);
         const float gas = lin_controller.compute_gas(sensor_data_debounced.ultrasonic_front);
@@ -86,7 +86,7 @@ namespace main
         const float gyro_error = heading - yaw;
         /* Incorporate robot yaw to calculate lateral distance */
         const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(yaw);
-        const float lat_distance_error = lat_distance - distance;
+        const float lat_distance_error = lat_distance - goal_lat_distance;
         const float steering = lat_controller.compute_steering(gyro_error, lat_distance_error, delta_time, GYRO_RELIANCE);
         auto motor_speeds = drivetrain::translational_motion_convert(gas, steering);
         if (!motor.set_motor_speeds(motor_speeds.left_motor_speed, motor_speeds.right_motor_speed))
@@ -162,12 +162,17 @@ namespace main
         switch (stateMachine.run10ms(sensor_data_debounced)) {
             case sm::paused:
                 stateMachine.paused_task();
+
             case sm::driving:
-                driving_task(stateMachine.heading, stateMachine.distance);
+                driving_task(stateMachine.get_heading(),
+                             stateMachine.get_distance(),
+                             stateMachine.get_lateral_distance());
+
             case sm::turning:
-                if(turning_task(stateMachine.heading) == MOTOR_CRITICAL){
+                if(turning_task(stateMachine.get_heading()) == MOTOR_CRITICAL){
                     transition_to_faulted();
                 }
+
             case sm::faulted:
                 stateMachine.faulted_task();
         }
