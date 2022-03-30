@@ -4,6 +4,7 @@ namespace sm{
     bool StateMachine::init() {
         state = paused;
         path.init();
+        lateral_path.init();
 
         return SM_OK;
     }
@@ -65,6 +66,7 @@ namespace sm{
     void StateMachine::paused_transition() {
         state = driving;
         distance = path.get_next_distance();
+        lateral_distance = lateral_path.get_next_distance();
         main::reset_controllers();
     }
 
@@ -77,6 +79,7 @@ namespace sm{
     void StateMachine::turning_transition() {
         state = driving;
         distance = path.get_next_distance();
+        lateral_distance = lateral_path.get_next_distance();
         main::reset_controllers();
     }
 
@@ -88,12 +91,23 @@ namespace sm{
         return heading;
     }
 
+    float StateMachine::get_lateral_distance(){
+        return lateral_distance;
+    }
+
     StateMachine::StateMachine(){}
     MissionControl::MissionControl(){}
 
-    void MissionControl::init() {
-        for(int i = 0; i < PATH_LENGTH; i++){
-            distances_internal[i] = distances[i];
+    void MissionControl::init(bool lateral) {
+        if(lateral) {
+            for (int i = 0; i < PATH_LENGTH; i++) {
+                distances_internal[i] = lateral_distances[i];
+            }
+        }
+        else{
+            for (int i = 0; i < PATH_LENGTH; i++) {
+                distances_internal[i] = distances[i];
+            }
         }
         index = 0;
     }

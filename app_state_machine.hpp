@@ -36,7 +36,7 @@ namespace sm {
         MissionControl();
         ~MissionControl() = default;
 
-        void init();
+        void init(bool lateral);
 
         float get_next_distance();
 
@@ -46,7 +46,9 @@ namespace sm {
     private:
         state_e state;
         MissionControl path;
+        MissionControl lateral_path;
         float distance;
+        float lateral_distance;
         float heading;
 
     public:
@@ -58,6 +60,9 @@ namespace sm {
 
         // getter for heading
         float get_heading();
+
+        // getter for lateral distance
+        float get_lateral_distance()
 
         bool init();
 

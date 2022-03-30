@@ -14,6 +14,18 @@ constexpr float distances[PATH_LENGTH] = {0,
                                           0,
                                           0};
 
+constexpr float lateral_distances[PATH_LENGTH] = {0,
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  0};
+
 // TODO: create actual tolerances
 #define DISTANCE_TOLERANCE 0.02f       // [m]
 #define ANGULAR_TOLERANCE 0.05236f     // [rad] equivalent to 3 deg
