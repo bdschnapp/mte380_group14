@@ -14,8 +14,8 @@ namespace controllers
         uint8_t m_debounce;
         mutable uint8_t m_positives;
 
-        static constexpr auto MIN_PIVOT_POWER = -75;
-        static constexpr auto MAX_PIVOT_POWER = 75;
+        static constexpr auto MIN_PIVOT_POWER = -100;
+        static constexpr auto MAX_PIVOT_POWER = 100;
 
     public:
         /**
@@ -23,7 +23,7 @@ namespace controllers
          * @param Kp Proportional gain for PID controller
          * @param error_tolerance Yaw tolerance to determine if goal distance reached [radians]
          */
-        pivot_controller(const float Kp, const float error_tolerance);
+        pivot_controller(const float Kp, const float Ki, const float error_tolerance);
 
         ~pivot_controller() = default;
 

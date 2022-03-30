@@ -8,7 +8,7 @@
 namespace test_pivot_controller
 {
     sensor::BNO055 imu;
-    controllers::pivot_controller pc(pivot_Kp, ANGULAR_TOLERANCE);
+    controllers::pivot_controller pc(pivot_Kp, pivot_Ki, ANGULAR_TOLERANCE);
     actuator::TB9051FTG motor_driver;
 
     const float target_yaw = math::deg_to_rad(-90);

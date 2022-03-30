@@ -65,6 +65,7 @@ namespace sm{
             state = faulted;
         }
         main::reset_controllers();
+        //main::smooth_ramp();
     }
 
     void StateMachine::driving_transition() {
@@ -82,6 +83,7 @@ namespace sm{
             state = faulted;
         }
         main::reset_controllers();
+        //main::smooth_ramp();
     }
 
     float StateMachine::get_distance() {

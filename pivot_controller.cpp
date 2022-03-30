@@ -3,7 +3,7 @@
 
 namespace controllers
 {
-    pivot_controller::pivot_controller(const float Kp, const float error_tolerance) : m_pid(Kp, 0, MIN_PIVOT_POWER, MAX_PIVOT_POWER),
+    pivot_controller::pivot_controller(const float Kp, const float Ki, const float error_tolerance) : m_pid(Kp, Ki, MIN_PIVOT_POWER, MAX_PIVOT_POWER),
                                                                                       m_error_tolerance(error_tolerance),
                                                                                       m_target_heading(0.0f),
                                                                                       m_debounce(0),

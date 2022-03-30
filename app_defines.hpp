@@ -53,18 +53,19 @@ constexpr float lateral_distances[PATH_LENGTH] = {FIRST_LATERAL_GOAL_DISTANCE,
 constexpr float Kp_lat_us = 300.0f, Ki_lat_us = 0.0f, Kp_gyro = 350.0f, Ki_gyro = 0.0f;
 
 /* This is a parameter you can change to experiment with different reliance ratios */
-constexpr float GYRO_RELIANCE = 0.75f;
+constexpr float GYRO_RELIANCE = 0.6f;
 
 /* linear controller */
 const float linear_Kp = 100;
 const float linear_Ki = 0; // CAUTION: Linear controller currently cant handle integral control
-#define LINEAR_DEBOUNCE 3
+#define LINEAR_DEBOUNCE 15
 
 /* pivot controller */
-const float pivot_Kp = 60;
+const float pivot_Kp = 55;
+const float pivot_Ki = 10;
 #define PIVOT_DEBOUNCE 5
 
-#define PIT_DELAY_MS 800
+#define PIT_DELAY_MS 3000
 #define PIT_SPEED 50
 #define PIT_PITCH_TOLERANCE 0.226893f
 

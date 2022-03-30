@@ -32,7 +32,7 @@ namespace main
 
     controllers::lateral_controller lat_controller(Kp_gyro, Ki_gyro, Kp_lat_us, Ki_lat_us);
     controllers::linear_controller lin_controller(linear_Kp, linear_Ki, DISTANCE_TOLERANCE);
-    controllers::pivot_controller piv_controller(pivot_Kp, ANGULAR_TOLERANCE);
+    controllers::pivot_controller piv_controller(pivot_Kp, pivot_Ki, ANGULAR_TOLERANCE);
 
     debug::Logger logger;
 
@@ -200,6 +200,15 @@ namespace main
 
     bool lin_complete(){
         return lin_controller.target_distance_reached(sensor_data_debounced.ultrasonic_front);
+    }
+
+    void smooth_ramp(){
+        float speed = 0;
+        for(int i = 0; i < 6; i++){
+            speed = i*15;
+            motor.set_motor_speeds(speed, speed);
+            delay(50);
+        }
     }
 
 }

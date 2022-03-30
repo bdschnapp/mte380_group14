@@ -35,6 +35,8 @@ namespace main{
 
     bool lin_complete();
 
+    void smooth_ramp();
+
 }
 
 #endif //MTE380_GROUP14_APP_MAIN_HPP
