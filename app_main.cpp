@@ -133,17 +133,17 @@ namespace main
 
         if (!bno055_imu.init()){
             stateMachine.transition_to_faulted();
-            logger.println("IMU Failed to initialize")
+            logger.println("IMU Failed to initialize");
         }
 
         lin_controller.set_debounce(LINEAR_DEBOUNCE);
-        piv_controller.set_debounce(PIVOT_DEBOUNCE)
+        piv_controller.set_debounce(PIVOT_DEBOUNCE);
 
         e_stop.init(BUTTON_PIN);
 
         if (!motor.init()){
             stateMachine.transition_to_faulted();
-            logger.println("Motors Failed to initialize")
+            logger.println("Motors Failed to initialize");
         }
     }
 

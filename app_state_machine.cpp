@@ -2,8 +2,8 @@
 namespace sm{
     bool StateMachine::init() {
         state = paused;
-        path.init();
-        lateral_path.init();
+        path.init(false);
+        lateral_path.init(true);
 
         return SM_OK;
     }
@@ -26,7 +26,7 @@ namespace sm{
                 // state is driving, continues to drive
             }
             else if (state == turning){
-                if (main::piv_complete())){
+                if (main::piv_complete()){
 
                     // transition to driving
                     turning_transition();
@@ -55,6 +55,10 @@ namespace sm{
         state = driving;
         distance = path.get_next_distance();
         lateral_distance = lateral_path.get_next_distance();
+        if (distance < 0 || lateral_distance < 0)
+        {
+            state = faulted;
+        }
         main::reset_controllers();
     }
 
@@ -68,6 +72,10 @@ namespace sm{
         state = driving;
         distance = path.get_next_distance();
         lateral_distance = lateral_path.get_next_distance();
+        if (distance < 0 || lateral_distance < 0)
+        {
+            state = faulted;
+        }
         main::reset_controllers();
     }
 
@@ -102,6 +110,10 @@ namespace sm{
 
     float MissionControl::get_next_distance() {
         index++;
+        if (index > PATH_LENGTH)
+        {
+            return -1.0f;
+        }
         return distances_internal[index - 1];
     }
 }

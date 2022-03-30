@@ -61,7 +61,7 @@ namespace sm {
         float get_heading();
 
         // getter for lateral distance
-        float get_lateral_distance()
+        float get_lateral_distance();
 
         bool init();
 
