@@ -12,13 +12,9 @@ namespace test_lateral_controller
     actuator::TB9051FTG motor_driver;
     sensor::Ultrasonic lat_us;
 
-    constexpr float Kp_lat_us = 300.0f, Ki_lat_us = 0.0f, Kp_gyro = 350.0f, Ki_gyro = 0.0f;
     controllers::lateral_controller lat_controller(Kp_gyro, Ki_gyro, Kp_lat_us, Ki_lat_us);
 
     constexpr float goal_lat_distance = 0.20f, goal_yaw = 0.0f;
-
-    /* This is a parameter you can change to experiment with different reliance ratios */
-    constexpr float GYRO_RELIANCE = 0.75f;
 
     void app_setup()
     {
