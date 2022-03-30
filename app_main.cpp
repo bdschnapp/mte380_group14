@@ -26,7 +26,7 @@ namespace main
     actuator::TB9051FTG motor;
 
     sm::sensor_data_s sensor_data;
-    sm::sensor_data_s sensor_data_debounced;
+    sm::sensor_data_s filtered_sensor_data;
 
     sm::StateMachine stateMachine;
 
@@ -48,44 +48,49 @@ namespace main
 
     fault_e read_sensor_data(){
         if(!e_stop.get_button_press(sensor_data.button))
-            return SAR_CRITICAL;
+           return SAR_CRITICAL;
 
         fault_e fault = SAR_OK;
-         if(!UltrasonicFront.get_distance(sensor_data.ultrasonic_front))
-             fault = US_NOT_OK;
+        if(!UltrasonicFront.get_distance(sensor_data.ultrasonic_front))
+            fault = US_NOT_OK;
 
-         if(!UltrasonicSide.get_distance(sensor_data.ultrasonic_side))
-             fault = US_NOT_OK;
+        if(!UltrasonicSide.get_distance(sensor_data.ultrasonic_side))
+            fault = US_NOT_OK;
 
-         if(!bno055_imu.get_angular_position(sensor_data.imu_theta))
-             fault = IMU_NOT_OK;
+        if(!bno055_imu.get_angular_position(sensor_data.imu_theta))
+            fault = IMU_NOT_OK;
 
-         sensor_data.imu_theta = math::transform_imu_data_to_base_frame(sensor_data.imu_theta);
+        sensor_data.imu_theta = math::transform_imu_data_to_base_frame(sensor_data.imu_theta);
 
-         // TODO: Sensor debounce/filtering
-         sensor_data_debounced = sensor_data;
+        filtered_sensor_data.ultrasonic_front = math::ewma(USF_EWMA_ALPHA,
+                                                           filtered_sensor_data.ultrasonic_front,
+                                                           sensor_data.ultrasonic_front);
 
-         logger.print_ultrasonic_front(sensor_data_debounced.ultrasonic_front);
-         logger.print_ultrasonic_side(sensor_data_debounced.ultrasonic_side);
+        filtered_sensor_data.ultrasonic_side = sensor_data.ultrasonic_side;
+        filtered_sensor_data.imu_theta = sensor_data.imu_theta;
+        filtered_sensor_data.button = sensor_data.button;
 
-         // TODO: switch logger function calls to print_imu_t_x/y/z instead of print_tof_t_x/y/z
-         logger.print_tof_t_x(math::rad_to_deg(sensor_data_debounced.imu_theta.x));
-         logger.print_tof_t_y(math::rad_to_deg(sensor_data_debounced.imu_theta.y));
-         logger.print_tof_t_z(math::rad_to_deg(sensor_data_debounced.imu_theta.z));
+        logger.print_ultrasonic_front(filtered_sensor_data.ultrasonic_front);
+        logger.print_ultrasonic_side(filtered_sensor_data.ultrasonic_side);
 
-         return fault;
+        // TODO: switch logger function calls to print_imu_t_x/y/z instead of print_tof_t_x/y/z
+        logger.print_tof_t_x(math::rad_to_deg(filtered_sensor_data.imu_theta.x));
+        logger.print_tof_t_y(math::rad_to_deg(filtered_sensor_data.imu_theta.y));
+        logger.print_tof_t_z(math::rad_to_deg(filtered_sensor_data.imu_theta.z));
+
+        return fault;
     }
 
     fault_e driving_task(float heading, float distance) {
         /* linear controller computes gas */
         lin_controller.set_target_distance(distance);
-        const float gas = lin_controller.compute_gas(sensor_data_debounced.ultrasonic_front);
+        const float gas = lin_controller.compute_gas(filtered_sensor_data.ultrasonic_front);
 
         /* lateral controller computes steering */
-        const float yaw = sensor_data.imu_theta.z;
+        const float yaw = filtered_sensor_data.imu_theta.z;
         const float gyro_error = heading - yaw;
         /* Incorporate robot yaw to calculate lateral distance */
-        const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(yaw);
+        const float lat_distance = filtered_sensor_data.ultrasonic_side * cos(yaw);
         const float lat_distance_error = lat_distance - distance;
         const float steering = lat_controller.compute_steering(gyro_error, lat_distance_error, delta_time, GYRO_RELIANCE);
         auto motor_speeds = drivetrain::translational_motion_convert(gas, steering);
@@ -100,7 +105,7 @@ namespace main
     fault_e turning_task(float heading) {
         piv_controller.set_target_yaw(heading);
 
-        const float yaw = sensor_data.imu_theta.z;
+        const float yaw = filtered_sensor_data.imu_theta.z;
 
         const float pivot_power = piv_controller.compute_pivot_power(yaw);
         const auto motor_speeds = drivetrain::point_turn_convert(pivot_power);
@@ -159,15 +164,23 @@ namespace main
 
         // currently ignores any non-critical faults
 
-        switch (stateMachine.run10ms(sensor_data_debounced)) {
+        switch (stateMachine.run10ms(filtered_sensor_data)) {
             case sm::paused:
                 stateMachine.paused_task();
+
             case sm::driving:
-                driving_task(stateMachine.heading, stateMachine.distance);
-            case sm::turning:
-                if(turning_task(stateMachine.heading) == MOTOR_CRITICAL){
+                if (driving_task(stateMachine.get_heading(), stateMachine.get_distance()) == MOTOR_CRITICAL){
                     transition_to_faulted();
                 }
+
+            case sm::controller_override:
+                motor.set_motor_speeds(50, 50);
+
+            case sm::turning:
+                if(turning_task(stateMachine.get_heading()) == MOTOR_CRITICAL){
+                    transition_to_faulted();
+                }
+
             case sm::faulted:
                 stateMachine.faulted_task();
         }
@@ -181,11 +194,11 @@ namespace main
     }
 
     bool piv_complete(){
-        return piv_controller.target_yaw_reached(sensor_data_debounced.imu_theta.z);
+        return piv_controller.target_yaw_reached(filtered_sensor_data.imu_theta.z);
     }
 
     bool lin_complete(){
-        return lin_controller.target_distance_reached(sensor_data_debounced.ultrasonic_front);
+        return lin_controller.target_distance_reached(filtered_sensor_data.ultrasonic_front);
     }
 
 }

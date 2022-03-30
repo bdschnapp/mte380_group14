@@ -1,5 +1,6 @@
 #include "app_state_machine.hpp"
 namespace sm{
+
     bool StateMachine::init() {
         state = paused;
         path.init();
@@ -18,14 +19,20 @@ namespace sm{
             else if (state == driving){
                 if (main::lin_complete()){
 
-                    // TODO: account for pit case, if we are not on flat ground we dont turn
-
-                    // flat ground case, this should happen most often
-                    if(math::float_compare(sensor_data.imu_theta.z, 0, ANGULAR_TOLERANCE)){
+                    /*
+                     * if on flat ground, allow turning
+                     * if not on flat ground, keep driving
+                     */
+                    if(math::float_compare(sensor_data.imu_theta.y, 0, PIT_PITCH_TOLERANCE)){
 
                         // transition to turning
                         driving_transition();
                     }
+                    else{
+                        // return one time override to keep robot driving till it gets to flat ground
+                        return controller_override;
+                    }
+
                 }
                 // state is driving, continues to drive
             }

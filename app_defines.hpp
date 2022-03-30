@@ -29,6 +29,9 @@ constexpr float distances[PATH_LENGTH] = {0,
 #define FRONT_ULTRASONIC_TRIG_PIN 43
 #define FRONT_ULTRASONIC_ECHO_PIN 42
 
+// TODO: Tune ewma value
+#define USF_EWMA_ALPHA 0.5f
+
 /* lateral controller */
 constexpr float Kp_lat_us = 300.0f, Ki_lat_us = 0.0f, Kp_gyro = 350.0f, Ki_gyro = 0.0f;
 
@@ -39,6 +42,7 @@ constexpr float GYRO_RELIANCE = 0.75f;
 const float linear_Kp = 150;
 const float linear_Ki = 3;
 #define LINEAR_DEBOUNCE 0
+#define PIT_PITCH_TOLERANCE 5
 
 /* pivot controller */
 const float pivot_Kp = 100;

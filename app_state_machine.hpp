@@ -14,6 +14,7 @@ namespace sm {
     enum state_e {
         paused,
         driving,
+        controller_override,
         turning,
         faulted
     };
