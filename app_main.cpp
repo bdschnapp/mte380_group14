@@ -211,7 +211,7 @@ namespace main
     }
 
     void controller_override(int delay_ticks, float goal_lateral_distance, float heading){
-        int override_speed = OVERRIDE_SPEED;
+        float override_speed = OVERRIDE_SPEED;
 
         for(int i = 0; i < delay_ticks; i++){
             delta_time = (micros() - time_us)/1000000.0f;
@@ -224,8 +224,10 @@ namespace main
             }   
 
             // you can ramp this gas value if desired, do something like smooth ramp function
-            const float gas = override_speed;
-
+            float gas = override_speed;
+            if(i < OVERRIDE_RAMP_LENGTH){
+                gas = override_speed * i / OVERRIDE_RAMP_LENGTH;
+            }
 
             /* lateral controller computes steering */
             const float yaw = sensor_data.imu_theta.z;
