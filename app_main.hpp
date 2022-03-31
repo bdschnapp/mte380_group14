@@ -37,6 +37,8 @@ namespace main{
 
     void smooth_ramp();
 
+    void controller_override();
+
 }
 
 #endif //MTE380_GROUP14_APP_MAIN_HPP

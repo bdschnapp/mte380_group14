@@ -17,16 +17,8 @@ namespace sm{
                 }
             }
             else if (state == driving){
-                if (main::lin_complete()){
-                    if (sensor_data.imu_theta.y > PIT_PITCH_TOLERANCE)
-                    {
-                        state = controller_override;
-                    } else
-                    {
-                        // transition to turning
-                        driving_transition();
-                    }
-
+                if (main::lin_complete()) {
+                    driving_transition();
                 }
                 // state is driving, continues to drive
             }

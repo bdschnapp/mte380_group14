@@ -85,7 +85,7 @@ namespace main
         const float yaw = sensor_data.imu_theta.z;
         const float gyro_error = heading - yaw;
         /* Incorporate robot yaw to calculate lateral distance */
-        const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(yaw);
+        const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(gyro_error);
         const float lat_distance_error = lat_distance - goal_lat_distance;
         const float steering = lat_controller.compute_steering(gyro_error, lat_distance_error, delta_time, GYRO_RELIANCE);
         auto motor_speeds = drivetrain::translational_motion_convert(gas, steering);
@@ -161,10 +161,6 @@ namespace main
         // currently ignores any non-critical faults
 
         switch (stateMachine.run10ms(sensor_data_debounced)) {
-            case sm::controller_override:
-                motor.set_motor_speeds(PIT_SPEED,PIT_SPEED);
-                delay(PIT_DELAY_MS);
-                break;
             case sm::paused:
                 stateMachine.paused_task();
                 break;
@@ -209,6 +205,14 @@ namespace main
             motor.set_motor_speeds(speed, speed);
             delay(50);
         }
+    }
+
+    void controller_override(){
+
+        //if (!motor.set_motor_speeds(PIT_SPEED,PIT_SPEED)){
+         //   logger.println("motor failed to set");
+        //}
+        //delay(PIT_DELAY_MS);
     }
 
 }

@@ -17,8 +17,8 @@ namespace controllers
         const uint8_t m_ramp_iterations;
         uint8_t m_passes;
 
-        static constexpr auto MIN_GAS = 0;
-        static constexpr auto MAX_GAS = 75;
+        static constexpr auto MIN_GAS = LINEAR_MIN_GAS;
+        static constexpr auto MAX_GAS = LINEAR_MAX_GAS;
         static constexpr auto INVALID_TARGET_DISTANCE = -1.0f;
 
     public:

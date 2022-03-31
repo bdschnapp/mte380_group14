@@ -12,7 +12,6 @@ namespace test_pivot_controller
     actuator::TB9051FTG motor_driver;
 
     const float target_yaw = math::deg_to_rad(-90);
-    constexpr uint8_t debounce = 5;
 
     void app_setup()
     {
@@ -39,7 +38,7 @@ namespace test_pivot_controller
             delay(100);
             exit(0);
         }
-        pc.set_debounce(debounce);
+        pc.set_debounce(PIVOT_DEBOUNCE);
         pc.set_target_yaw(target_yaw);
 
         delay(3000);

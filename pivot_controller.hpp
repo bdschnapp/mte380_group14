@@ -2,6 +2,7 @@
 #define __PIVOT_CONTROLLER_HPP__
 #include "pid.hpp"
 #include <Arduino.h>
+#include "app_defines.hpp"
 
 namespace controllers
 {
@@ -13,9 +14,6 @@ namespace controllers
         float m_target_heading;
         uint8_t m_debounce;
         mutable uint8_t m_positives;
-
-        static constexpr auto MIN_PIVOT_POWER = -100;
-        static constexpr auto MAX_PIVOT_POWER = 100;
 
     public:
         /**
