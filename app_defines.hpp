@@ -70,7 +70,7 @@ const float pivot_Ki = 0;
 #define MIN_PIVOT_POWER -100
 #define MAX_PIVOT_POWER 100
 
-#define PIT_DELAY_MS 2500
+#define PIT_DELAY 2500 // [10*ms]
 #define PIT_SPEED 30
 #define PIT_PITCH_TOLERANCE 0.10472f
 

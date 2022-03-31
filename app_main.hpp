@@ -37,9 +37,7 @@ namespace main{
 
     void smooth_ramp();
 
-    void pit_override();
-
-    void other_override();
+    void controller_override(bool is_pit, float goal_lateral_distance);
 
 }
 

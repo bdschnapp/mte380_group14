@@ -207,16 +207,34 @@ namespace main
         }
     }
 
-    void pit_override(){
-        motor.set_motor_speeds(PIT_SPEED, PIT_SPEED);
-        delay(PIT_DELAY_MS);
+    void controller_override(bool is_pit, float goal_lateral_distance){
+        int delay_ms = (is_pit*PIT_DELAY) + ((!is_pit)*OTHER_DELAY_MS);
+        int override_speed = (is_pit*PIT_SPEED) + ((!is_pit)*OTHER_SPEED);
+
+        for(int i = 0; i < delay_ms; i++){
+            delta_time = (micros() - time_us)/1000000;
+            time_us = micros();
+            run10ms();
+
+            // you can ramp this gas value if desired, do something like smooth ramp function
+            const float gas = override_speed;
+
+
+            /* lateral controller computes steering */
+            const float yaw = sensor_data.imu_theta.z;
+            const float gyro_error = heading - yaw;
+            /* Incorporate robot yaw to calculate lateral distance */
+            const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(gyro_error);
+            const float lat_distance_error = lat_distance - goal_lat_distance;
+            const float steering = lat_controller.compute_steering(gyro_error, lat_distance_error, delta_time, GYRO_RELIANCE);
+            auto motor_speeds = drivetrain::translational_motion_convert(gas, steering);
+            motor.set_motor_speeds(motor_speeds.left_motor_speed, motor_speeds.right_motor_speed)
+
+            delayMicroseconds(10000 - (micros() - time_us));
+        }
+
+        // included to easily identify end of override during testing
         motor.set_motor_speeds(0, 0);
-        delay(10000);
+        delay(5000);
     }
-
-    void other_override(){
-        motor.set_motor_speeds(OTHER_SPEED, OTHER_SPEED);
-        delay(OTHER_DELAY_MS);
-    }
-
 }

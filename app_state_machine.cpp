@@ -72,10 +72,10 @@ namespace sm{
         lateral_distance = lateral_path.get_next_distance();
 
         if (path.get_index() == 3){
-            main::pit_override();
+            main::controller_override(1, lateral_distance);
         }
         if((path.get_index() == 5) || (path.get_index() == 6)){
-            main::other_override();
+            main::controller_override(0, lateral_distance);
         }
 
         if (distance < 0 || lateral_distance < 0)
