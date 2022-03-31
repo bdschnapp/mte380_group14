@@ -207,12 +207,16 @@ namespace main
         }
     }
 
-    void controller_override(){
+    void pit_override(){
+        motor.set_motor_speeds(PIT_SPEED, PIT_SPEED);
+        delay(PIT_DELAY_MS);
+        motor.set_motor_speeds(0, 0);
+        delay(10000);
+    }
 
-        //if (!motor.set_motor_speeds(PIT_SPEED,PIT_SPEED)){
-         //   logger.println("motor failed to set");
-        //}
-        //delay(PIT_DELAY_MS);
+    void other_override(){
+        motor.set_motor_speeds(OTHER_SPEED, OTHER_SPEED);
+        delay(OTHER_DELAY_MS);
     }
 
 }

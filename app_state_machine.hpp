@@ -40,6 +40,8 @@ namespace sm {
 
         float get_next_distance();
 
+        int get_index();
+
     };
 
     class StateMachine {

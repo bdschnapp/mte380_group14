@@ -3,6 +3,7 @@
 
 #include "pid.hpp"
 #include <Arduino.h>
+#include "app_defines.hpp"
 
 namespace controllers
 {

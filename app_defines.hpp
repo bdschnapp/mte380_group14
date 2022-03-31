@@ -70,9 +70,11 @@ const float pivot_Ki = 0;
 #define MIN_PIVOT_POWER -100
 #define MAX_PIVOT_POWER 100
 
-#define PIT_DELAY_MS 3000
-#define PIT_SPEED 50
+#define PIT_DELAY_MS 2500
+#define PIT_SPEED 30
 #define PIT_PITCH_TOLERANCE 0.10472f
 
+#define OTHER_DELAY_MS 3000
+#define OTHER_SPEED 50
 
 #endif // MTE380_GROUP14_APP_DEFINES_HPP

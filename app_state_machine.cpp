@@ -70,6 +70,14 @@ namespace sm{
         state = driving;
         distance = path.get_next_distance();
         lateral_distance = lateral_path.get_next_distance();
+
+        if (path.get_index() == 3){
+            main::pit_override();
+        }
+        if((path.get_index() == 5) || (path.get_index() == 6)){
+            main::other_override();
+        }
+
         if (distance < 0 || lateral_distance < 0)
         {
             state = faulted;
@@ -114,5 +122,9 @@ namespace sm{
             return -1.0f;
         }
         return distances_internal[index - 1];
+    }
+
+    int MissionControl::get_index(){
+        return (index - 1);
     }
 }

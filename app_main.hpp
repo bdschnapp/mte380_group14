@@ -37,7 +37,9 @@ namespace main{
 
     void smooth_ramp();
 
-    void controller_override();
+    void pit_override();
+
+    void other_override();
 
 }
 
