@@ -35,7 +35,7 @@ namespace controllers
     float pivot_controller::compute_pivot_power(const float gyro_yaw)
     {
         // delta_time in compute call is not used since only proportional controller
-        return math::clamp(MIN_PIVOT_POWER, MAX_PIVOT_POWER, m_pid.compute(m_target_heading - gyro_yaw, 0.0f));
+        return math::clamp(MIN_PIVOT_POWER, MAX_PIVOT_POWER, m_pid.compute(m_target_heading - gyro_yaw, 0.01f));
     }
 
     void pivot_controller::reset()

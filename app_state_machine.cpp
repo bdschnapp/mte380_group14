@@ -40,6 +40,7 @@ namespace sm{
 
     void StateMachine::faulted_task() {
         while(1){
+            digitalWrite(13, HIGH);
             delay(1000);
         }
     }
@@ -72,12 +73,14 @@ namespace sm{
         lateral_distance = lateral_path.get_next_distance();
 
         if (path.get_index() == 3){
-            main::controller_override(1, lateral_distance);
+            main::controller_override(PIT_DELAY, lateral_distance, heading);
         }
         if((path.get_index() == 5) || (path.get_index() == 6)){
-            main::controller_override(0, lateral_distance);
+            main::controller_override(SECOND_DELAY, lateral_distance, heading);
         }
-
+        if((path.get_index() == 7) || (path.get_index() == 8)){
+            main::controller_override(THIRD_DELAY, lateral_distance, heading);
+        }
         if (distance < 0 || lateral_distance < 0)
         {
             state = faulted;

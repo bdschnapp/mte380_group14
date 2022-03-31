@@ -39,13 +39,16 @@ namespace controllers
     float linear_controller::compute_gas(const float front_us_reading)
     {
         m_passes++;
+        float pid_val = math::clamp(MIN_GAS, MAX_GAS, m_pid.compute(front_us_reading - m_target_distance, 0.0f));
         if (m_passes < m_ramp_iterations)
         {
-            return m_passes * MAX_GAS / m_ramp_iterations;
+            float ramp_val =  m_passes * MAX_GAS / m_ramp_iterations;
+            return ramp_val < pid_val ? ramp_val : pid_val;
+
         }
         // this will return 0 gas for a -ve m_target_distance
         // also since this is P controller, time step is not used in compute call
-        return math::clamp(MIN_GAS, MAX_GAS, m_pid.compute(front_us_reading - m_target_distance, 0.0f));
+        return pid_val;
     }
 
     void linear_controller::reset()

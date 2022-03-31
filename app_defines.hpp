@@ -8,7 +8,7 @@
 #define THIRD_LONGITUDINAL_GOAL_DISTANCE 0.68f
 constexpr float distances[PATH_LENGTH] = {FIRST_LONGITUDINAL_GOAL_DISTANCE,
                                           FIRST_LONGITUDINAL_GOAL_DISTANCE,
-                                          FIRST_LONGITUDINAL_GOAL_DISTANCE,
+                                          FIRST_LONGITUDINAL_GOAL_DISTANCE - 0.02,
                                           SECOND_LONGITUDINAL_GOAL_DISTANCE,
                                           SECOND_LONGITUDINAL_GOAL_DISTANCE,
                                           SECOND_LONGITUDINAL_GOAL_DISTANCE,
@@ -58,23 +58,24 @@ constexpr float GYRO_RELIANCE = 0.75f;
 /* linear controller */
 const float linear_Kp = 100;
 const float linear_Ki = 0; // CAUTION: Linear controller currently cant handle integral control
-#define LINEAR_DEBOUNCE 15
+#define LINEAR_DEBOUNCE 5
 #define LINEAR_MIN_GAS 0
 #define LINEAR_MAX_GAS 100
 #define LINEAR_RAMP_UP_ITERATIONS 10
 
 /* pivot controller */
-const float pivot_Kp = 35;
-const float pivot_Ki = 0;
+const float pivot_Kp = 27;
+const float pivot_Ki = 30;
 #define PIVOT_DEBOUNCE 5
 #define MIN_PIVOT_POWER -100
 #define MAX_PIVOT_POWER 100
 
-#define PIT_DELAY 2500 // [10*ms]
-#define PIT_SPEED 30
+#define PIT_DELAY 188 // [10*ms]
+#define SECOND_DELAY 70
+#define THIRD_DELAY 40
+
+#define OVERRIDE_SPEED 25
 #define PIT_PITCH_TOLERANCE 0.10472f
 
-#define OTHER_DELAY_MS 3000
-#define OTHER_SPEED 50
 
 #endif // MTE380_GROUP14_APP_DEFINES_HPP

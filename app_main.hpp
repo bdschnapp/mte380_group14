@@ -37,7 +37,7 @@ namespace main{
 
     void smooth_ramp();
 
-    void controller_override(bool is_pit, float goal_lateral_distance);
+    void controller_override(int delay_ticks, float goal_lateral_distance, float heading);
 
 }
 
