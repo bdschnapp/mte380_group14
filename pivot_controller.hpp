@@ -2,6 +2,7 @@
 #define __PIVOT_CONTROLLER_HPP__
 #include "pid.hpp"
 #include <Arduino.h>
+#include "app_defines.hpp"
 
 namespace controllers
 {
@@ -14,16 +15,13 @@ namespace controllers
         uint8_t m_debounce;
         mutable uint8_t m_positives;
 
-        static constexpr auto MIN_PIVOT_POWER = -100;
-        static constexpr auto MAX_PIVOT_POWER = 100;
-
     public:
         /**
          * pivot_controller constructor
          * @param Kp Proportional gain for PID controller
          * @param error_tolerance Yaw tolerance to determine if goal distance reached [radians]
          */
-        pivot_controller(const float Kp, const float error_tolerance);
+        pivot_controller(const float Kp, const float Ki, const float error_tolerance);
 
         ~pivot_controller() = default;
 

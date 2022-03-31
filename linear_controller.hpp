@@ -3,6 +3,7 @@
 
 #include "pid.hpp"
 #include <Arduino.h>
+#include "app_defines.hpp"
 
 namespace controllers
 {
@@ -14,9 +15,11 @@ namespace controllers
         float m_target_distance;
         uint8_t m_debounce;
         mutable uint8_t m_positives;
+        const uint8_t m_ramp_iterations;
+        uint8_t m_passes;
 
-        static constexpr auto MIN_GAS = 0;
-        static constexpr auto MAX_GAS = 100;
+        static constexpr auto MIN_GAS = LINEAR_MIN_GAS;
+        static constexpr auto MAX_GAS = LINEAR_MAX_GAS;
         static constexpr auto INVALID_TARGET_DISTANCE = -1.0f;
 
     public:
@@ -25,7 +28,7 @@ namespace controllers
          * @param Kp Proportional gain for PID controller
          * @param error_tolerance Linear distance tolerance to determine if goal distance reached [meters]
          */
-        linear_controller(const float Kp, const float Ki, const float error_tolerance);
+        linear_controller(const float Kp, const float Ki, const float ramp_iterations, const float error_tolerance);
 
         ~linear_controller() = default;
 

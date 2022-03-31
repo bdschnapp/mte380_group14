@@ -1,6 +1,8 @@
 #ifndef MTE380_GROUP14_APP_LOGGER_H
 #define MTE380_GROUP14_APP_LOGGER_H
 
+#define SERIAL_INTERFACE Serial
+
 #include <Arduino.h>
 
 namespace debug{
@@ -9,8 +11,11 @@ namespace debug{
         bool muted;
     public:
 
-        Logger();
+        Logger() = default;
         ~Logger() = default;
+
+        // initialize the logger
+        void init();
 
         /**
          * Sets private variable muted to 1 which suppresses serial print calls
@@ -73,7 +78,7 @@ namespace debug{
          */
         template<typename T>
         void println(T data) throw(){
-            Serial1.println(data);
+            SERIAL_INTERFACE.println(data);
         }
     };
 }

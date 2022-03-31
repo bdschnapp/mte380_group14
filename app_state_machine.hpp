@@ -15,6 +15,7 @@ namespace sm {
         paused,
         driving,
         turning,
+        controller_override,
         faulted
     };
 
@@ -39,6 +40,8 @@ namespace sm {
 
         float get_next_distance();
 
+        int get_index();
+
     };
 
     class StateMachine {
@@ -61,7 +64,7 @@ namespace sm {
         float get_heading();
 
         // getter for lateral distance
-        float get_lateral_distance()
+        float get_lateral_distance();
 
         bool init();
 
