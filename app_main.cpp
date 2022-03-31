@@ -225,8 +225,8 @@ namespace main
 
             // you can ramp this gas value if desired, do something like smooth ramp function
             float gas = override_speed;
-            if(i < OVERRIDE_RAMP_LENGTH){
-                gas = override_speed * i / OVERRIDE_RAMP_LENGTH;
+            if(i < LINEAR_RAMP_UP_ITERATIONS){
+                gas = override_speed * i / LINEAR_RAMP_UP_ITERATIONS;
             }
 
             /* lateral controller computes steering */

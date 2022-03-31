@@ -24,8 +24,8 @@ namespace sensor{
     bool Button::get_button_press(int &button_pressed) {
         button_pressed = 0;
 
-        // detect the falling edge of a button press that lasted for more than 40ms
-        if ((value == 0) && (prev_value == 1) && (count_high > 4)){
+        // detect the falling edge of a button press that lasted for more than 30ms
+        if ((value == 0) && (prev_value == 1) && (count_high > 3)){
             button_pressed = 1;
             count_presses++;
         }
