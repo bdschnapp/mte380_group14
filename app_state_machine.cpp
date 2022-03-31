@@ -79,6 +79,9 @@ namespace sm{
         if (path.get_index() == 3){
             main::controller_override(PIT_DELAY, lateral_distance, heading);
         }
+        if(path.get_index() == 4){
+            main::controller_override(FIRST_DELAY, lateral_distance, heading);
+        }
         if((path.get_index() == 5) || (path.get_index() == 6)){
             main::controller_override(SECOND_DELAY, lateral_distance, heading);
         }
