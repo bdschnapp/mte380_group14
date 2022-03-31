@@ -36,7 +36,7 @@ constexpr float lateral_distances[PATH_LENGTH] = {FIRST_LATERAL_GOAL_DISTANCE,
 
 // TODO: create actual tolerances
 #define DISTANCE_TOLERANCE 0.02f   // [m]
-#define ANGULAR_TOLERANCE 0.05236f // [rad] equivalent to 3 deg
+#define ANGULAR_TOLERANCE 0.08726f // [rad] equivalent to 5 deg
 
 // TODO: add button pin
 #define BUTTON_PIN 50
@@ -64,8 +64,8 @@ const float linear_Ki = 0; // CAUTION: Linear controller currently cant handle i
 #define LINEAR_RAMP_UP_ITERATIONS 10
 
 /* pivot controller */
-const float pivot_Kp = 27;
-const float pivot_Ki = 30;
+const float pivot_Kp = 35;
+const float pivot_Ki = 0;
 #define PIVOT_DEBOUNCE 5
 #define MIN_PIVOT_POWER -100
 #define MAX_PIVOT_POWER 100
@@ -73,6 +73,7 @@ const float pivot_Ki = 30;
 #define PIT_DELAY 188 // [10*ms]
 #define SECOND_DELAY 70
 #define THIRD_DELAY 40
+#define FOURTH_DELAY 20
 
 #define OVERRIDE_SPEED 25
 #define PIT_PITCH_TOLERANCE 0.10472f

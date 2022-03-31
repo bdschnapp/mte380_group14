@@ -81,6 +81,9 @@ namespace sm{
         if((path.get_index() == 7) || (path.get_index() == 8)){
             main::controller_override(THIRD_DELAY, lateral_distance, heading);
         }
+        if((path.get_index() == 9) || (path.get_index() == 10)){
+            main::controller_override(FOURTH_DELAY, lateral_distance, heading);
+        }
         if (distance < 0 || lateral_distance < 0)
         {
             state = faulted;
