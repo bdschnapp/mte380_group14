@@ -31,8 +31,8 @@ namespace main
     sm::StateMachine stateMachine;
 
     controllers::lateral_controller lat_controller(Kp_gyro, Ki_gyro, Kp_lat_us, Ki_lat_us);
-    controllers::linear_controller lin_controller(linear_Kp, linear_Ki, DISTANCE_TOLERANCE);
-    controllers::pivot_controller piv_controller(pivot_Kp, ANGULAR_TOLERANCE);
+    controllers::linear_controller lin_controller(linear_Kp, linear_Ki, LINEAR_RAMP_UP_ITERATIONS, DISTANCE_TOLERANCE);
+    controllers::pivot_controller piv_controller(pivot_Kp, pivot_Ki, ANGULAR_TOLERANCE);
 
     debug::Logger logger;
 
@@ -85,7 +85,7 @@ namespace main
         const float yaw = sensor_data.imu_theta.z;
         const float gyro_error = heading - yaw;
         /* Incorporate robot yaw to calculate lateral distance */
-        const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(yaw);
+        const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(gyro_error);
         const float lat_distance_error = lat_distance - goal_lat_distance;
         const float steering = lat_controller.compute_steering(gyro_error, lat_distance_error, delta_time, GYRO_RELIANCE);
         auto motor_speeds = drivetrain::translational_motion_convert(gas, steering);
@@ -120,7 +120,10 @@ namespace main
 
 
     void app_setup(){
-        Serial1.begin(9600);
+        pinMode(13, OUTPUT);
+        digitalWrite(13, LOW);
+        Serial.begin(9600);
+        Serial.println("Beginning app_setup");
         stateMachine.init();
 
         ultrasonicFrontInitConfig.echoPin = FRONT_ULTRASONIC_ECHO_PIN;
@@ -133,22 +136,23 @@ namespace main
 
         if (!bno055_imu.init()){
             stateMachine.transition_to_faulted();
-            logger.println("IMU Failed to initialize")
+            logger.println("IMU Failed to initialize");
         }
 
         lin_controller.set_debounce(LINEAR_DEBOUNCE);
-        piv_controller.set_debounce(PIVOT_DEBOUNCE)
+        piv_controller.set_debounce(PIVOT_DEBOUNCE);
 
         e_stop.init(BUTTON_PIN);
 
         if (!motor.init()){
             stateMachine.transition_to_faulted();
-            logger.println("Motors Failed to initialize")
+            logger.println("Motors Failed to initialize");
         }
+        logger.mute();
     }
 
     void app_loop(){
-        delta_time = (micros() - time_us)/1000000;
+        delta_time = (micros() - time_us*1.0f)/1000000;
         time_us = micros();
         run10ms();
 
@@ -162,19 +166,23 @@ namespace main
         switch (stateMachine.run10ms(sensor_data_debounced)) {
             case sm::paused:
                 stateMachine.paused_task();
+                break;
 
             case sm::driving:
                 driving_task(stateMachine.get_heading(),
                              stateMachine.get_distance(),
                              stateMachine.get_lateral_distance());
+                break;
 
             case sm::turning:
                 if(turning_task(stateMachine.get_heading()) == MOTOR_CRITICAL){
                     transition_to_faulted();
                 }
+                break;
 
             case sm::faulted:
                 stateMachine.faulted_task();
+                break;
         }
 
         delayMicroseconds(10000 - (micros() - time_us));
@@ -193,4 +201,40 @@ namespace main
         return lin_controller.target_distance_reached(sensor_data_debounced.ultrasonic_front);
     }
 
+    void smooth_ramp(){
+        float speed = 0;
+        for(int i = 0; i < 6; i++){
+            speed = i*15;
+            motor.set_motor_speeds(speed, speed);
+            delay(50);
+        }
+    }
+
+    void controller_override(int delay_ticks, float goal_lateral_distance, float heading){
+        int override_speed = OVERRIDE_SPEED;
+
+        for(int i = 0; i < delay_ticks; i++){
+            delta_time = (micros() - time_us)/1000000;
+            time_us = micros();
+            run10ms();
+
+            // you can ramp this gas value if desired, do something like smooth ramp function
+            const float gas = override_speed;
+
+
+            /* lateral controller computes steering */
+            const float yaw = sensor_data.imu_theta.z;
+            const float gyro_error = heading - yaw;
+            /* Incorporate robot yaw to calculate lateral distance */
+            const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(gyro_error);
+            const float lat_distance_error = lat_distance - goal_lateral_distance;
+            const float steering = lat_controller.compute_steering(gyro_error, lat_distance_error, delta_time, GYRO_RELIANCE);
+            auto motor_speeds = drivetrain::translational_motion_convert(gas, steering);
+            motor.set_motor_speeds(motor_speeds.left_motor_speed, motor_speeds.right_motor_speed);
+
+            delayMicroseconds(10000 - (micros() - time_us));
+        }
+
+        // included to easily identify end of override during testing
+    }
 }

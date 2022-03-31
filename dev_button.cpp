@@ -8,7 +8,6 @@ namespace sensor{
     void Button::init(int pin_in) {
         pin = pin_in;
         pinMode(pin, INPUT_PULLUP);
-        return BUTTON_OK;
     }
 
     void Button::run10ms() {

@@ -35,6 +35,10 @@ namespace main{
 
     bool lin_complete();
 
+    void smooth_ramp();
+
+    void controller_override(int delay_ticks, float goal_lateral_distance, float heading);
+
 }
 
 #endif //MTE380_GROUP14_APP_MAIN_HPP
