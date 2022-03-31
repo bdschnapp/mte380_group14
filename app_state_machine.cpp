@@ -63,6 +63,10 @@ namespace sm{
 
     void StateMachine::driving_transition() {
         state = turning;
+        if (path.get_index() == PATH_LENGTH -1)
+        {
+            transition_to_faulted();
+        }
         heading -= math::deg_to_rad(90);
         main::reset_controllers();
     }
