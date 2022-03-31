@@ -214,9 +214,14 @@ namespace main
         int override_speed = OVERRIDE_SPEED;
 
         for(int i = 0; i < delay_ticks; i++){
-            delta_time = (micros() - time_us)/1000000;
+            delta_time = (micros() - time_us)/1000000.0f;
             time_us = micros();
             run10ms();
+            
+            if(read_sensor_data() == SAR_CRITICAL){
+                logger.println("Sensor Data Fault");
+                transition_to_faulted();
+            }   
 
             // you can ramp this gas value if desired, do something like smooth ramp function
             const float gas = override_speed;
@@ -226,7 +231,7 @@ namespace main
             const float yaw = sensor_data.imu_theta.z;
             const float gyro_error = heading - yaw;
             /* Incorporate robot yaw to calculate lateral distance */
-            const float lat_distance = sensor_data_debounced.ultrasonic_side * cos(gyro_error);
+            const float lat_distance = sensor_data.ultrasonic_side * cos(gyro_error);
             const float lat_distance_error = lat_distance - goal_lateral_distance;
             const float steering = lat_controller.compute_steering(gyro_error, lat_distance_error, delta_time, GYRO_RELIANCE);
             auto motor_speeds = drivetrain::translational_motion_convert(gas, steering);

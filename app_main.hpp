@@ -37,6 +37,8 @@ namespace main{
 
     void smooth_ramp();
 
+    void transition_to_faulted();
+
     void controller_override(int delay_ticks, float goal_lateral_distance, float heading);
 
 }
