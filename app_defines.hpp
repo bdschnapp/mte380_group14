@@ -70,11 +70,11 @@ const float pivot_Ki = 50;
 #define MIN_PIVOT_POWER -100
 #define MAX_PIVOT_POWER 100
 
-#define PIT_DELAY 107 // [10*ms]
+#define PIT_DELAY 117 // [10*ms]
 #define FIRST_DELAY 71
 #define SECOND_DELAY 57
 #define THIRD_DELAY 50
-#define FOURTH_DELAY 22
+#define FOURTH_DELAY 25
 
 #define OVERRIDE_SPEED 30
 
